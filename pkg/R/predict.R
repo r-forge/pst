@@ -121,22 +121,6 @@ setMethod("predict", signature=c(object="PST.list"),
 )
 
 
-setMethod("predictmc", signature=c(pstree="pstree", x="stslist.s4", y="stslist.s4"), 
-	def=function(pstree, x, y, k, rev, ...) {
-		
-		if (missing(rev)) { rev <- "1.7" }
-
-		f <- paste("seqPSTprob.r", gsub(".", "_", rev, fixed=TRUE), sep="")
-		arglist <- c(list(PST=pstree, x=x, y=y), list(...))
-		if (!missing(k)) arglist <- c(arglist, list(k=k))
-		res <- do.call(f, args=arglist)
-
-	return(res)
-}
-)
-
-
-
 rowProds <- function(x) {
 
 	vpos <- which(!is.na(x))
