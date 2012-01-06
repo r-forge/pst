@@ -1,22 +1,14 @@
 import("TraMineR", "methods", "graphics", "RColorBrewer", "utils", "stats")
 
-exportClasses(
-	"pstree",
-	"pstree.summary"
-)
-
 exportMethods(
 	"plot",
 	"print",
 	"pstree",
-	"pstreemc",
-	## "str",
 	"summary",
 	"merge",
 	"prune",
 	"predict",
 	"sim",
-	"predictmc",
 	"generate",
 	"logLik"
 )

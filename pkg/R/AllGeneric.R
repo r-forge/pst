@@ -11,10 +11,6 @@ setGeneric("sim",
 )
 
 
-setGeneric("typical", 
-	def=function(object, seqdata, l, n, s1, p1, method, L, ...) 
-	standardGeneric("typical")
-)
 
 setGeneric("query", 
 	def=function(object, string, state, output="prob", exact=FALSE)
@@ -26,17 +22,6 @@ setGeneric("generate",
 	standardGeneric("generate")
 )
 
-
-setGeneric("predictmc", 
-	def=function(pstree, x, y, k, rev, ...) 
-	standardGeneric("predictmc")
-)
-
-setGeneric(
-      name="pstreemc",
-	def=function(x, y, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE, method="A")
-	standardGeneric("pstreemc")
-)
 
 setGeneric(
       name="pstree",
@@ -63,12 +48,6 @@ setGeneric(
 	standardGeneric("prune")
 )
 
-
-setGeneric(
-      name="prune.old",
-	def=function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE)
-	standardGeneric("prune")
-)
 
 
 
