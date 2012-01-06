@@ -52,62 +52,6 @@ pdiv.m <- function(prob, A, r, K, value=FALSE) {
 	}
 }
 
-
-
-
-## =====================================================================
-setMethod("prune.old", "PST.list", function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE) {
-	
-	A <- alphabet(object)
-	cpal <- cpal(object)
-	labels <- stlab(object)
-
-	for (i in length(object):2) {
-		nodes <- object[[i]]
-		parents <- object[[i-1]]
-		nodes$pruned <- FALSE
-
-		if (!missing(L) && i>(L+1) ) {
-			nodes$pruned <- TRUE
-		} else {
-			if (!missing(nmin)) {
-				nmin.prune <- nodes$n < nmin
-				nodes[nmin.prune, "pruned"] <- TRUE
-			}
-
-			if (!missing(K) | !missing(r)) {
-				leaves <- which(nodes$leaf & !nodes$pruned)
-				for (j in leaves) {
-					p1 <- nodes[j, A]
-					p2 <- parents[nodes[j, "parent"], A]
-					div <- pdiv(p1, p2, r=r, K=K, N=nodes[j, "n"])
-					if (!div) { nodes[j, "pruned"] <- TRUE }
-				}	
-
-			}
-		}
-
-		pruned <- which(nodes$pruned)
-		message(" [>] ", length(pruned), " nodes pruned at L=", i-1)
-
-		if (delete & length(pruned)>0) {
-			nodes <- nodes[-pruned,]
-			## Nodes having no more childrens set as leaves
-			newleaves <- !rownames(parents) %in% nodes$parent
-			parents[newleaves, "leaf"] <- TRUE
-		}
-		object[[i]] <- nodes
-		object[[i-1]] <- parents
-
-	}
-
-	object <- new("PST.list", object, alphabet=A, cpal=cpal, labels=labels)
-
-	return(object)
-}
-)
-
-
 ## =====================================================================
 setMethod("prune", "PST.list", function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE) {
 	
