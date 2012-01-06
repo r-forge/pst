@@ -1,4 +1,4 @@
-import("TraMineR", "methods", "graphics", "RColorBrewer", "utils", "stats")
+import("TraMineR", "methods", "graphics", "RColorBrewer", "utils", "stats4", "stats")
 
 exportMethods(
 	"plot",
