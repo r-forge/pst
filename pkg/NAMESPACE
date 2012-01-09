@@ -1,4 +1,8 @@
-import("TraMineR", "methods", "graphics", "RColorBrewer", "utils", "stats4", "stats")
+## import("TraMineR", "methods")
+
+importFrom(stats, predict)
+## importMethodsFrom(stats4, logLik)
+importMethodsFrom(stats4, AIC)
 
 exportMethods(
 	"plot",
@@ -14,6 +18,7 @@ exportMethods(
 )
 
 export(
+	"AIC",
 	"nodelist",
 	"seqcprob",
 	"query",

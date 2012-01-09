@@ -1,3 +1,4 @@
+##
 
 setMethod("logLik", "PST.list", function(object) {
 	seqprob <- predict(object, object@data)

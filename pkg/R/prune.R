@@ -55,6 +55,7 @@ pdiv.m <- function(prob, A, r, K, value=FALSE) {
 ## =====================================================================
 setMethod("prune", "PST.list", function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE) {
 	
+	data <- object@data
 	A <- alphabet(object)
 	cpal <- cpal(object)
 	labels <- stlab(object)
@@ -109,7 +110,7 @@ setMethod("prune", "PST.list", function(object, nmin, L, r, K, topdown=TRUE, del
 
 	}
 
-	object <- new("PST.list", object, alphabet=A, cpal=cpal, labels=labels)
+	object <- new("PST.list", object, data=data, alphabet=A, cpal=cpal, labels=labels)
 
 	return(object)
 }
