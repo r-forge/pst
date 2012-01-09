@@ -1,6 +1,8 @@
 ## import("TraMineR", "methods")
 
+importFrom(graphics, plot)
 importFrom(stats, predict)
+importFrom(stats, logLik)
 ## importMethodsFrom(stats4, logLik)
 importMethodsFrom(stats4, AIC)
 
