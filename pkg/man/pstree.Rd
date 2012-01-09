@@ -61,7 +61,8 @@ pstree(object, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
 }
 \examples{
 ## Builds a PST on one single sequence
-s1 <- seqdef("a-b-a-a-b-a-a-b-a-a-b-b-b-b-a-b-a-b-b-a-a-a-b-a-b-b-b")
+data(s1)
+s1 <- seqdef(s1)
 s1
 S1 <- pstree(s1, L = 3)
 print(S1, digits = 3)

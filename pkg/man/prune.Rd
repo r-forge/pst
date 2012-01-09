@@ -24,10 +24,9 @@ prune(object, nmin, L, r, K, topdown = TRUE, delete = TRUE)
 }
   \item{r}{
 	Numeric. The pruning parameter as used in Ron et al. (1996) and later in Bejerano et al. (2001). A node is pruned if for any symbol 
-\eqn{\sigma \in A$}
+\eqn{\sigma \in A}
 \deqn{
 \frac{\tilde{P}(\sigma |s)}{\tilde{P}(\sigma | suf(s))} \leq r
-\]
 }
 or
 \deqn{
@@ -36,12 +35,12 @@ or
 
 }
   \item{K}{
-	Numeric. The pruning parameter as described in Maechler et B\"{u}hlmann (2004). The node labelled \eqn{wu} is pruned if
+	Numeric. The pruning parameter as described in M\"{a}chler et B\"{u}hlmann (2004). The node labelled \eqn{wu} is pruned if
 \deqn{
 \Delta_{wu}=\sum_{x \in A} \hat{P}(x|wu)\log \left( \frac{\hat{P}(x|wu)}{\hat{P}(x|u)} \right) N(wu) < K
 }
 
-where the cutoff $K$ is specified on the scale of \eqn{\chi^{2}}-quantiles (percentages) 
+where the cutoff \eqn{K} is specified on the scale of \eqn{\chi^{2}}-quantiles (percentages) 
 
 \deqn{
 K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
