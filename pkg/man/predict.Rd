@@ -20,14 +20,17 @@ predict(object, ...)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+A PST can be used to compute the probability of any sequence built on the same alphabet. For example 
+the probability of the sequence a-b-a-a-b is the product of each state probability
+
+\deqn{
+P(abaab) = P(a) \times P(b|a) \times P(a|ab) \times P(a|aba) \times P(b|abaa)
+}
+
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	Either a vector of sequence probabilities (decomp=FALSE) or a matrix (if decomp=FALSE) containing for each sequence (row) the probability of each state in columns.   
+
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -45,13 +48,11 @@ predict(object, ...)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (object, ...) 
-UseMethod("predict")
+data(s1)
+s1 <- seqdef(s1)
+S1 <- pstree(s1, L=3)
+predict(S1, s1, decomp=TRUE)
+predict(S1, s1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
