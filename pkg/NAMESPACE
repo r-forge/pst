@@ -5,23 +5,23 @@ importFrom(stats, predict)
 importMethodsFrom(stats4, AIC)
 
 exportMethods(
-	"plot",
-	"print",
-	"pstree",
-	"summary",
-	"merge",
-	"prune",
-	"predict",
-	"sim",
 	"generate",
-	"logLik"
+	"logLik",
+	"merge",
+	"plot",
+	"predict",
+	"print",
+	"prune",
+	"pstree",
+	"query",
+	"sim",
+	"summary"
 )
 
 export(
 	"AIC",
 	"nodelist",
 	"seqcprob",
-	"query",
 	"impute",
 	## "seqpdplot",
 	"seqnspplot",

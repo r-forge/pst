@@ -10,8 +10,6 @@ setGeneric("sim",
 	standardGeneric("sim")
 )
 
-
-
 setGeneric("query", 
 	def=function(object, string, state, output="prob", exact=FALSE)
 	standardGeneric("query")
