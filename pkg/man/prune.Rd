@@ -5,7 +5,7 @@
 Prune a PST
 }
 \description{
-Prune an existing PST, with either the method proposed in or in Maechler-2004
+Prune an existing PST, using one or several pruning parameters.
 }
 \usage{
 prune(object, nmin, L, r, K, topdown = TRUE, delete = TRUE)
@@ -23,10 +23,30 @@ prune(object, nmin, L, r, K, topdown = TRUE, delete = TRUE)
 
 }
   \item{r}{
-	Numeric. The pruning parameter 
+	Numeric. The pruning parameter as used in Ron et al. (1996) and later in Bejerano et al. (2001). A node is pruned if for any symbol 
+\eqn{\sigma \in A$}
+\deqn{
+\frac{\tilde{P}(\sigma |s)}{\tilde{P}(\sigma | suf(s))} \leq r
+\]
+}
+or
+\deqn{
+\frac{\tilde{P}(\sigma |s)}{\tilde{P}(\sigma | suf(s))} \geq \frac{1}{r}
+}
+
 }
   \item{K}{
-	Numeric. The pruning parameter described in Maechler
+	Numeric. The pruning parameter as described in Maechler et B\"{u}hlmann (2004). The node labelled \eqn{wu} is pruned if
+\deqn{
+\Delta_{wu}=\sum_{x \in A} \hat{P}(x|wu)\log \left( \frac{\hat{P}(x|wu)}{\hat{P}(x|u)} \right) N(wu) < K
+}
+
+where the cutoff $K$ is specified on the scale of \eqn{\chi^{2}}-quantiles (percentages) 
+
+\deqn{
+K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
+}
+
 }
   \item{topdown}{
 %%     ~~Describe \code{topdown} here~~
@@ -46,10 +66,14 @@ prune(object, nmin, L, r, K, topdown = TRUE, delete = TRUE)
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+Mächler, M. & Bühlmann, P. Variable Length Markov Chains: Methodology, Computing, and Software \emph{Journal of Computational and Graphical Statistics}, 2004, 13, pp. 435-455
+
+Ron, D.; Singer, Y. & Tishby, N. The power of amnesia: Learning probabilistic automata with variable memory length \emph{Machine Learning}, 1996, 25, 117-149
+
+Bejerano, G. & Yona, G. Variations on probabilistic suffix trees: statistical modeling and prediction of protein families. \emph{Bioinformatics}, 2001, 17, 23-43
 }
 \author{
-%%  ~~who you are~~
+Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~
