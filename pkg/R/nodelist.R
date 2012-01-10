@@ -7,13 +7,13 @@ nodelist <- function(seqdata, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE
 	nodes.list <- vector("list", length=L+1)
 	A <- alphabet(seqdata)
 
-	message(" [>] ", nrow(seqdata), " sequences")
+	message(" [>] ", nrow(seqdata), " sequence(s)")
 	message(" [>] L=", L, ", nmin=", nmin, if (!missing(ymin)) { paste(", ymin=", ymin, sep="") })
 
 	for (i in 0:L) {
 		tmp <- suppressMessages(seqcprob(seqdata, L=i, nmin=nmin, prob=FALSE, weighted=weighted, with.missing=with.missing))
 		prob <- tmp[, A, drop=FALSE]/rowSums(tmp[,A, drop=FALSE])
-		message(" [>] L=", i, ", adding ", nrow(tmp), " prefix(es)")
+		message(" [>] L=", i, ", adding ", nrow(tmp), " node(s)")
 		
 		## Smoothing
 		if (!missing(ymin)) {
