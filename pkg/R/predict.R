@@ -24,7 +24,7 @@ setMethod("predict", signature=c(object="PST.list"),
 	n <- nrow(seqdata)
 	sl <- seqlength(seqdata)
 
-	message(" [>] ", n, " sequences - min/max length: ", min(sl),"/",max(sl))
+	message(" [>] ", n, " sequence(s) - min/max length: ", min(sl),"/",max(sl))
 
 	if (min(sl)!=max(sl) & !norm) {
 		message(" [!] sequence(s) have unequal lengths, use 'norm=TRUE' to normalize prob.")
