@@ -1,9 +1,4 @@
-
-## turning S3 predict function in to S4 
-## setGeneric("predict", 
-##	def=function(pstree, seqdata, k, rev, ...) 
-##	standardGeneric("predict")
-## )
+## 
 
 setGeneric("sim", 
 	def=function(object, seqdata, L, ...) 
@@ -23,22 +18,9 @@ setGeneric("generate",
 
 setGeneric(
       name="pstree",
-	def=function(object, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE, ...)
+	def=function(x, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE, ...)
 	standardGeneric("pstree")
 )
-
-setGeneric(
-      name="pstree.rec",
-	def=function(object, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE, method="A", verbose=FALSE)
-	standardGeneric("pstree.rec")
-)
-
-setGeneric(
-      name="pstree.v2",
-	def=function(object, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE, method="A", verbose=FALSE)
-	standardGeneric("pstree.v2")
-)
-
 
 setGeneric(
       name="prune",

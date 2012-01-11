@@ -8,11 +8,11 @@ Grow a Probabilistic Suffix Tree (PST)
 
 }
 \usage{
-pstree(object, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
+pstree(x, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{
+  \item{x}{
 	a sequence object of class 'stslist' as defined with the seqdef function of the TraMineR library.
 }
   \item{L}{
