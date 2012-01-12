@@ -29,7 +29,7 @@ setGeneric(
 )
 
 setGeneric(name="tune",
-	def=function(object, K, criterion="AICc")
+	def=function(object, K, criterion="AICc", output="PST")
 	standardGeneric("tune")
 )
 

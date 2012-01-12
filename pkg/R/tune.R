@@ -1,7 +1,7 @@
 ##
 
 setMethod("tune", signature=c(object="PSTf"), 
-	def=function(object, K, criterion="AICc") {
+	def=function(object, K, criterion="AICc", output="PST") {
 
 	if (!inherits(object, "PSTf") || missing(object)) {
 		stop(" [!] please provide the name of a valid PST object", call.=FALSE)
@@ -9,22 +9,34 @@ setMethod("tune", signature=c(object="PSTf"),
 
 	debut <- Sys.time()
 
-	AIC.comp <- NULL
+	nbmod <- length(K)
+
+	nodes.comp <- vector(mode="integer", length=nbmod) 
+	leaves.comp <- vector(mode="integer", length=nbmod) 
+	freepar.comp <- vector(mode="integer", length=nbmod) 
+	AIC.comp <- vector(mode="numeric", length=nbmod)
+	AIC.comp[] <- NA
 
 	K <- sort(K)
 
-	for (i in 1:length(K)) {
+	for (i in 1:nbmod) {
 		suppressMessages(pst <- prune(object, K=K[i]))
+		pst.sum <- summary(pst)
+		nodes.comp[i] <- pst.sum@nodes
+		leaves.comp[i] <- pst.sum@leaves
+		freepar.comp[i] <- pst.sum@freepar
+
 		suppressMessages(pst.AIC <- AIC(pst))
+
 		if (criterion=="AICc") {
-			pst.sum <- summary(pst)
 			pst.AIC <- pst.AIC + ((2*pst.sum@freepar*(pst.sum@freepar+1))/(pst.sum@ns-pst.sum@freepar-1))
 		}
 
-		AIC.comp <- c(AIC.comp, pst.AIC)
+		AIC.comp[i] <- pst.AIC
+		
 		message(" [>] model ",i, ": ", criterion,"=", round(pst.AIC,2), " (K=", round(K[i],2),")")
 	
-		if (pst.AIC==min(AIC.comp)) {
+		if (pst.AIC==min(AIC.comp, na.rm=TRUE)) {
 			id.best <- i
 			pst.best <- pst
 		}
@@ -35,6 +47,12 @@ setMethod("tune", signature=c(object="PSTf"),
 	message(" [>] model ", id.best, " selected : ", criterion, "=", round(AIC.comp[id.best],2) , " (K=", round(K[id.best],2), ")")
 	message(" [>] ", best.sum@nodes, " nodes, ", best.sum@leaves, " leaves, ", best.sum@freepar, " free parameters")
 	
-	return(pst.best)
+	if (output=="PST") {
+		return(pst.best)
+	} else if (output=="stats") {
+		res <- data.frame(Model=1:length(K), K=K, AIC.comp, Nodes=nodes.comp, leaves=leaves.comp, Freepar=freepar.comp)
+		names(res)[3] <- criterion
+		return(res)
+	}
 }
 )
