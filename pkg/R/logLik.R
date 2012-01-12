@@ -1,6 +1,5 @@
-##
 
-setMethod("logLik", "PST.list", function(object) {
+setMethod("logLik", "PSTf", function(object) {
 	seqprob <- predict(object, object@data)
 	res <- sum(log(seqprob))
 

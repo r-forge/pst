@@ -1,6 +1,6 @@
 ## Generating artifical sequences
 
-setMethod("generate", signature=c(object="PST.list"), 
+setMethod("generate", signature=c(object="PSTf"), 
 	def=function(object, l, n=1, s1, p1, method="pmax", L, ...) {
 
 	A <- alphabet(object)

@@ -2,18 +2,7 @@
 
 setOldClass("stslist")
 
-setClass("plist",
-	representation(
-		alphabet="character",
-		labels="character",
-		nr="character",
-		cpal="character",
-		missing.color="character",
-		weighted="logical"),
-	contains="list"
-)
-
-setClass("pstree",
+setClass("PSTr",
 	representation(
 		alphabet="character",
 		labels="character",
@@ -28,7 +17,7 @@ setClass("pstree",
 	contains="list"
 )
 
-setClass("PST.list",
+setClass("PSTf",
 	representation(
 		data="stslist",
 		alphabet="character",
@@ -38,17 +27,7 @@ setClass("PST.list",
 )
 
 
-
-setClass("pstree.root",
-	representation(
-		alphabet="character",
-		labels="character",
-		cpal="character"),
-	contains="pstree"
-)
-
-
-setClass("pstree.summary",
+setClass("PST.summary",
 	representation(
 		alphabet="character",
 		labels="character",
@@ -59,6 +38,7 @@ setClass("pstree.summary",
 		leaves="integer",
 		freepar="integer")
 )
+
 
 
 

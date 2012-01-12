@@ -6,6 +6,8 @@ nodelist <- function(seqdata, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE
 
 	nodes.list <- vector("list", length=L+1)
 	A <- alphabet(seqdata)
+	StCol <- cpal(seqdata)
+	names(StCol) <- A
 
 	message(" [>] ", nrow(seqdata), " sequence(s)")
 	message(" [>] L=", L, ", nmin=", nmin, if (!missing(ymin)) { paste(", ymin=", ymin, sep="") })
@@ -33,7 +35,7 @@ nodelist <- function(seqdata, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE
 		}
 	}
 
-	res <- new("PST.list", nodes.list, data=seqdata, alphabet=alphabet(seqdata), cpal=cpal(seqdata), labels=stlab(seqdata))
+	res <- new("PSTf", nodes.list, data=seqdata, alphabet=A, cpal=StCol, labels=stlab(seqdata))
 
 	fin <- Sys.time()
 	message(" [>] total time: ", format(round(fin-debut, 3)))

@@ -1,10 +1,10 @@
 ## Computing sequence probability
 
-setMethod("predict", signature=c(object="PST.list"), 
+setMethod("predict", signature=c(object="PSTf"), 
 	def=function(object, seqdata, L=NULL, p1=NULL, decomp=FALSE, log=FALSE, base=2, norm=FALSE) {
 
 
-	if (!inherits(object, "PST.list") || missing(object)) {
+	if (!inherits(object, "PSTf") || missing(object)) {
 		stop(" [!] please provide the name of a valid PST object", call.=FALSE)
 	}
 
@@ -27,7 +27,7 @@ setMethod("predict", signature=c(object="PST.list"),
 	message(" [>] ", n, " sequence(s) - min/max length: ", min(sl),"/",max(sl))
 
 	if (min(sl)!=max(sl) & !norm) {
-		message(" [!] sequence(s) have unequal lengths, use 'norm=TRUE' to normalize prob.")
+		message(" [!] sequences have unequal lengths, use 'norm=TRUE' to normalize prob.")
 	}
 
 	if (is.null(L)) {

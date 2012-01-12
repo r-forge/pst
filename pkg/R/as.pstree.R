@@ -19,7 +19,7 @@ as.pstree <- function(object, L=NULL, verbose=FALSE) {
 	## Root node
 	K0 <- object[[1]]
 
-	N0 <- new("pstree", proto, counts=as.matrix(K0[,wn.names])[1,], n=K0[1,"n"],  prob=as.matrix(K0[,A])[1,],
+	N0 <- new("PSTr", proto, counts=as.matrix(K0[,wn.names])[1,], n=K0[1,"n"],  prob=as.matrix(K0[,A])[1,],
 		path=rownames(K0)[1], order=as.integer(0), 
 		alphabet=A, cpal=cpal, labels=labels, leaf=K0[1,"leaf"], pruned=K0[1,"pruned"])
 
@@ -41,7 +41,7 @@ as.pstree <- function(object, L=NULL, verbose=FALSE) {
 
 				if (verbose) { message(" [>] adding node", rownames(Ki)[j]) }
 				## The node's parent is the longest suffix of the string
-				N0[[node[j,]]] <- new("pstree", proto, 
+				N0[[node[j,]]] <- new("PSTr", proto, 
 					counts=counts[j, ], n=n[j], prob=prob[j,],
 					path=id.comp[j], 
 					order=as.integer(i-1),

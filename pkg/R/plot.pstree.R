@@ -2,7 +2,7 @@
 ## Plot method for objects of class pstree 
 ## =======================================
 
-setMethod("plot", "pstree", function (x, y=missing, max.level=NULL,
+setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), nodelab = c("perpendicular", "textlike", "none"), 
 	dLeaf = NULL, axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
@@ -293,6 +293,9 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 			} else {
 				## The color of the edge
 				ecol <- if (stcol) {cpal[which(alphabet==k)]} else {col}
+
+
+
 				if (horiz) {
 					if (getOption("verbose")) { 
 						cat("Child:", child@path, "yTop=", yTop, "xBot=", xBot, "xTop=", xTop)

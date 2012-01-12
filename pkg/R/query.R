@@ -1,6 +1,6 @@
 ## Extracting the probability of observing each symbol in the alphabet after a given subsequence (string)
 
-setMethod("query", signature="PST.list", 
+setMethod("query", signature="PSTf", 
 	def=function(object, string, state, output="prob", exact=FALSE) {
 		A <- attr(object, "alphabet")
 

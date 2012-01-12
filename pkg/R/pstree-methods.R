@@ -2,7 +2,7 @@
 ## The ``generic'' method for "[["  (identical to e.g., "[[.POSIXct"):
 ## --> subbranches are pstrees as well!
 
-setMethod("[[", "pstree", function(x, i, drop = TRUE, root.attr=FALSE) {
+setMethod("[[", "PSTr", function(x, i, drop = TRUE, root.attr=FALSE) {
 	## cl <- class(x)
 	alphabet <- x@alphabet
 	cpal <- x@cpal
@@ -24,7 +24,7 @@ setMethod("[[", "pstree", function(x, i, drop = TRUE, root.attr=FALSE) {
 
 
 ## Displaying PST
-setMethod("print", "pstree", function (x, max.level = NULL, digits.d = 1, give.attr = FALSE, 
+setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.attr = FALSE, 
     wid = getOption("width"), nest.lev = 0, indent.str = "", 
     stem = "--"
 	## , ...
@@ -97,11 +97,11 @@ setMethod("print", "pstree", function (x, max.level = NULL, digits.d = 1, give.a
 }
 )
 
-setMethod("summary", "pstree", function(object, max.level=NULL) {
+setMethod("summary", "PSTr", function(object, max.level=NULL) {
 
 	stats <- pstree.rl.stats(object, max.level=max.level)
 
-	res <- new("pstree.summary",
+	res <- new("PST.summary",
 		alphabet=object@alphabet,
 		labels=object@labels,
 		cpal=object@cpal,
@@ -139,7 +139,7 @@ pstree.rl.stats <- function(PST, max.level) {
 }
 
 
-setMethod("show", "pstree.summary", function(object) {
+setMethod("show", "PST.summary", function(object) {
 	alphabet <- object@alphabet
 	nbstates <- length(alphabet)
 	cpal <- object@cpal
@@ -159,7 +159,7 @@ setMethod("show", "pstree.summary", function(object) {
 )
 
 which.child <- function(PST) {
-	child.list <- names(PST)[unlist(lapply(PST, is, "pstree"))]
+	child.list <- names(PST)[unlist(lapply(PST, is, "PSTr"))]
 	return(child.list)
 }
 

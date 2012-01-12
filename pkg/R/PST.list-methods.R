@@ -2,12 +2,12 @@
 ## The ``generic'' method for "[["  (identical to e.g., "[[.POSIXct"):
 ## --> subbranches are pstrees as well!
 
-setMethod("summary", "PST.list", function(object, max.level) {
+setMethod("summary", "PSTf", function(object, max.level) {
 
 	if (missing(max.level)) { max.level <- length(object)-1 }
 
 	stats <- pstree.stats(object, max.level=max.level)
-	res <- new("pstree.summary",
+	res <- new("PST.summary",
 		alphabet=object@alphabet,
 		labels=object@labels,
 		cpal=object@cpal,
@@ -44,7 +44,7 @@ pstree.stats <- function(PST, max.level) {
 
 
 ## Plot method
-setMethod("plot", "PST.list", function (x, y=missing, max.level=NULL,
+setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), nodelab = c("perpendicular", "textlike", "none"), 
 	dLeaf = NULL, axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
@@ -61,7 +61,7 @@ setMethod("plot", "PST.list", function (x, y=missing, max.level=NULL,
 }
 )
 
-setMethod("print", "PST.list", function (x, max.level = NULL, digits.d = 1, give.attr = FALSE, 
+setMethod("print", "PSTf", function (x, max.level = NULL, digits.d = 1, give.attr = FALSE, 
     wid = getOption("width"), nest.lev = 0, indent.str = "", 
     stem = "--"
 	## , ...

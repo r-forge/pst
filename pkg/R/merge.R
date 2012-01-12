@@ -1,6 +1,6 @@
 ## Merging two PST
 
-setMethod("merge", signature=c(x="PST.list", y="PST.list"), 
+setMethod("merge", signature=c(x="PSTf", y="PSTf"), 
 	def=function(x, y, verbose=FALSE) {
 
 		A1 <- alphabet(x)

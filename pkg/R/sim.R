@@ -1,10 +1,10 @@
 ## Computing sequence probability
 
-setMethod("sim", signature=c(object="PST.list"), 
+setMethod("sim", signature=c(object="PSTf"), 
 	def=function(object, seqdata, L=NULL, p1=NULL, base=2) {
 
 
-	if (!inherits(object, "PST.list") || missing(object)) {
+	if (!inherits(object, "PSTf") || missing(object)) {
 		stop(" [!] please provide the name of a valid PST object", call.=FALSE)
 	}
 
