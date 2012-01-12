@@ -28,7 +28,10 @@ setGeneric(
 	standardGeneric("prune")
 )
 
-
+setGeneric(name="tune",
+	def=function(object, K, criterion="AICc")
+	standardGeneric("tune")
+)
 
 
 
