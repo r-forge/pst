@@ -38,14 +38,19 @@ pstree(x, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-	an object of class 'PST.list'
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	an object of class 'PSTf', a list with L elements and following attributes 
+	\item{data} the sequence object x on which the PST is fitted
+	\item{alphabet} the alphabet
+	\item{cpal} color palette 
+	\item{labels}
 }
 \references{
-%% ~put references to the literature/web site here ~
+M\"{a}chler, M. & B\"{u}hlmann, P. Variable Length Markov Chains: Methodology, Computing, and Software \emph{Journal of Computational and Graphical Statistics}, 2004, 13, pp. 435-455
+
+Ron, D.; Singer, Y. & Tishby, N. The power of amnesia: Learning probabilistic automata with variable memory length \emph{Machine Learning}, 1996, 25, 117-149
+
+Bejerano, G. & Yona, G. Variations on probabilistic suffix trees: statistical modeling and prediction of protein families. \emph{Bioinformatics}, 2001, 17, 23-43
+
 }
 \author{
 	Alexis Gabadinho
