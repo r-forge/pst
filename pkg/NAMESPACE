@@ -1,5 +1,3 @@
-## import("TraMineR", "methods")
-
 importFrom(graphics, plot)
 importFrom(stats, predict)
 importFrom(stats, logLik)
@@ -23,7 +21,6 @@ exportMethods(
 
 export(
 	"AIC",
-	"nodelist",
 	"seqcprob",
 	"impute",
 	## "seqpdplot",

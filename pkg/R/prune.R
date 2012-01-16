@@ -24,9 +24,7 @@ pdiv <- function(p1, p2, r, K, N, value=FALSE) {
 	}
 }
 
-
 ## Comparing two distributions - matrix version
-
 pdiv.m <- function(prob, A, r, K, value=FALSE) {
 	as <- length(A)
 	p1 <- prob[1:as]
@@ -52,7 +50,6 @@ pdiv.m <- function(prob, A, r, K, value=FALSE) {
 	}
 }
 
-
 ## =====================================================================
 setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE) {
 	
@@ -60,6 +57,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 	A <- alphabet(object)
 	cpal <- cpal(object)
 	labels <- stlab(object)
+
+	object <- as(object, "list")
 
 	for (i in length(object):2) {
 		nodes <- object[[i]]
@@ -94,7 +93,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 		}
 
 		pruned <- which(nodes$pruned)
-		message(" [>] L=",i-1,", ", nrow(nodes)," nodes / " , length(pruned), " pruned")
+		message(" [>] L=",i-1,", ", length(pruned),"/", nrow(nodes), " node(s) pruned")
 
 		if (delete & length(pruned)>0) {
 			nodes <- nodes[-pruned,]

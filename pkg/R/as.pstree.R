@@ -1,3 +1,5 @@
+## Converting 'flat' representations of PST into recursive representation
+
 as.pstree <- function(object, L=NULL, verbose=FALSE) {
 
 	if (is.null(L)) { L <- length(object)-1 }
@@ -13,8 +15,10 @@ as.pstree <- function(object, L=NULL, verbose=FALSE) {
 
 	nbstate <- length(A)
 
-	proto <- vector("list", length=length(A))
-	names(proto) <- A
+	proto <- if (is(object, "PSTf.mc")) {
+		vector("list", length=length(object@context.alphabet))
+	} else { vector("list", length=length(A)) }
+	names(proto) <- if (is(object, "PSTf.mc")) {object@context.alphabet} else {A}
 
 	## Root node
 	K0 <- object[[1]]
@@ -56,5 +60,9 @@ as.pstree <- function(object, L=NULL, verbose=FALSE) {
 
 	return(N0)
 }
+
+setAs(from="PSTf", to="PSTr", def=function(from) as.pstree(from))
+setAs(from="PSTf.mc", to="PSTr", def=function(from) as.pstree(from))
+
 
 
