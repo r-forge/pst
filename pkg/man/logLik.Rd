@@ -5,7 +5,7 @@
 	Log Likelihood of a PST
 }
 \description{
-	Compute the log likelihood of a fitted PST object. This the generic \code{\ling{logLik}} method for objects of class \code{\link{PSTf}}.  
+	Compute the log likelihood of a fitted PST object. This the generic \code{\link{logLik}} method for objects of class \code{\link{PSTf}}.  
 }
 \usage{
 logLik(object, ...)

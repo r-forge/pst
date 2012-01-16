@@ -103,7 +103,7 @@ setMethod("predict", signature=c(object="PSTf"),
 	colnames(prob) <- colnames(seqdata)
 
 	if (!decomp) {
-		prob <- apply(prob,1, TraMineR:::rowProds)
+		prob <- apply(prob,1, rowProds)
 		## if only one sequences we return a matrix as well 
 		if (is.null(dim(prob))) { prob <- matrix(prob, nrow=nrow(seqdata)) }
 		if (norm) {

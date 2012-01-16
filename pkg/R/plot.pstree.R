@@ -6,11 +6,23 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), nodelab = c("perpendicular", "textlike", "none"), 
 	dLeaf = NULL, axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
-	xlim, ylim, ...) {
+	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
 	Lmar <- if (axis) { 4 } else { 2 }
 
 	if (horiz) { par(mar=c(Lmar,2,4,2)) } else { par(mar=c(2,Lmar,4,2)) }
+
+	if (use.layout) {
+		## Saving graphical parameters
+		savepar <- par(no.readonly = TRUE)
+
+		lout <- PST.setlayout(nplot=1, prows=NA, pcols=NA, withlegend, axes="all", legend.prop)
+	  	layout(lout$laymat, heights=lout$heights, widths=lout$widths)
+
+		legpos <- lout$legpos
+	} else {
+		legpos <- NULL
+	}
 
 	nodelab <- match.arg(nodelab)
 
@@ -69,6 +81,20 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	plotNode(x1, x2, x, nodelab = nodelab, 
 		dLeaf = dLeaf, nPar = nodePar, ePar = edgePar, 
 		horiz = horiz, gratio=gratio, max.level=max.level)
+
+
+	## Plotting the legend
+	if (!is.null(legpos)) {
+		## Extracting some sequence characteristics
+		if (is.null(ltext)) ltext <- x@labels
+
+		cpal <- Xtract("cpal", nodePar, default = x@cpal)
+
+		PST.legend(legpos, ltext, cpal, cex=cex.legend)
+	}
+
+	## Restoring graphical parameters
+	if (use.layout) {par(savepar)}
 }
 )
 
@@ -222,7 +248,7 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 		col <- Xtract("col", ePar, default = "grey", 1)
 		lty <- Xtract("lty", ePar, default = par("lty"), 1)
 		lwd <- Xtract("lwd", ePar, default = par("lwd"), 1)
-		stcol <- Xtract("stcol", ePar, default = TRUE)
+		stcol <- Xtract("stcol", ePar, default = cpal)
 
 		if (type == "rectangle") {
 			## Bare verticale en dessous du rectangle
@@ -288,13 +314,10 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 					## segments(xadj, yTop+((node.size/2)*gratio), xBot, 
 					##	yBot-((node.size/2)*gratio), col=col, lty=lty, lwd=lwd)
 					segments(xTop, yTop, xBot, yBot, col=col, lty=lty, lwd=lwd)
-	
 				}
 			} else {
 				## The color of the edge
-				ecol <- if (stcol) {cpal[which(alphabet==k)]} else {col}
-
-
+				ecol <- if (k %in% names(stcol)) { stcol[k] } else { col }
 
 				if (horiz) {
 					if (getOption("verbose")) { 
