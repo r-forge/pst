@@ -1,7 +1,7 @@
 ## Probability distribution of a node and its parents
 ## and illustration of the pruning process 
 
-seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, pruned.col="red", div.col="green", ...) {
+seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, pruned.col="red", div.col="green", ...) {
 	A <- PST@alphabet
 	nbstate <- length(A)
 	oolist <- list(...)
@@ -9,7 +9,7 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 	if (length(path)==1) { path <- seqdecomp(path) }
 
 	sl <- length(path)
-	cpal <- c(PST@cpal, "white")
+	cpal <- c(PST@cpal)
 
 	## Retrieving probabilities
 	prob <- matrix(nrow=nbstate, ncol=sl+1)
@@ -30,53 +30,19 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 
 	## Plotting path
 	barw <- 1
-	## seqscale <- 0.3
 	gsep <- 0.1
-	ppsep <- 0.05
+	ppsep <- pscale/4
+	poff <- 0
 
-	poff <- seqscale+gsep
 	nr <- if (!missing(r)) { length(r) } else { 0 }
 	nK <- if (!missing(K)) { length(K) } else { 0 }
 
-	seqbar <- TraMineR:::seqgbar(c(path, "e"), seql=sl+1, statl=c(A,"e"))
-	seqbar <- matrix(seqbar, nrow=nbstate+1)
-	seqbar <- seqbar*seqscale
-	## seqbar <- cbind(seqbar, rep(0, nbstate))
-
 	plot(NULL, 
 		xlim=c(1-seqscale, sl+2),
-		ylim=c(0,(poff+1+((nr+nK)*(pscale+ppsep))+ (((nr+nK)>0) * gsep))),
+		ylim=c(0,(seqscale+gsep+1+((nr+nK)*(pscale+ppsep))+ (((nr+nK)>0) * gsep))),
 		axes=FALSE,
 		xlab="L (memory)", ylab="",
 		...)
-	segments(1, seqscale/2, sl+1, seqscale/2, col="grey", lwd=3)
-
-	for (i in 1:sl) {
-		segments(i, seqscale/2, i, poff, col="grey", lwd=3)
-
-		symbols(x=i, y=seqscale/2, circles=seqscale, bg=cpal[which(path[i]==A)], add=TRUE, inches=FALSE)
-		text(x=i, y=seqscale/2, labels=path[i])
-
-		plotProb(i-seqscale, poff, i+seqscale, poff+1, prob[,i], cpal)
-	}
-
-	## ROOT NODE
-	segments(sl+1, seqscale/2, sl+1, poff, col="grey", lwd=3)
-
-	symbols(sl+1, y=seqscale/2, circles=seqscale, bg="grey", add=TRUE, inches=FALSE)
-	text(x=sl+1, y=seqscale/2, labels="e")
-	
-	plotProb((sl+1)-seqscale, poff, (sl+1)+seqscale, poff+1, prob[,sl+1], cpal)
-
-	axis(1, at=(1:(sl+1)), labels=sl:0, pos=-0.04)
-
-	plabpos <- seq(from=poff, to=(poff+1), by=0.2)
-	plab <- plabpos-poff
-
-	axis(2, at=plabpos, 
-		labels=plab, 
-		## las=2, 
-		cex.axis=cex.plot)
 
 	## Tag as div 
 	if (!missing(r) | !missing(K)) {
@@ -108,16 +74,24 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 		}
 
 		ppar.lab.pos <- NULL
-		poff <- poff+pscale+ppsep+1
+		poff <- poff+(pscale/2)
 
 		for (pp in 1:(nr+nK)) {
+			segments(1, poff, sl+1, poff, col="grey", lwd=3)
 
 			for (i in 1:sl) {
-				rect(i-seqscale, poff, i+seqscale, poff+pscale, 
-					col=if (pruned[pp, i]) {pruned.col} else if ( div[pp,i] ) {div.col} else {"grey"})
+				pcol <- if (pruned[pp, i]) {pruned.col} else if ( div[pp,i] ) {div.col} else {"grey"}
+				if (node.type=="rectangle") {
+					rect(i-seqscale, poff, i+seqscale, poff+pscale, 
+						col=pcol)
+				} else {
+					symbols(x=i, y=poff, circles=pscale, bg=pcol, add=TRUE, inches=FALSE)
+				}
 			}
 
-			ppar.lab.pos <- c(ppar.lab.pos, poff+(pscale/2))
+			symbols(x=sl+1, y=poff,	circles=pscale, bg="grey", add=TRUE, inches=FALSE)
+
+			ppar.lab.pos <- c(ppar.lab.pos, poff)
 			poff <- poff+pscale+ppsep
 		}
 
@@ -130,7 +104,38 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 			## las=2, 
 			cex.axis=cex.plot)
 
-		poff <- poff+gsep
 	}
 
+	## Plotting path and next symbol probability distributions
+	poff <- poff+(seqscale/2)
+	prob.yBottom <- poff+(seqscale/2)+gsep
+
+	segments(1, poff, sl+1, poff, col="grey", lwd=3)
+
+	for (i in 1:sl) {
+		segments(i, poff, i, poff+(seqscale/2)+gsep, col="grey", lwd=3)
+
+		symbols(x=i, y=poff, circles=seqscale, bg=cpal[which(path[i]==A)], add=TRUE, inches=FALSE)
+		text(x=i, y=poff, labels=path[i])
+		plotProb(i-seqscale, prob.yBottom , i+seqscale, prob.yBottom+1, prob[,i], cpal)
+	}
+
+	## ROOT NODE
+	segments(sl+1, poff, sl+1, poff+(seqscale/2)+gsep, col="grey", lwd=3)
+
+	symbols(sl+1, y=poff, circles=seqscale, bg="grey", add=TRUE, inches=FALSE)
+	text(x=sl+1, y=poff, labels="e")
+
+	## Plotting next symbol probability distributions
+	plotProb((sl+1)-seqscale, prob.yBottom, (sl+1)+seqscale, prob.yBottom+1, prob[,sl+1], cpal)
+
+	axis(1, at=(1:(sl+1)), labels=sl:0, pos=-0.04)
+
+	plabpos <- seq(from=prob.yBottom, to=(prob.yBottom+1), by=0.2)
+	plab <- plabpos-prob.yBottom
+
+	axis(2, at=plabpos, 
+		labels=plab, 
+		## las=2, 
+		cex.axis=cex.plot)
 }
