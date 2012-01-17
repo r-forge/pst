@@ -30,7 +30,7 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 
 	## Plotting path
 	barw <- 1
-	seqscale <- 0.3
+	## seqscale <- 0.3
 	gsep <- 0.1
 	ppsep <- 0.05
 
@@ -43,14 +43,40 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 	seqbar <- seqbar*seqscale
 	## seqbar <- cbind(seqbar, rep(0, nbstate))
 
-	barplot(seqbar, col=cpal, width=barw,
-		## ylab=ylab,
-		## xlim=c(0,(sl+1)),
+	plot(NULL, 
+		xlim=c(1-seqscale, sl+2),
 		ylim=c(0,(poff+1+((nr+nK)*(pscale+ppsep))+ (((nr+nK)>0) * gsep))),
-		horiz=FALSE,
 		axes=FALSE,
-		axisnames=FALSE,
+		xlab="L (memory)", ylab="",
 		...)
+	segments(1, seqscale/2, sl+1, seqscale/2, col="grey", lwd=3)
+
+	for (i in 1:sl) {
+		segments(i, seqscale/2, i, poff, col="grey", lwd=3)
+
+		symbols(x=i, y=seqscale/2, circles=seqscale, bg=cpal[which(path[i]==A)], add=TRUE, inches=FALSE)
+		text(x=i, y=seqscale/2, labels=path[i])
+
+		plotProb(i-seqscale, poff, i+seqscale, poff+1, prob[,i], cpal)
+	}
+
+	## ROOT NODE
+	segments(sl+1, seqscale/2, sl+1, poff, col="grey", lwd=3)
+
+	symbols(sl+1, y=seqscale/2, circles=seqscale, bg="grey", add=TRUE, inches=FALSE)
+	text(x=sl+1, y=seqscale/2, labels="e")
+	
+	plotProb((sl+1)-seqscale, poff, (sl+1)+seqscale, poff+1, prob[,sl+1], cpal)
+
+	axis(1, at=(1:(sl+1)), labels=sl:0, pos=-0.04)
+
+	plabpos <- seq(from=poff, to=(poff+1), by=0.2)
+	plab <- plabpos-poff
+
+	axis(2, at=plabpos, 
+		labels=plab, 
+		## las=2, 
+		cex.axis=cex.plot)
 
 	## Tag as div 
 	if (!missing(r) | !missing(K)) {
@@ -78,14 +104,19 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 		for (j in (lsp+1):sl) {
 			for (pp in 1:(nr+nK)) {		
 				pruned[pp, j] <- !div[pp, j] & pruned[pp, j-1]
-				
 			}
 		}
 
 		ppar.lab.pos <- NULL
+		poff <- poff+pscale+ppsep+1
+
 		for (pp in 1:(nr+nK)) {
-			barplot(rbind(div[pp,], pruned[pp,])*pscale, col=c(div.col,pruned.col), 
-			offset=poff, add=TRUE, axes=FALSE, ...)
+
+			for (i in 1:sl) {
+				rect(i-seqscale, poff, i+seqscale, poff+pscale, 
+					col=if (pruned[pp, i]) {pruned.col} else if ( div[pp,i] ) {div.col} else {"grey"})
+			}
+
 			ppar.lab.pos <- c(ppar.lab.pos, poff+(pscale/2))
 			poff <- poff+pscale+ppsep
 		}
@@ -101,23 +132,5 @@ seqnspplot <- function(PST, path, r, K,  cex.plot=1, seqscale=0.3, pscale=0.1, p
 
 		poff <- poff+gsep
 	}
-
-
-
-	## Plotting probability distributions
-	barplot(prob, xlab="L (memory)", col=cpal, offset=poff, add=TRUE, axes=FALSE, ...)
-
-	tpos <- 1:(sl+1)
-	tpos <- tpos+tpos* if ("space" %in% names(oolist)) {oolist[["space"]]} else {0.2}
-
-	axis(1, at=tpos-0.5, labels=sl:0, pos=-0.04)
-
-	plabpos <- seq(from=poff, to=(poff+1), by=0.2)
-	plab <- plabpos-poff
-
-	axis(2, at=plabpos, 
-		labels=plab, 
-		## las=2, 
-		cex.axis=cex.plot)
 
 }
