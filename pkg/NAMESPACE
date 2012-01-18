@@ -9,6 +9,7 @@ exportMethods(
 	"logLik",
 	"merge",
 	"plot",
+	"ppplot",
 	"predict",
 	"print",
 	"prune",
@@ -24,7 +25,6 @@ export(
 	"seqcprob",
 	"impute",
 	## "seqpdplot",
-	"seqnspplot",
 	"seqprobplot"
 )
 
