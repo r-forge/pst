@@ -16,6 +16,13 @@ setMethod("pstree", signature="stslist",
 	nodes.list <- vector("list", length=L+1)
 	A <- alphabet(x)
 	StCol <- cpal(x)
+	StLab <- stlab(x)
+
+	if (with.missing) { 
+		A <- c(A, attr(x, "nr"))
+		StCol <- c(StCol, attr(x, "missing.color"))
+		StLab <- c(StLab, "missing")
+	}
 	names(StCol) <- A
 
 	message(" [>] ", nrow(x), " sequence(s)")
@@ -44,7 +51,7 @@ setMethod("pstree", signature="stslist",
 		}
 	}
 
-	res <- new("PSTf", nodes.list, data=x, alphabet=A, cpal=StCol, labels=stlab(x))
+	res <- new("PSTf", nodes.list, data=x, alphabet=A, cpal=StCol, labels=StLab)
 	
 	if (nested.list) {
 		res <- as.pstree(res)

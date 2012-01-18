@@ -1,20 +1,22 @@
 ## 
 
-setGeneric("sim", 
-	def=function(object, seqdata, L, ...) 
-	standardGeneric("sim")
-)
-
-setGeneric("query", 
-	def=function(object, string, state, output="prob", exact=FALSE)
-	standardGeneric("query")
-)
-
 setGeneric("generate", 
 	def=function(object, l, n, s1, p1, method, L, ...) 
 	standardGeneric("generate")
 )
 
+setGeneric(
+      name="ppplot",
+	def=function(object, path, state, r, K,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
+		pruned.col="red", div.col="green", ...)
+	standardGeneric("ppplot")
+)
+
+setGeneric(
+      name="prune",
+	def=function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE)
+	standardGeneric("prune")
+)
 
 setGeneric(
       name="pstree",
@@ -22,10 +24,14 @@ setGeneric(
 	standardGeneric("pstree")
 )
 
-setGeneric(
-      name="prune",
-	def=function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE)
-	standardGeneric("prune")
+setGeneric("query", 
+	def=function(object, string, state, output="prob", exact=FALSE)
+	standardGeneric("query")
+)
+
+setGeneric("sim", 
+	def=function(object, seqdata, L, ...) 
+	standardGeneric("sim")
 )
 
 setGeneric(name="tune",
