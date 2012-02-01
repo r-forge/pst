@@ -24,7 +24,9 @@ pdiv <- function(p1, p2, r, K, N, value=FALSE) {
 	}
 }
 
+
 ## Comparing two distributions - matrix version
+
 pdiv.m <- function(prob, A, r, K, value=FALSE) {
 	as <- length(A)
 	p1 <- prob[1:as]
@@ -50,6 +52,7 @@ pdiv.m <- function(prob, A, r, K, value=FALSE) {
 	}
 }
 
+
 ## =====================================================================
 setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE) {
 	
@@ -59,6 +62,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 	labels <- stlab(object)
 
 	object <- as(object, "list")
+	has.child <- NULL
 
 	for (i in length(object):2) {
 		nodes <- object[[i]]
@@ -74,7 +78,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 			}
 
 			if (!missing(K) | !missing(r)) {
-				leaves <- which(nodes$leaf & !nodes$pruned)
+				leaves <- which((nodes$leaf & !nodes$pruned) | !rownames(nodes) %in% has.child)
 				if (length(leaves)>0) {
 					p1 <- nodes[leaves,A]
 					N <- nodes[leaves, "n"]
@@ -89,6 +93,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 
 					nodes[leaves, "pruned"] <- !div
 				}
+				
 			}
 		}
 
@@ -100,7 +105,10 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 			## Nodes having no more childrens set as leaves
 			newleaves <- !rownames(parents) %in% nodes$parent
 			parents[newleaves, "leaf"] <- TRUE
+		} else {
+			has.child <- object[[i]]$parent[!pruned]
 		}
+
 		if (nrow(nodes)==0) {
 			object <- object[-i]
 		} else {
