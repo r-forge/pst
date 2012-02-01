@@ -78,7 +78,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 			}
 
 			if (!missing(K) | !missing(r)) {
-				leaves <- which((nodes$leaf & !nodes$pruned) | !rownames(nodes) %in% has.child)
+				leaves <- which((nodes$leaf & !nodes$pruned) & !rownames(nodes) %in% has.child)
 				if (length(leaves)>0) {
 					p1 <- nodes[leaves,A]
 					N <- nodes[leaves, "n"]
