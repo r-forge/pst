@@ -3,11 +3,6 @@
 setMethod("predict", signature=c(object="PSTf"), 
 	def=function(object, seqdata, L=NULL, p1=NULL, decomp=FALSE, log=FALSE, base=2, norm=FALSE) {
 
-
-	if (!inherits(object, "PSTf") || missing(object)) {
-		stop(" [!] please provide the name of a valid PST object", call.=FALSE)
-	}
-
 	if (any(as.data.frame(seqdata)==attr(seqdata,"nr"))) {
 		message(" [>] found missing value in sequence data")
 		if (!attr(seqdata, "nr") %in% object@alphabet) {
@@ -38,6 +33,11 @@ setMethod("predict", signature=c(object="PSTf"),
 
 	message(" [>] extracting node labels from PST")
 	prefix.table <- unlist(lapply(object[1:(L+1)], rownames))
+	pruned.nodes <- unlist(lapply(object[1:(L+1)], function(x) {x$pruned}))
+	if (any(pruned.nodes)) { 
+		message(" [>] removing ", sum(pruned.nodes), " nodes tagged as pruned from node list")
+		prefix.table <- prefix.table[!pruned.nodes] 
+	}
 
 	## getting prefixes of max length L for each state
 	prefixes <- as.vector(prefix(seqdata, L=L))
