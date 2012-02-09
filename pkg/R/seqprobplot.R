@@ -1,7 +1,7 @@
 ## Probability distribution of a node and its parents
 ## and illustration of the pruning process 
 
-seqprobplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE,...) {
+seqprobplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE, ...) {
 	A <- PST@alphabet
 	cpal <- cpal(seq)
 	nbstate <- length(A)
@@ -67,6 +67,8 @@ seqprobplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot",
 
 		barplot(tmp, col=stcol, offset=poff, add=plotseq, ylim=c(0,(poff+1)), 
 			space=space, axes=FALSE, axisnames=FALSE, ...)
+		abline(h=exp(log(rowProds(prob))/sl), col="red")
+
 	} else if (ptype=="lines") {
 		if (plotseq) {
 			lines(0.5:(length(prob)-0.5), prob+poff, col="red", type="s")
