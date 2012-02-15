@@ -23,17 +23,23 @@ setMethod("summary", "PSTf", function(object, max.level) {
 )
 
 ## Stats and summary
-
 pstree.stats <- function(PST, max.level) {
 	stats <- list(leaves=as.integer(0), nodes=as.integer(0), depth=as.integer(0))
 
-	for (i in 1:(max.level+1)) {
+	for (i in (max.level+1):1) {
+		pruned.nodes <- PST[[i]]$pruned
+		if (any(pruned.nodes)) {
+			PST[[i]] <- PST[[i]][!pruned.nodes,]
+			new.leaves <- !rownames(PST[[i-1]]) %in% PST[[i]]$parent 
+			PST[[i-1]]$leaf[new.leaves] <- TRUE
+		}
+
 		if (nrow(PST[[i]])>0) {
 			if (i==(max.level+1)) {
 				PST[[i]]$leaf <- TRUE
 			}
 
-			stats$depth <- i-1
+			if (stats$depth==0) { stats$depth <- i-1 }
 			stats$nodes <- stats$nodes+sum(!PST[[i]]$leaf)
 			stats$leaves <- stats$leaves+sum(PST[[i]]$leaf)
 		}
