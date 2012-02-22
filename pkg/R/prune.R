@@ -17,11 +17,11 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 
 	for (i in length(object):2) {
 		if (grouped) {
-			for (group in 1:length(object[[1]])) {
-				message(" [>] pruning nodes for group ", group)
+			for (g in 1:length(object[[1]])) {
+				message(" [>] pruning nodes for group ", g)
 
-				nodes <- object[[i]][[group]]
-				parents <- object[[i-1]][[group]]
+				nodes <- object[[i]][[g]]
+				parents <- object[[i-1]][[g]]
 
 				if (any(!nodes$parent %in% rownames(parents))) {
 					nip <- nodes$parent[!nodes$parent %in% rownames(parents)]
@@ -69,8 +69,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 					parents[newleaves, "leaf"] <- TRUE
 				}
 
-				object[[i]][[group]] <- nodes
-				object[[i-1]][[group]] <- parents
+				object[[i]][[g]] <- nodes
+				object[[i-1]][[g]] <- parents
 			}
 		} else {
 			nodes <- object[[i]]
