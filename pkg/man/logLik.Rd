@@ -41,18 +41,10 @@ logLik(object, ...)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-structure(function (object, ...) 
-standardGeneric("logLik"), generic = structure("logLik", package = "stats"), package = "stats", group = list(), valueClass = character(0), signature = "object", default = structure(function (object, 
-    ...) 
-UseMethod("logLik"), target = structure("ANY", class = structure("signature", package = "methods"), .Names = "object", package = "methods"), defined = structure("ANY", class = structure("signature", package = "methods"), .Names = "object", package = "methods"), generic = structure("logLik", package = "stats"), class = structure("derivedDefaultMethod", package = "methods")), skeleton = structure(function (object, 
-    ...) 
-UseMethod("logLik"), target = structure("ANY", class = structure("signature", package = "methods"), .Names = "object", package = "methods"), defined = structure("ANY", class = structure("signature", package = "methods"), .Names = "object", package = "methods"), generic = structure("logLik", package = "stats"), class = structure("derivedDefaultMethod", package = "methods"))(object, 
-    ...), class = structure("standardGeneric", package = "methods"))
+data(s1)
+s1.seq <- seqdef(s1)
+S1 <- pstree(s1.seq, L=3)
+logLik(S1)	
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
