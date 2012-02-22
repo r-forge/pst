@@ -8,12 +8,15 @@ Grow a Probabilistic Suffix Tree (PST)
 
 }
 \usage{
-pstree(x, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
+pstree(x, group, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 	a sequence object of class 'stslist' as defined with the seqdef function of the TraMineR library.
+}
+  \item{group}{
+	a vector giving the group membership of each observation in x. If specified, a 'grouped' PST is produced containing one PST for each group. 
 }
   \item{L}{
 	maximal depth of the PST. Default to maximal length of the sequence(s) in object minus 1.

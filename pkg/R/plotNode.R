@@ -11,13 +11,17 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 	prob <- subtree@prob
 	path <- subtree@path
 	state <- seqdecomp(path)[1]
-	alphabet <- names(prob)
+	alphabet <- colnames(prob)
 	cpal <- Xtract("cpal", nPar, default = NULL)
 	depth <- subtree@order
 	pruned <- subtree@pruned
 	if (is.null(pruned)) {pruned <- FALSE}
 
-	inner <- !is.leaf(subtree) && x1 != x2 && !depth==max.level
+	children <- which.child(subtree)
+
+	if (getOption("verbose")) { message(" [i] node:", path) }
+
+	inner <- !length(children)==0 && x1 != x2 && !depth==max.level
 	yTop <- subtree@order
 
 	bx <- plotNodeLimit(x1, x2, subtree, max.level)
@@ -78,7 +82,7 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 						SPS.out=list(xfix="", sdsep="/"), compressed=TRUE))
 					nodeText[ltidx] <- path
 				} else if (lab.type[ltidx]=="state") { nodeText[ltidx] <- state }
-				else if (lab.type[ltidx]=="n") { nodeText[ltidx] <- round(subtree@n,1) }
+				else if (lab.type[ltidx]=="n") { nodeText[ltidx] <- round(sum(subtree@n, na.rm=TRUE),1) }
 				else if (lab.type[ltidx]=="prob") { 
 					nodeText[ltidx] <- paste("(",paste(round(prob,2),collapse=","),")",sep="") 					}
 			}
@@ -100,15 +104,22 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 			inches <- FALSE
             	}
 
-		## The probability distribution
+		## The proability distribution
 		if (node.type=="prob") {
 			Node.ytop <- if (horiz) {yTop-(node.size/2)} else { yTop-ns.adj }
 			Node.ybottom <- if (horiz) {yTop+(node.size/2)} else { Node.ytop+(ns.adj*2) }
-			Node.xleft <- if (horiz) {xTop-(node.size/2)*gratio} else {X-(node.size/2)}
-			Node.xright <- if (horiz) {Node.xleft+(node.size*gratio)} else { Node.xleft+node.size }
+			Node.xleft <- if (horiz) {xTop+(node.size/2)*gratio} else {X-(node.size/2)}
+			Node.xright <- if (horiz) {Node.xleft-(node.size*gratio)} else { Node.xleft+node.size }
 
-			plotNodeProb(Node.xleft, Node.ybottom, Node.xright, Node.ytop, 
-				matrix(prob, nrow=1, dimnames=list("",alphabet)), state=NULL, cpal, pruned)
+			if (nrow(prob)>1) {
+				probAxes <- if (path=="e") {c("top", "left")} 
+					else if (!inner) {c("bottom", "no")}
+					else {c("no", "no")}
+			} else {
+				probAxes <- if (path=="e") {c("no", "left")} else {c("no", "no")}
+			}
+
+			plotNodeProb(Node.xleft, Node.ybottom, Node.xright, Node.ytop, prob, state=NULL, cpal, pruned, axes=probAxes)
 		} else if (node.type=="path") {
 			state <- seqdecomp(path)[1]
 			col.node <- if (path=="e") root.col else cpal[which(state==alphabet)]
@@ -151,16 +162,18 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 
 		## Plotting edges and child nodes
 		## Selecting non null child nodes only
-		children <- which.child(subtree)
 		for (k in children) {
 			child <- subtree[[k]]
 			idx <- which(k==children)
-		
+
 			yBot <- child@order
 			if (getOption("verbose")) { cat("ch.", k, "@ h=", yBot, "; ") }
 			xBot <- mean(bx$limit[idx:(idx + 1)])
 
-            		i <- if (!is.leaf(child) && child@order<max.level) 1 else 2
+			## REECRIRE UNE FONCTION is.leaf CORRRECTE PAR LA SUITE
+			leaf <- length(which.child(child))==0
+
+            		i <- if (!leaf && child@order<max.level) 1 else 2
 
 			## edge parameters
             		col <- Xtract("col", ePar, default = "grey", i)
@@ -243,7 +256,7 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 			}
 
 				vln <- NULL
-				if (is.leaf(child) && nodelab == "textlike") {
+				if (leaf && nodelab == "textlike") {
 			                nodeText <- asTxt(attr(child, "label"))
 			                if (getOption("verbose")) 
                 				cat("-- with \"label\"", format(nodeText))
@@ -261,5 +274,4 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 		}
 	}
 }
-
 

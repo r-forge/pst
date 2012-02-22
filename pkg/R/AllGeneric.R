@@ -20,7 +20,7 @@ setGeneric(
 
 setGeneric(
       name="pstree",
-	def=function(x, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE, ...)
+	def=function(x, group, L, nmin=1, ymin, weighted=TRUE, with.missing=FALSE, ...)
 	standardGeneric("pstree")
 )
 

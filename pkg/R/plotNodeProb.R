@@ -1,19 +1,24 @@
 ## Plotting probability distribution as a stacked bar
 
-plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, axes=FALSE) {
-	## message(" x0=", x0, ",y0=", y0, ",x1=", x1, ",y1=", y1)
+plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, axes=c("no", "no"), 
+	bgcol="grey90", pruned.col="red", cex.axes=0.6) {
+	if (getOption("verbose")) {
+		message(" x0=", x0, ", y0=", y0, ", x1=", x1, ", y1=", y1)
+		message(" Prob:", prob)
+	}
 
 	A <- colnames(prob)
 	xsize <- x1-x0
-	ysize <- y1-y0
+	ysize <- abs(y1-y0)
+	nbpos <- if (!is.null(nrow(prob))) { nrow(prob) } else { 1 }
 
-	rect(x0, y0, x1, y1, col="lightgray", border=NA)
+	rect(x0, y0, x1, y1, col=bgcol, border=NA)
 
 	if (!horiz) {
-		pdim <- ysize/nrow(prob)
+		pdim <- ysize/nbpos
 		ybot <- y0
 
-		for (pos in 1:nrow(prob)) {
+		for (pos in 1:nbpos) {
 			ytop <- ybot+pdim
 
 			xtmp <- x0
@@ -37,35 +42,68 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, 
 		pdim <- xsize/nrow(prob)
 		xleft <- x0
 
-		for (pos in 1:nrow(prob)) {
+		for (pos in 1:nbpos) {
 			xright <- xleft+pdim
 
 			ytmp <- y0
 			if (!any(is.na(prob[pos,]))) {
 				for (s in 1:length(A)) {
-					ybot <- ytmp+(prob[pos, s]*ysize)
+					ybot <- ytmp-(prob[pos, s]*ysize)
 
 					rect(xleft, ytmp, xright, ybot, col=cpal[s], border=NA)
 					ytmp <- ybot
 				}
-			
-				if (pruned[pos]) {
-					segments(x0, y0, x1, y1,
-						col = "red", ## lty = lty, lwd = lwd
-					)
-				}
 			}
 			xleft <- xright
 		}
-		if (axes) {
-			segments(x0, y0-0.1, x1, y0-0.1)
-			segments(x0, y0-0.1, x0, y0-0.125)
-			segments(x1, y0-0.1, x1, y0-0.125)
+		if (axes[1]=="bottom") {
+			axe.offset <- if (nbpos>1 && any(pruned, na.rm=TRUE)) { ysize*0.3 } else {0}
+			## x axis
+			segments(x0, y0+(0.1*ysize)+axe.offset, x1, y0+(0.1*ysize)+axe.offset)
+			segments(x0, y0+(0.1*ysize)+axe.offset, x0, y0+(0.2*ysize)+axe.offset)
+			segments(x1, y0+(0.1*ysize)+axe.offset, x1, y0+(0.2*ysize)+axe.offset)
+			text(x=c(x0,x1), y=c(y0+(0.25*ysize)+axe.offset, y0+(0.25*ysize)+axe.offset), 
+				labels=rownames(prob)[c(1, nbpos)], cex=0.6)
+		} else if (axes[1]=="top") {
+			segments(x0, y1-(0.1*ysize), x1, y1-(0.1*ysize))
+			segments(x0, y1-(0.1*ysize), x0, y1-(0.2*ysize))
+			segments(x1, y1-(0.1*ysize), x1, y1-(0.2*ysize))
+			text(x=c(x0,x1), y=c(y1-(0.25*ysize), y1-(0.25*ysize)), labels=c(1, nbpos), cex=cex.axes)
+		}
+
+
+		if (axes[2]=="left") {
+			## y axis
+			segments(x0-(0.1*xsize), y0, x0-(0.1*xsize), y1)
+			segments(x0-(0.1*xsize), y0, x0-(0.15*xsize), y0)
+			segments(x0-(0.1*xsize), y1, x0-(0.15*xsize), y1)
+			text(x=c(x0-(0.25*xsize),x0-(0.25*xsize)), y=c(y0, y1), labels=c(0,1), cex=cex.axes, srt=90)
+		}
+
+		## A bar showing the pruned and unpruned nodes
+		if (nbpos>1 && any(pruned, na.rm=TRUE)) {
+			rect(x0, y0+(ysize*0.1), x1, y0+(ysize*0.3), col=bgcol, border=NA)
+			xleft <- x0
+			for (pos in 1:nbpos) {
+				xright <- xleft+pdim
+				if (!is.na(pruned[pos])) {
+					if (pruned[pos]) {
+						rect(xleft, y0+(ysize*0.1), xright, y0+(ysize*0.3),
+							col=pruned.col, border=NA)
+					} else if (!pruned[pos]) {
+						rect(xleft, y0+(ysize*0.1), xright, y0+(ysize*0.3), 
+							col="green", border=NA)
+					}
+				}
+				xleft <- xright
+			}
+			rect(x0, y0+(ysize*0.1), x1, y0+(ysize*0.3))
+		} else if (nbpos==1 && pruned[pos]) {
+			segments(x0, y0, x1, y1, col = pruned.col)
 		}
 	}
 
 	rect(x0, y0, x1, y1)
-
 }
 
 

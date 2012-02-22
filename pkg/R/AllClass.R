@@ -7,9 +7,9 @@ setClass("PSTr",
 		alphabet="character",
 		labels="character",
 		cpal="character",
-		counts="numeric",
+		counts="matrix",
     		n="numeric",
-		prob="numeric",
+		prob="matrix",
 		path="character",
 		order="integer",
 		leaf="logical",
@@ -22,10 +22,11 @@ setClass("PSTf",
 		data="stslist",
 		alphabet="character",
 		labels="character",
-		cpal="character"),
+		cpal="character",
+		grouped="logical",
+		group="factor"),
 	contains="list"
 )
-
 
 setClass("PST.summary",
 	representation(
