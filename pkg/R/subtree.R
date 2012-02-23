@@ -1,5 +1,5 @@
 ## Extracts a given group
-setMethod("subtree", "PSTf",  subtree <- function(object, group) {
+setMethod("subtree", "PSTf",  function(object, group) {
 	if (!object@grouped) {
 		stop(" this is not a grouped PST")
 	}

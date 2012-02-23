@@ -24,6 +24,12 @@ setGeneric(
 	standardGeneric("pstree")
 )
 
+setGeneric(
+      name="subtree",
+	def=function(object, group)
+	standardGeneric("subtree")
+)
+
 setGeneric("query", 
 	def=function(object, string, state, output="prob", exact=FALSE)
 	standardGeneric("query")
