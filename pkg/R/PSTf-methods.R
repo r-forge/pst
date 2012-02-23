@@ -11,7 +11,7 @@ setMethod("summary", "PSTf", function(object, max.level) {
 		alphabet=object@alphabet,
 		labels=object@labels,
 		cpal=object@cpal,
-		ns=as.integer(object[[1]][,"n"]),
+		ns=as.integer(stats$ns),
 		depth=as.integer(stats$depth),
 		nodes=as.integer(stats$nodes),	
 		leaves=as.integer(stats$leaves),
@@ -24,24 +24,44 @@ setMethod("summary", "PSTf", function(object, max.level) {
 
 ## Stats and summary
 pstree.stats <- function(PST, max.level) {
-	stats <- list(leaves=as.integer(0), nodes=as.integer(0), depth=as.integer(0))
+	stats <- list(ns=as.integer(0), leaves=as.integer(0), nodes=as.integer(0), depth=as.integer(0))
 
-	for (i in (max.level+1):1) {
-		pruned.nodes <- PST[[i]]$pruned
-		if (any(pruned.nodes)) {
-			PST[[i]] <- PST[[i]][!pruned.nodes,]
-			new.leaves <- !rownames(PST[[i-1]]) %in% PST[[i]]$parent 
-			PST[[i-1]]$leaf[new.leaves] <- TRUE
+	if (PST@grouped) {
+		nbgroup <- length(PST[[1]])
+
+		for (g in 1:nbgroup) {
+			stats$ns <- stats$ns+PST[[1]][[g]][,"n"]
+			for (i in 1:(max.level+1)) {
+				if (nrow(PST[[i]][[g]])>0) {
+					if (i==(max.level+1)) {
+						PST[[i]][[g]]$leaf <- TRUE
+					}
+
+					stats$nodes <- stats$nodes+sum(!PST[[i]][[g]]$leaf)
+					stats$leaves <- stats$leaves+sum(PST[[i]][[g]]$leaf)
+				}
+			}
+			stats$depth <- i-1
 		}
-
-		if (nrow(PST[[i]])>0) {
-			if (i==(max.level+1)) {
-				PST[[i]]$leaf <- TRUE
+	} else {
+		stats$ns <- PST[[1]][,"n"]
+		for (i in (max.level+1):1) {
+			pruned.nodes <- PST[[i]]$pruned
+			if (any(pruned.nodes)) {
+				PST[[i]] <- PST[[i]][!pruned.nodes,]
+				new.leaves <- !rownames(PST[[i-1]]) %in% PST[[i]]$parent 
+				PST[[i-1]]$leaf[new.leaves] <- TRUE
 			}
 
-			if (stats$depth==0) { stats$depth <- i-1 }
-			stats$nodes <- stats$nodes+sum(!PST[[i]]$leaf)
-			stats$leaves <- stats$leaves+sum(PST[[i]]$leaf)
+			if (nrow(PST[[i]])>0) {
+				if (i==(max.level+1)) {
+					PST[[i]]$leaf <- TRUE
+				}
+
+				if (stats$depth==0) { stats$depth <- i-1 }
+				stats$nodes <- stats$nodes+sum(!PST[[i]]$leaf)
+				stats$leaves <- stats$leaves+sum(PST[[i]]$leaf)
+			}
 		}
 	}
 
