@@ -1,6 +1,8 @@
 
 setMethod("logLik", "PSTf", function(object) {
-	seqprob <- predict(object, object@data)
+
+	seqprob <- predict(object, object@data, group=object@group)
+
 	res <- sum(log(seqprob))
 
 	pstsum <- summary(object)
