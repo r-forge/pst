@@ -5,6 +5,7 @@ importFrom(stats, logLik)
 importMethodsFrom(stats4, AIC)
 
 exportMethods(
+	"cprob",
 	"generate",
 	"logLik",
 	"merge",
@@ -15,7 +16,6 @@ exportMethods(
 	"prune",
 	"pstree",
 	"query",
-	"sim",
 	"subtree",
 	"summary",
 	"tune"
@@ -23,10 +23,7 @@ exportMethods(
 
 export(
 	"AIC",
-	"seqcprob",
-	"impute",
-	## "seqpdplot",
-	"seqprobplot"
+	"seqpqplot"
 )
 
 
