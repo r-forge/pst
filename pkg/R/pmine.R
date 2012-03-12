@@ -1,13 +1,14 @@
 ## Frequent patterns
 
-pmine <- function(PST, seqdata, l, pmin, lag, output="sequences") {
-	A <- alphabet(PST)
+setMethod("pmine", signature=c(object="PSTf", data="stslist"), 
+	def=function(object, data, l, pmin, lag, output="sequences") {
+	A <- alphabet(object)
 
-	prob <- predict(PST, seqdata, decomp=TRUE)
+	prob <- predict(object, data, decomp=TRUE)
 	prob.check <- prob>=pmin
-	select.seq <- vector(mode="logical", length=nrow(seqdata))
+	select.seq <- vector(mode="logical", length=nrow(data))
 
-	sl <- max(seqlength(seqdata))
+	sl <- max(seqlength(data))
 
 	patterns.list <- NULL
 
@@ -23,21 +24,21 @@ pmine <- function(PST, seqdata, l, pmin, lag, output="sequences") {
 		fp <- rowSums(prob.check[, p:(p+l-1)])==l
 		select.seq[fp] <- TRUE
 		if (output=="patterns") {
-			tmp <- seqconc(seqdata[fp,  1:(p+l-1)])
+			tmp <- seqconc(data[fp,  1:(p+l-1)])
 			patterns.list <- c(patterns.list, unique(tmp[!tmp %in% patterns.list]))
 		}
 	}
 
 	if (output=="patterns") {
 		nr <- if ("*" %in% A) { "#" } else { "*" }
-		res <- seqdef(patterns.list, alphabet=A, labels=PST@labels, cpal=cpal(PST), nr=nr)
+		res <- seqdef(patterns.list, alphabet=A, labels=object@labels, cpal=cpal(object), nr=nr)
 	} else {
-		res <- unique(seqdata[select.seq,])
+		res <- unique(data[select.seq,])
 	}
 
 	return(res)
 }
-
+)
 
 
 

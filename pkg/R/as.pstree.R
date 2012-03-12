@@ -36,6 +36,4 @@ as.pstree <- function(object, L=NULL, verbose=FALSE) {
 
 ## setAs(from="PSTf.gr", to="PSTr.tv", def=function(from) as.pstree.gr(from))
 setAs(from="PSTf", to="PSTr", def=function(from) as.pstree(from))
-setAs(from="PSTf.mc", to="PSTr", def=function(from) as.pstree(from))
-
 

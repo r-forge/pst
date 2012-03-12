@@ -10,6 +10,7 @@ exportMethods(
 	"logLik",
 	"merge",
 	"plot",
+	"pmine",
 	"ppplot",
 	"predict",
 	"print",
