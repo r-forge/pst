@@ -13,7 +13,7 @@ cprob(object, L, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	a sequence object, that is an object of class stslist as created by TraMineR \link(seqdef()) function
+	a sequence object, that is an object of class stslist as created by TraMineR \link{seqdef()} function.
 }
   \item{L}{
 	context length.
