@@ -8,7 +8,7 @@ Prune a PST
 Prune an existing PST, using one or several pruning parameters.
 }
 \usage{
-prune(object, nmin, L, r, K, topdown = TRUE, delete = TRUE)
+prune(object, nmin, L, r, K, keep, drop, topdown = TRUE, delete = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,6 +46,13 @@ where the cutoff \eqn{K} is specified on the scale of \eqn{\chi^{2}}-quantiles (
 K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 }
 
+  \item{keep}{
+	character. A vector of character strings containing the names of the nodes to keep in the tree. All nodes that are not a suffix of contexts in keep are removed from the tree.
+}
+
+  \item{drop}{
+	character. A vector of character strings containing the names of the nodes to remove from the tree. All nodes that are a suffix of contexts in drop are removed from the tree as weel.
+}
 }
   \item{topdown}{
 %%     ~~Describe \code{topdown} here~~
@@ -54,6 +61,7 @@ K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 	Logical. If FALSE, the pruned nodes are not really removed from the tree but tagged as pruned=FALSE, so that when plotting the pruned tree these nodes wil appear surrounded with red (can be set to another color) lines.
 }
 }
+
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }

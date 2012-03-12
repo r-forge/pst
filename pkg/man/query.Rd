@@ -2,31 +2,31 @@
 \alias{query}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Retrieve counts or next symbol probability distribution from a node in a Probabilistic Suffix Tree
+	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-query(object, string, state, output = "prob", exact = FALSE)
+query(object, context, state, output = "prob", exact = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A fitted PST, that is an object of class PST.list as returned by the pstree or prune function.
+	A fitted PST, that is an object of class PSTf as returned by the \link{pstree()} or \link{prune()} function.
 
 }
-  \item{string}{
+  \item{context}{
 	Character. The string labelling the node to retrieve. States must be separated by '-' as for example in 'a-a-b'. If the node labelled with this string does not exist in the tree, the node labelled with the longest suffix is searched for, and so on until an existing node is  found.
 }
   \item{state}{
-%%     ~~Describe \code{state} here~~
+	character. If specified the probability of the specified state is returned instead of the whole distribution.
 }
   \item{output}{
-%%     ~~Describe \code{output} here~~
+	character. If output="prob" the probability distribution (or a single symbol distribution if state is specified) is returned. If output="counts" the counts on which the probability distribution is calculated are returned. If output="all" the node itself is returned, that is an object of class PSTr.
 }
   \item{exact}{
-%%     ~~Describe \code{exact} here~~
+	logical. If TRUE, the information is returned only if the node labelled with context is present in the tree. That is, the longest suffix of context is not searched for if context is not in the tree.
 }
 }
 \details{

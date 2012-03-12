@@ -8,7 +8,7 @@
 	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value
 }
 \usage{
-tune(object, K, criterion = "AICc", output = "PST")
+tune(object, K, criterion = "AIC", output = "PST")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
