@@ -1,38 +1,38 @@
-## Extracting the probability of observing each symbol in the alphabet after a given subsequence (string)
+## Extracting the probability of observing each symbol in the alphabet after a given subsequence (context)
 
-setMethod("query", signature="PSTf", 
-	def=function(object, string, state, output="prob", exact=FALSE) {
+setMethod("query", signature=c(object="PSTf"), 
+	def=function(object, context, state, output="prob", exact=FALSE) {
 		A <- attr(object, "alphabet")
 
-		if (missing(string) || string=="e") {
-			string <- "e"
+		if (missing(context) || context=="e") {
+			context <- "e"
 			idxl <- 1
 		} else {
-			sd <- unlist(strsplit(string, split="-"))
-      			string <- paste(sd, collapse="-")
+			sd <- unlist(strsplit(context, split="-"))
+      			context <- paste(sd, collapse="-")
 			idxl <- length(sd)+1
 			if (any(!sd %in% A)) {
 				stop(" [!] one or more symbol not in alphabet")
 			} 
 		}
 
-		if (exact && !string %in% names(object[[idxl]]) && object[[idxl]][[string]]@pruned) {
+		if (exact && !context %in% names(object[[idxl]]) && object[[idxl]][[context]]@pruned) {
 			message( "[>] node is not in the tree")
 			res <- NULL
 		} else {
 			if (idxl>length(object)) { 
 				idxl <- length(object) 
 				sd <- sd[(length(sd)-(idxl-2)):length(sd)]
-        			string <- paste(sd, collapse="-")
+        			context <- paste(sd, collapse="-")
 			}
 
-			while (!string %in% names(object[[idxl]]) || object[[idxl]][[string]]@pruned) {
+			while (!context %in% names(object[[idxl]]) || object[[idxl]][[context]]@pruned) {
 				idxl <- idxl-1
         			sd <- sd[2:length(sd)]
-				string <- if (idxl>1) { paste(sd, collapse="-") } else {"e"}
+				context <- if (idxl>1) { paste(sd, collapse="-") } else {"e"}
 			}
 
-			res <- object[[idxl]][[string]]
+			res <- object[[idxl]][[context]]
 
 			if (output=="prob") {
 				res <- res@prob
@@ -41,12 +41,14 @@ setMethod("query", signature="PSTf",
 			} else if (output=="n") {
 				res <- res@n
 			}
-			message(" [>] retrieving from node: ", paste(string, collapse="-"))
+			message(" [>] retrieving from node: ", paste(context, collapse="-"))
 		}
 
 		if (!missing(state) && output %in% c("prob", "counts")) {
-			res <- res[which(A==state)]
+			res <- res[, which(A==state), drop=FALSE]
 		}
+
+		res <- new("cprobd", res, context=context)
 
 		return(res)
 	}

@@ -11,6 +11,12 @@ setGeneric("generate",
 )
 
 setGeneric(
+      name="impute",
+	def=function(object, data, ...)
+	standardGeneric("impute")
+)
+
+setGeneric(
       name="pmine",
 	def=function(object, data, ...)
 	standardGeneric("pmine")
@@ -37,7 +43,7 @@ setGeneric(
 )
 
 setGeneric("query", 
-	def=function(object, string, state, output="prob", exact=FALSE, ...)
+	def=function(object, context, state, output="prob", exact=FALSE, ...)
 	standardGeneric("query")
 )
 
