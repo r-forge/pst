@@ -44,11 +44,12 @@ setMethod("query", signature=c(object="PSTf"),
 			message(" [>] retrieving from node: ", paste(context, collapse="-"))
 		}
 
-		if (!missing(state) && output %in% c("prob", "counts")) {
-			res <- res[, which(A==state), drop=FALSE]
+		if (output %in% c("prob", "counts")) {
+			if (!missing(state)) {
+				res <- res[, which(A==state), drop=FALSE]
+			}
+			res <- new("cprobd", res, context=context)
 		}
-
-		res <- new("cprobd", res, context=context)
 
 		return(res)
 	}

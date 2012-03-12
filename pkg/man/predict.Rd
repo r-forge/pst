@@ -8,12 +8,15 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-predict(object, ...)
+predict(object, data, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class PST.list as created by the pstree or prune functions.
+	A PST, that is an object of class PSTf as created by the pstree or prune functions.
+}
+  \item{data}{
+	a sequence object, that is an object of class stslist as created by the seqdef() TraMineR function. The sequence object contains the sequences to predict.
 }
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
