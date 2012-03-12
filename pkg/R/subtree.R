@@ -18,7 +18,9 @@ setMethod("subtree", "PSTf",  function(object, group) {
 	object <- as(object, "list")
 
 	for (i in length(object):1) {
-		object[[i]] <- object[[i]][[group]]
+		object[[i]] <- lapply(object[[i]], select.group, as.character(group))
+		remove <- unlist(lapply(object[[i]], is.null))
+		object[[i]] <- object[[i]][!remove]
 	}
 
 	object <- new("PSTf", object, data=seqdata, alphabet=A, cpal=cpal, labels=labels, grouped=FALSE)

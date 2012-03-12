@@ -21,8 +21,6 @@ setMethod("[[", "PSTr", function(x, i, drop = TRUE, root.attr=FALSE) {
 }
 )
 
-
-
 ## Displaying PST
 setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.attr = FALSE, 
     wid = getOption("width"), nest.lev = 0, indent.str = "", 
@@ -36,8 +34,6 @@ setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.att
         paste(paste(names(fl), fl, sep = sep), collapse = ", ")
     }
 
-	istr <- sub(" $", "`", indent.str)
-	cat(istr, stem, sep = "")
 	at <- attributes(x)
 
 	path <- at[["path"]]
@@ -46,27 +42,30 @@ setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.att
 	n <- at[["n"]]
 
 	le <- length(which.child(x))
-	leaf <- is.leaf(x)
+	leaf <- x@leaf
 
-    	left <- if (leaf) {"("} else {"["}
-	right <- if (leaf) {")"} else {"]"}
+	for (g in 1:length(leaf)) {
+		istr <- sub(" $", "`", indent.str)
+		cat(istr, stem, sep = "")
+
+		left <- if (leaf[g]) {"("} else {"["}
+		right <- if (leaf[g]) {")"} else {"]"}
         
-        if (give.attr) {
-            if (nzchar(at <- pasteLis(at, c("prob", "order", 
-                "path")))) 
-                at <- paste(",", at)
-        }
-        cat(left, path, ", ", sep="")
+        	if (give.attr) {
+            		if (nzchar(at <- pasteLis(at, c("prob", "order", "path")))) { at <- paste(",", at) }
+        	}
+        	cat(left, path, ", ", sep="")
 		## " (k=", format(hgt, digits = digits.d), "), ", 
-		if (leaf) cat("leaf,") else cat(le, " child.,", sep="")
+		if (leaf[g]) cat("leaf,") else cat(le, " child.,", sep="")
 		cat(" p=(", sep="")
-		cat(format(prob, digits = digits.d, scientific=FALSE), sep=",")
-		cat("), n=",n, if (give.attr) 
+		cat(format(prob[g,], digits = digits.d, scientific=FALSE), sep=",")
+		cat("), n=",n[g], if (give.attr) 
                 at, right, if (!is.null(max.level) && nest.lev == 
                 max.level) 
                 " ..", "\n", sep = "")
+	}
 
-	if (!is.leaf(x)) {
+	if (!all(leaf)) {
 		if (is.null(max.level) || nest.lev < max.level) {
 			for (i in which.child(x)) {
 				print(x[[i]], nest.lev = nest.lev + 1, 
@@ -159,7 +158,8 @@ setMethod("show", "PST.summary", function(object) {
 )
 
 which.child <- function(PST) {
-	child.list <- names(PST)[unlist(lapply(PST, is, "PSTr"))]
+	class <- class(PST)
+	child.list <- names(PST)[unlist(lapply(PST, is, class))]
 	return(child.list)
 }
 

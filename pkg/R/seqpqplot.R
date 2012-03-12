@@ -1,7 +1,8 @@
 ## Probability distribution of a node and its parents
-## and illustration of the pruning process 
+## and outcomes of the gain function 
 
-seqprobplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE, ...) {
+seqpqplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
+	measure="prob", pqmax, ...) {
 	A <- PST@alphabet
 	cpal <- cpal(seq)
 	nbstate <- length(A)
@@ -14,8 +15,21 @@ seqprobplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot",
 	
 	message(" [>] computing prob., max. length=", L)	
 	
-	prob <- predict(PST, seq, L, log=FALSE, decomp=TRUE)
+	prob <- predict(PST, seq=seq, L=L, decomp=TRUE)
 	sl <- seqlength(seq)
+	if (measure=="log-loss") {
+		prob <- -log(prob, base=2)
+		if (missing(pqmax)) { pqmax <- 10 }
+		pmean <- sum(prob)/sl
+		ytstep <- 1
+		ylab <- "Log-loss"
+	} else {
+		if (missing(pqmax)) { pqmax <- 1 }
+		pmean <- exp(log(rowProds(prob))/sl)
+		ytstep <- 0.2
+		ylab <- "Prob"
+	}
+
 	poff <- 0
 
 	if (any(seq==nr)) {
@@ -65,9 +79,9 @@ seqprobplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot",
 			stcol <- "red"
 		}
 
-		barplot(tmp, col=stcol, offset=poff, add=plotseq, ylim=c(0,(poff+1)), 
-			space=space, axes=FALSE, axisnames=FALSE, ...)
-		abline(h=exp(log(rowProds(prob))/sl), col="red")
+		barplot(tmp, col=stcol, offset=poff, add=plotseq, ylim=c(0,(poff+pqmax)), 
+			space=space, axes=FALSE, axisnames=FALSE, ylab=ylab, ...)
+		abline(h=pmean, col="red")
 
 	} else if (ptype=="lines") {
 		if (plotseq) {
@@ -83,7 +97,7 @@ seqprobplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot",
 
 	axis(1, at=tpos-0.5, labels=tlab, pos=-0.04)
 
-	plabpos <- seq(from=poff, to=(poff+1), by=0.2)
+	plabpos <- seq(from=poff, to=(poff+pqmax), by=ytstep)
 	plab <- plabpos-poff
 
 	axis(2, at=plabpos, 

@@ -1,6 +1,6 @@
 ##
 plotNodeLimit <- function (x1, x2, subtree, max.level) {
-	inner <- !all(subtree@leaf) && x1 != x2 && !subtree@order==max.level
+	inner <- !all(subtree@leaf, na.rm=TRUE) && x1 != x2 && !subtree@order==max.level
 
 	if (inner) {
 	        ## K <- length(subtree)

@@ -23,16 +23,17 @@ setMethod("ppplot", signature="PSTf",
 		N <- matrix(nrow=1, ncol=sl+1)
 
 		node <- query(object, "e", output="all")
-		prob[,(sl+1)] <- as.numeric(node[,A])
-		N[,sl+1] <- node[,"n"]
+		prob[,(sl+1)] <- as.numeric(node@prob)
+		N[,sl+1] <- node@n
 	
 		lsuff <- lsuffix(object, path)
 		lsp <- sl-length(lsuff)+1	
 
 		for (j in lsp:sl) {
 			node <- query(object, paste(path[j:sl], collapse="-"), output="all")
-			prob[,j] <- as.numeric(node[,A])
-			N[,j] <- node[, "n"]
+			prob[,j] <- as.numeric(node@prob)
+			N[,j] <- node@n
+
 		}
 
 		## Plotting path
@@ -123,7 +124,7 @@ setMethod("ppplot", signature="PSTf",
 	
 			symbols(x=i, y=poff, circles=seqscale, bg=cpal[which(path[i]==A)], add=TRUE, inches=FALSE)
 			text(x=i, y=poff, labels=path[i])
-			plotProb(i-seqscale, prob.yBottom , i+seqscale, prob.yBottom+1, prob[,i], state, cpal)
+			plotProb(i-seqscale, prob.yBottom , i+seqscale, prob.yBottom+1, prob=t(prob[,i]), state, cpal=cpal)
 		}
 
 		## ROOT NODE
@@ -133,7 +134,7 @@ setMethod("ppplot", signature="PSTf",
 		text(x=sl+1, y=poff, labels="e")
 
 		## Plotting next symbol probability distributions
-		plotProb((sl+1)-seqscale, prob.yBottom, (sl+1)+seqscale, prob.yBottom+1, prob[,sl+1], state, cpal)
+		plotProb((sl+1)-seqscale, prob.yBottom, (sl+1)+seqscale, prob.yBottom+1, t(prob[,sl+1]), state, cpal)
 
 		axis(1, at=(1:(sl+1)), labels=sl:0, pos=-0.04)
 

@@ -55,7 +55,7 @@ setMethod("generate", signature=c(object="PSTf"),
 		}
 	}
 
-	seq <- seqdef(seq, alphabet=A, cpal=cpal(object))
+	seq <- seqdef(seq, alphabet=A, cpal=cpal(object), nr="#")
 
 	return(seq)
 }

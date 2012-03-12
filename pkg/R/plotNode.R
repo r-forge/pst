@@ -2,7 +2,7 @@
 ## Plotting nodes
 ## ==============
 plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar, 
-    ePar, horiz = FALSE, gratio, max.level) {
+    ePar, horiz = FALSE, gratio, max.level, group) {
 
 	scale <- seq(0, 1, 0.2)
 	vprob <- FALSE
@@ -119,7 +119,8 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 				probAxes <- if (path=="e") {c("no", "left")} else {c("no", "no")}
 			}
 
-			plotNodeProb(Node.xleft, Node.ybottom, Node.xright, Node.ytop, prob, state=NULL, cpal, pruned, axes=probAxes)
+			plotNodeProb(Node.xleft, Node.ybottom, Node.xright, Node.ytop, prob=prob, state=NULL, 
+				cpal=cpal, pruned=pruned, group=group, axes=probAxes)
 		} else if (node.type=="path") {
 			state <- seqdecomp(path)[1]
 			col.node <- if (path=="e") root.col else cpal[which(state==alphabet)]
@@ -270,7 +271,7 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 				## Plotting the node
 				plotNode(bx$limit[idx], bx$limit[idx+1], subtree = child, 
                 			nodelab, dLeaf, nPar=nPar, ePar=ePar, 
-                			horiz=horiz, gratio=gratio, max.level=max.level)
+                			horiz=horiz, gratio=gratio, max.level=max.level, group=group)
 		}
 	}
 }

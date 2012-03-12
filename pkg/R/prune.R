@@ -2,7 +2,7 @@
 ## Pruning Probabilistic Suffix Trees
 ## ==================================
 
-setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=TRUE) {
+setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=TRUE, delete=TRUE) {
 	
 	data <- object@data
 	A <- alphabet(object)
@@ -15,114 +15,72 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, topdown=TRUE, delete=
 	has.child <- NULL
 	## if (missing(L)) { L <- length(object)-1 }
 
-	for (i in length(object):2) {
-		if (grouped) {
-			for (g in 1:length(object[[1]])) {
-				message(" [>] pruning nodes for group ", g)
-
-				nodes <- object[[i]][[g]]
-				parents <- object[[i-1]][[g]]
-
-				if (any(!nodes$parent %in% rownames(parents))) {
-					nip <- nodes$parent[!nodes$parent %in% rownames(parents)]
-					for (noderror in 1:length(nip)) {
-						message(nip[noderror], " not in parent nodes")
-					}
-				}  
-
-				nodes$pruned <- FALSE
-
-				if (!missing(L) && i>(L+1) ) {
-					nodes$pruned <- TRUE
-				} else {
-					if (!missing(nmin)) {
-						nmin.prune <- nodes$n < nmin
-						nodes[nmin.prune, "pruned"] <- TRUE
-					}
-
-					if (!missing(K) | !missing(r)) {
-						leaves <- which(nodes$leaf & !nodes$pruned)
-						if (length(leaves)>0) {
-							p1 <- nodes[leaves,A]
-							N <- nodes[leaves, "n"]
-							p2 <- parents[nodes$parent[leaves], A]
-					
-							tmp <- cbind(p1, p2, N)
-							if (!missing(K)) {
-								div <- apply(tmp,1, pdiv.m, A=A, K=K)
-							} else if (!missing(r)) {
-								div <- apply(tmp,1, pdiv.m, A=A, r=r)
-							}
-
-							nodes[leaves, "pruned"] <- !div
-						}
-					}
-				}
-
-				pruned <- which(nodes$pruned)
-				message("     [>] L=",i-1,", ", length(pruned),"/", nrow(nodes), " node(s) pruned")
-
-				if (delete & length(pruned)>0) {
-					nodes <- nodes[-pruned,]
-					## Nodes having no more childrens set as leaves
-					newleaves <- !rownames(parents) %in% nodes$parent
-					parents[newleaves, "leaf"] <- TRUE
-				}
-
-				object[[i]][[g]] <- nodes
-				object[[i-1]][[g]] <- parents
-			}
-		} else {
-			nodes <- object[[i]]
-			parents <- object[[i-1]]
-			nodes$pruned <- FALSE
-
-			if (!missing(L) && i>(L+1) ) {
-				nodes$pruned <- TRUE
-			} else {
-				if (!missing(nmin)) {
-					nmin.prune <- nodes$n < nmin
-					nodes[nmin.prune, "pruned"] <- TRUE
-				}
-
-				if (!missing(K) | !missing(r)) {
-					leaves <- which((nodes$leaf & !nodes$pruned) & !rownames(nodes) %in% has.child)
-					if (length(leaves)>0) {
-						p1 <- nodes[leaves,A]
-						N <- nodes[leaves, "n"]
-						p2 <- parents[nodes$parent[leaves], A]
-
-						tmp <- cbind(p1, p2, N)
-						if (!missing(K)) {
-							div <- apply(tmp,1, pdiv.m, A=A, K=K)
-						} else if (!missing(r)) {
-							div <- apply(tmp,1, pdiv.m, A=A, r=r)
-						}
-
-						nodes[leaves, "pruned"] <- !div
-					}
-				}
-			}
-
-			pruned <- which(nodes$pruned)
-			message(" [>] L=",i-1,", ", length(pruned),"/", nrow(nodes), " node(s) pruned")
-
-			if (delete & length(pruned)>0) {
-				nodes <- nodes[-pruned,]
-				## Nodes having no more childrens set as leaves
-				newleaves <- !rownames(parents) %in% nodes$parent
-				parents[newleaves, "leaf"] <- TRUE
-			} else {
-				has.child <- object[[i]]$parent[!pruned]
-			}
-
-			if (nrow(nodes)==0) {
-				object <- object[-i]
-			} else {
-				object[[i]] <- nodes
-			}
-			object[[i-1]] <- parents
+	if (!missing(keep)) {
+		if (!inherits(keep,"stslist")) {
+			keep <- seqdef(keep, alphabet=A)
 		}
+		keep.sl <- seqlength(keep)
+	}
+
+	for (i in length(object):2) {
+		nodes <- object[[i]]
+		parents <- object[[i-1]]
+		## nodes <- lapply(nodes, function(x) {x@pruned[] <- FALSE; x})
+		nbnodes <- unlist(lapply(nodes, function(x) { sum(!x@pruned) }))
+
+		if (!missing(L) && i>(L+1) ) {
+			nodes <- lapply(nodes, node.prune)
+		} else {
+			if (!missing(keep)) {
+				if ( (i-1)>max(keep.sl) ) {
+					nodes <- lapply(nodes, node.prune)
+				} else {
+					keep.list <- NULL
+					for (z in max((i-1), min(keep.sl)):max(keep.sl)) {
+						keep.tmp <- keep[keep.sl==z,, drop=FALSE]
+						keep.list <- c(keep.list, seqconc(keep.tmp[,(z-i+2):z]))
+					}
+					keep.list <- unique(keep.list)
+					nodes <- lapply(nodes, node.keep, keep.list)
+				}
+			}
+			if (!missing(nmin)) {
+				nodes <- lapply(nodes, node.nmin, nmin)
+			}
+			if (!missing(K)) {
+				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, K=K)
+			} else if (!missing(r)) {
+				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, r=r)
+			}
+		}
+
+		pruned <- unlist(lapply(nodes, function(x) {sum(x@pruned)}))
+		plabel <- if (grouped) { " node segment(s) pruned" } else { " node(s) pruned" }
+
+		message(" [>] L=",i-1,", ", sum(pruned),"/", sum(nbnodes), " node(s) pruned")
+
+		if (delete & sum(pruned)>0) {
+			if (grouped) {
+				nodes <- lapply(nodes, remove.pruned.group)
+				pruned.id <- which(unlist(lapply(nodes, function(x) {nrow(x@prob)==0})))
+			} else {
+				pruned.id <- which(pruned==1)
+			}
+			nodes <- nodes[-pruned.id]
+			## Nodes having no more childrens set as leaves
+			pnames <- unlist(lapply(nodes, node.parent))
+			newleaves <- !names(parents) %in% pnames
+			parents <- lapply(parents, function(x, pnames) {if (!x@path %in% pnames) {x@leaf[] <- TRUE}; x}, pnames)
+		} else {
+			has.child <- object[[i]]$parent[!pruned]
+		}
+
+		if (length(nodes)==0) {
+			object <- object[-i]
+		} else {
+			object[[i]] <- nodes
+		}
+		object[[i-1]] <- parents
 	}
 
 	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, grouped=grouped, group=group)

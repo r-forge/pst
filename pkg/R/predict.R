@@ -1,7 +1,7 @@
 ## Computing sequence probability
 
 setMethod("predict", signature=c(object="PSTf"), 
-	def=function(object, seqdata, group, L=NULL, p1=NULL, decomp=FALSE, log=FALSE, base=2, norm=FALSE) {
+	def=function(object, seqdata, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {
 
 	if (object@grouped) {
 		sl <- seqlength(seqdata)
@@ -10,12 +10,12 @@ setMethod("predict", signature=c(object="PSTf"),
 			colnames(prob) <- colnames(seqdata)
 		} else {
 			prob <- matrix(nrow=nrow(seqdata), ncol=1)
-			colnames(prob) <- if (norm) "p.norm" else "p"
+			colnames(prob) <- output
 		}
 
 		rownames(prob) <- rownames(seqdata)
 
-		nbgroup <- length(object[[1]])
+		nbgroup <- length(levels(object@group))
 		group <- factor(group)
 		if (length(group)!=nrow(seqdata)) {
 			stop(" group must contain one value for each sequence in seqdata")
@@ -26,7 +26,7 @@ setMethod("predict", signature=c(object="PSTf"),
 			group.idx <- which(group==levels(group)[g])
 
 			pst <- subtree(object, group=g)
-			prob.tmp <- predict(pst, seqdata[group.idx,], L=L, decomp=decomp, log=log, base=base, norm=norm)
+			prob.tmp <- predict(pst, seqdata[group.idx,], L=L, p1=p1, output=output, decomp=decomp, base=base)
 			prob[group.idx,] <- prob.tmp
 		}
 	
@@ -50,8 +50,8 @@ setMethod("predict", signature=c(object="PSTf"),
 
 		message(" [>] ", n, " sequence(s) - min/max length: ", min(sl),"/",max(sl))
 
-		if (min(sl)!=max(sl) & !norm) {
-			message(" [!] sequences have unequal lengths, use 'norm=TRUE' to normalize prob.")
+		if (min(sl)!=max(sl) & output=="prob" & !decomp) {
+			message(" [!] sequences have unequal lengths")
 		}
 
 		if (is.null(L)) {
@@ -61,8 +61,8 @@ setMethod("predict", signature=c(object="PSTf"),
 		message( " [>] max. depth: L=", L)
 
 		message(" [>] extracting node labels from PST")
-		prefix.table <- unlist(lapply(object[1:(L+1)], rownames))
-		pruned.nodes <- unlist(lapply(object[1:(L+1)], function(x) {x$pruned}))
+		prefix.table <- unlist(lapply(object[1:(L+1)], names))
+		pruned.nodes <- unlist(lapply(object[1:(L+1)], pruned.nodes))
 		if (any(pruned.nodes)) { 
 			message(" [>] removing ", sum(pruned.nodes), " nodes tagged as pruned from node list")
 			prefix.table <- prefix.table[!pruned.nodes] 
@@ -78,7 +78,7 @@ setMethod("predict", signature=c(object="PSTf"),
 		prefix.idx <- match(prefixes, unique.prefixes)
 
 		## taking longest suffix until prefix found in PST
-		message(" [>] searching for prefix(es) in PST")
+		message(" [>] searching for context(s) in PST")
 		unmatched <- !unique.prefixes %in% prefix.table
 		while (sum(unmatched>0)) {
 			tmp <- seqdecomp(unique.prefixes[unmatched])
@@ -97,10 +97,11 @@ setMethod("predict", signature=c(object="PSTf"),
 			##
 			unique.prefixes <- tmp
 			unmatched <- !unique.prefixes %in% prefix.table
+			## print(unique.prefixes[unmatched])
 		}
 	
 		message(" [>] computing prob., ", nrow(seqdata), " sequences, max. depth=", L, sep="")
-		message(" [>] ", length(unique.prefixes), " distinct prefixes")
+		message(" [>] ", length(unique.prefixes), " distinct context(s)")
   
 		for (p in 1:length(unique.prefixes)) {
 			prefix <- unique.prefixes[p]
@@ -110,13 +111,13 @@ setMethod("predict", signature=c(object="PSTf"),
 				if (!is.null(p1)) {
 					tmp <- p1
 				} else {
-					tmp <- object[[1]][, A]
+					tmp <- object[[1]][["e"]]@prob
 				}
 			} else {
 				sd <- unlist(strsplit(prefix, split="-"))
 				idxl <- length(sd)+1	
 
-				tmp <- object[[idxl]][prefix, A]
+				tmp <- object[[idxl]][[prefix]]@prob
 			}
 
 			tmp <- as.numeric(tmp)
@@ -131,15 +132,23 @@ setMethod("predict", signature=c(object="PSTf"),
 		rownames(prob) <- rownames(seqdata)
 		colnames(prob) <- colnames(seqdata)
 
+		if (output=="logloss") {
+			prob <- -log(prob, base=base)
+		} else if (output=="SIMn") {
+			prob <- log(prob, base=base)
+		}
+
 		if (!decomp) {
-			prob <- apply(prob,1, rowProds)
+			if (output=="prob") {
+				prob <- apply(prob,1, rowProds)
+			} else if (output %in% c("logloss", "SIMn")) {
+				prob <- rowSums(prob)/rowSums(!is.na(prob))
+			}
+
 			## if only one sequences we return a matrix as well 
 			if (is.null(dim(prob))) { prob <- matrix(prob, nrow=nrow(seqdata)) }
-			if (norm) {
-				prob <- exp(log(prob, base=base)/sl)
-			}
 			rownames(prob) <- rownames(seqdata)
-			colnames(prob) <- if (norm) "p.norm" else "p"
+			colnames(prob) <- output
 		}
 
 		fin <- Sys.time()

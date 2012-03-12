@@ -50,9 +50,15 @@ setMethod("tune", signature=c(object="PSTf"),
 	if (output=="PST") {
 		return(pst.best)
 	} else if (output=="stats") {
-		res <- data.frame(Model=1:length(K), K=K, Nodes=nodes.comp, Leaves=leaves.comp, Freepar=freepar.comp, AIC.comp, Selected="")
+		selected <- rep(" ", nbmod)
+		selected[id.best] <- "*"
+		tmp.comp <- AIC.comp-AIC.comp[id.best]
+		selected[tmp.comp>0 & tmp.comp<=2] <- "**"
+		selected[tmp.comp>2 & tmp.comp<10] <- "***"
+
+		res <- data.frame(Model=1:length(K), K=K, Nodes=nodes.comp, Leaves=leaves.comp, Freepar=freepar.comp, AIC.comp, 			Selected=selected)
 		names(res)[6] <- criterion
-		res$Selected[which.min(res[,criterion])] <- "*"
+		
 		return(res)
 	}
 }

@@ -26,6 +26,9 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 
 	nodelab <- match.arg(nodelab)
 
+	## Groups
+	groups <- rownames(x@prob)
+
 	## ORDER AT WHICH THE TREE STARTS
 	k <- x@order
 	stats <- summary(x, max.level=max.level)
@@ -80,7 +83,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 
 	plotNode(x1, x2, x, nodelab = nodelab, 
 		dLeaf = dLeaf, nPar = nodePar, ePar = edgePar, 
-		horiz = horiz, gratio=gratio, max.level=max.level)
+		horiz = horiz, gratio=gratio, max.level=max.level, group=groups)
 
 
 	## Plotting the legend
@@ -97,15 +100,6 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	if (use.layout) {par(savepar)}
 }
 )
-
-
-##
-.midDend <- function (x) {
-	if (is.null(mp <- attr(x, "midpoint"))) 0.5 else mp
-}
-
-
-
 
 ## 
 Xtract <- function(nam, L, default, indx) {

@@ -1,6 +1,6 @@
 ## Plotting probability distribution as a stacked bar
 
-plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, axes=c("no", "no"), 
+plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, group, horiz=TRUE, axes=c("no", "no"), 
 	bgcol="grey90", pruned.col="red", cex.axes=0.6) {
 	if (getOption("verbose")) {
 		message(" x0=", x0, ", y0=", y0, ", x1=", x1, ", y1=", y1)
@@ -10,27 +10,27 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, 
 	A <- colnames(prob)
 	xsize <- x1-x0
 	ysize <- abs(y1-y0)
-	nbpos <- if (!is.null(nrow(prob))) { nrow(prob) } else { 1 }
+	nbgroup <- length(group)
 
 	rect(x0, y0, x1, y1, col=bgcol, border=NA)
 
 	if (!horiz) {
-		pdim <- ysize/nbpos
+		pdim <- ysize/nbgroup
 		ybot <- y0
 
-		for (pos in 1:nbpos) {
+		for (g in 1:nbgroup) {
 			ytop <- ybot+pdim
 
 			xtmp <- x0
-			if (!any(is.na(prob[pos,]))) {
+			if (group[g] %in% rownames(prob)) {
 				for (s in 1:length(A)) {
-					xright <- xtmp+(prob[pos, s]*xsize)
+					xright <- xtmp+(prob[group[g], s]*xsize)
 
 					rect(xtmp, ybot, xright, ytop, col=cpal[s], border=NA)
 					xtmp <- xright
 				}
 			
-				if (pruned[pos]) {
+				if (pruned[group[g]]) {
 					segments(x0, y0, x1, y1,
 						col = "red", ## lty = lty, lwd = lwd
 					)
@@ -39,16 +39,16 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, 
 			ybot <- ytop
 		}
 	} else {
-		pdim <- xsize/nrow(prob)
+		pdim <- xsize/nbgroup
 		xleft <- x0
 
-		for (pos in 1:nbpos) {
+		for (g in 1:nbgroup) {
 			xright <- xleft+pdim
 
 			ytmp <- y0
-			if (!any(is.na(prob[pos,]))) {
+			if (group[g] %in% rownames(prob)) {
 				for (s in 1:length(A)) {
-					ybot <- ytmp-(prob[pos, s]*ysize)
+					ybot <- ytmp-(prob[group[g], s]*ysize)
 
 					rect(xleft, ytmp, xright, ybot, col=cpal[s], border=NA)
 					ytmp <- ybot
@@ -57,18 +57,18 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, 
 			xleft <- xright
 		}
 		if (axes[1]=="bottom") {
-			axe.offset <- if (nbpos>1 && any(pruned, na.rm=TRUE)) { ysize*0.3 } else {0}
+			axe.offset <- if (nbgroup>1 && any(pruned, na.rm=TRUE)) { ysize*0.3 } else {0}
 			## x axis
 			segments(x0, y0+(0.1*ysize)+axe.offset, x1, y0+(0.1*ysize)+axe.offset)
 			segments(x0, y0+(0.1*ysize)+axe.offset, x0, y0+(0.2*ysize)+axe.offset)
 			segments(x1, y0+(0.1*ysize)+axe.offset, x1, y0+(0.2*ysize)+axe.offset)
 			text(x=c(x0,x1), y=c(y0+(0.25*ysize)+axe.offset, y0+(0.25*ysize)+axe.offset), 
-				labels=rownames(prob)[c(1, nbpos)], cex=0.6)
+				labels=rownames(prob)[c(1, nbgroup)], cex=0.6)
 		} else if (axes[1]=="top") {
 			segments(x0, y1-(0.1*ysize), x1, y1-(0.1*ysize))
 			segments(x0, y1-(0.1*ysize), x0, y1-(0.2*ysize))
 			segments(x1, y1-(0.1*ysize), x1, y1-(0.2*ysize))
-			text(x=c(x0,x1), y=c(y1-(0.25*ysize), y1-(0.25*ysize)), labels=c(1, nbpos), cex=cex.axes)
+			text(x=c(x0,x1), y=c(y1-(0.25*ysize), y1-(0.25*ysize)), labels=c(1, nbgroup), cex=cex.axes)
 		}
 
 
@@ -81,16 +81,16 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, 
 		}
 
 		## A bar showing the pruned and unpruned nodes
-		if (nbpos>1 && any(pruned, na.rm=TRUE)) {
+		if (nbgroup>1 && any(pruned, na.rm=TRUE)) {
 			rect(x0, y0+(ysize*0.1), x1, y0+(ysize*0.3), col=bgcol, border=NA)
 			xleft <- x0
-			for (pos in 1:nbpos) {
+			for (g in 1:nbgroup) {
 				xright <- xleft+pdim
-				if (!is.na(pruned[pos])) {
-					if (pruned[pos]) {
+				if (group[g] %in% rownames(prob)) {
+					if (pruned[group[g]]) {
 						rect(xleft, y0+(ysize*0.1), xright, y0+(ysize*0.3),
 							col=pruned.col, border=NA)
-					} else if (!pruned[pos]) {
+					} else if (!pruned[group[g]]) {
 						rect(xleft, y0+(ysize*0.1), xright, y0+(ysize*0.3), 
 							col="green", border=NA)
 					}
@@ -98,7 +98,7 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, horiz=TRUE, 
 				xleft <- xright
 			}
 			rect(x0, y0+(ysize*0.1), x1, y0+(ysize*0.3))
-		} else if (nbpos==1 && pruned[pos]) {
+		} else if (nbgroup==1 && pruned[group[g]]) {
 			segments(x0, y0, x1, y1, col = pruned.col)
 		}
 	}
