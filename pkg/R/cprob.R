@@ -1,7 +1,7 @@
 ## Conditional probabilities
 
 setMethod("cprob", signature=c(object="stslist"), 
-	def=function(object, L, prefix, nmin=1, prob=TRUE, weighted=TRUE, with.missing=FALSE) {
+	def=function(object, L, context, nmin=1, prob=TRUE, weighted=TRUE, with.missing=FALSE) {
 
 	statl <- alphabet(object)
 	nr <- attr(object,"nr")
@@ -25,20 +25,20 @@ setMethod("cprob", signature=c(object="stslist"),
 	## Turning object into a matrix
 	object <- as.matrix(object)
 
-	if (!missing(prefix)) {
-		tmp <- seqdecomp(prefix)
-		if (any(!tmp %in% statl) & prefix!="e") {
-			stop(" [!] one or more symbol in prefix not in alphabet")
+	if (!missing(context)) {
+		tmp <- seqdecomp(context)
+		if (any(!tmp %in% statl) & context!="e") {
+			stop(" [!] one or more symbol in context not found in alphabet")
 		}
 		L <- ncol(tmp)
 	} 
 
 	if (L>(seql-1)) { stop(" [!] sequence length <= L")}
 
-	message(" [>] ", nbseq, " sequences, max. length=", seql)
+	message(" [>] ", nbseq, " sequence(s), max. length=", seql)
 
-	if (L==0 || (!missing(prefix) && prefix=="e")) {
-		prefix.list <- "e"
+	if (L==0 || (!missing(context) && context=="e")) {
+		context.list <- "e"
 		message(" [>] computing prob., L=", L," ...")
 		## tmat needs to be a matrix ...
 		tmat <- matrix(0, nrow=1, ncol=nbetat, dimnames=list("e",statl))
@@ -50,56 +50,56 @@ setMethod("cprob", signature=c(object="stslist"),
 	}
 	else {
 		vlength <- nbseq*(seql-L)
-		## prefixes <- vector("character", length=vlength)
-		prefixes <- matrix(nrow=nbseq, ncol=ncol(object)-L)
+		## contextes <- vector("character", length=vlength)
+		contextes <- matrix(nrow=nbseq, ncol=ncol(object)-L)
 
-		## inflating weight vector to match number of prefixes
+		## inflating weight vector to match number of contextes
 		weights <- rep(weights, ncol(object)-L)
 
 		for (sl in (L+1):seql) {
-			prefixes[, sl-L] <- object[, (sl-L)]
+			contextes[, sl-L] <- object[, (sl-L)]
 			if (L>1) {
 				for (c in (L-1):1) {
-					prefixes[, sl-L] <- paste(prefixes[, sl-L], object[, (sl-c)], sep="-")
+					contextes[, sl-L] <- paste(contextes[, sl-L], object[, (sl-c)], sep="-")
 				}
 			}	
 		}
 		states <- factor(object[,(L+1):sl], levels=statl)
-		prefixes <- as.vector(prefixes)
+		contextes <- as.vector(contextes)
 
-		if (!missing(prefix)) {
-			sel <- prefixes==prefix
-			prefix.list <- prefix
-			prefixes <- prefixes[sel]
+		if (!missing(context)) {
+			sel <- contextes==context
+			context.list <- context
+			contextes <- contextes[sel]
 			states <- states[sel]
 			weights <- weights[sel]
 		} 
 		else {
-			prefix.list <- sort(unique(prefixes))
+			context.list <- sort(unique(contextes))
 			if (nmin>1) {
-				prefix.freq <- table(prefixes)
-				del.nmin <- prefix.freq<nmin	
+				context.freq <- table(contextes)
+				del.nmin <- context.freq<nmin	
 				if (sum(del.nmin)>0) {
-					message(" [>] removing ", sum(del.nmin), " prefix(es) where n<", nmin) 
-					prefix.list <- prefix.list[!del.nmin]
-					sel <- prefixes %in% prefix.list
-					prefixes <- prefixes[sel]
+					message(" [>] removing ", sum(del.nmin), " context(s) where n<", nmin) 
+					context.list <- context.list[!del.nmin]
+					sel <- contextes %in% context.list
+					contextes <- contextes[sel]
 					states <- states[sel]
 					weights <- weights[sel]
 				}
 			}
 		}
 
-		nbprefix <- length(prefix.list)
+		nbcontext <- length(context.list)
 	
-		if (nbprefix==0) {
-			message(" [>] no remaining prefix, prob. matrix has 0 rows") 
+		if (nbcontext==0) {
+			message(" [>] no remaining context, prob. matrix has 0 rows") 
 			tmat <- matrix(nrow=0, ncol=nbetat)
 			n <- matrix(nrow=0, ncol=1)
 		} else {
-			message(" [>] computing prob., L=", L, ", ", nbprefix, " distinct prefix(es)") 
-			tmat <- xtabs(weights ~ prefixes+states)
-			n <- rowSums(xtabs(rep(1, length(prefixes)) ~ prefixes+states))
+			message(" [>] computing prob., L=", L, ", ", nbcontext, " distinct context(s)") 
+			tmat <- xtabs(weights ~ contextes+states)
+			n <- rowSums(xtabs(rep(1, length(contextes)) ~ contextes+states))
 			n <- as.data.frame(n, ncol=1)
 			tmat <- as.data.frame(tmat[])
 
@@ -109,7 +109,7 @@ setMethod("cprob", signature=c(object="stslist"),
 				if (nr %in% c("?", "*")) { nr <- paste("\\",nr, sep="") }
 				hasMiss <- grep(nr, rownames(tmat))
 				if (length(hasMiss)>0) { 
-					message(" [>] removing ", length(hasMiss), " prefix(es) with missing values") 
+					message(" [>] removing ", length(hasMiss), " context(s) containing missing values") 
 					tmat <- tmat[-hasMiss, ,drop=FALSE]
 					n <- n[-hasMiss, ,drop=FALSE]
 	
