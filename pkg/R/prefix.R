@@ -1,6 +1,6 @@
 ## extracts the prefix of each state in a sequence
 
-prefix <- function(seqdata, L) {
+context <- function(seqdata, L) {
 
 	if (missing(L) || is.null(L)) {
 		L <- max(seqlength(seqdata))-1
