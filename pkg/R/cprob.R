@@ -50,40 +50,40 @@ setMethod("cprob", signature=c(object="stslist"),
 	}
 	else {
 		vlength <- nbseq*(seql-L)
-		## contextes <- vector("character", length=vlength)
-		contextes <- matrix(nrow=nbseq, ncol=ncol(object)-L)
+		## contexts <- vector("character", length=vlength)
+		contexts <- matrix(nrow=nbseq, ncol=ncol(object)-L)
 
-		## inflating weight vector to match number of contextes
+		## inflating weight vector to match number of contexts
 		weights <- rep(weights, ncol(object)-L)
 
 		for (sl in (L+1):seql) {
-			contextes[, sl-L] <- object[, (sl-L)]
+			contexts[, sl-L] <- object[, (sl-L)]
 			if (L>1) {
 				for (c in (L-1):1) {
-					contextes[, sl-L] <- paste(contextes[, sl-L], object[, (sl-c)], sep="-")
+					contexts[, sl-L] <- paste(contexts[, sl-L], object[, (sl-c)], sep="-")
 				}
 			}	
 		}
 		states <- factor(object[,(L+1):sl], levels=statl)
-		contextes <- as.vector(contextes)
+		contexts <- as.vector(contexts)
 
 		if (!missing(context)) {
-			sel <- contextes==context
+			sel <- contexts==context
 			context.list <- context
-			contextes <- contextes[sel]
+			contexts <- contexts[sel]
 			states <- states[sel]
 			weights <- weights[sel]
 		} 
 		else {
-			context.list <- sort(unique(contextes))
+			context.list <- sort(unique(contexts))
 			if (nmin>1) {
-				context.freq <- table(contextes)
+				context.freq <- table(contexts)
 				del.nmin <- context.freq<nmin	
 				if (sum(del.nmin)>0) {
 					message(" [>] removing ", sum(del.nmin), " context(s) where n<", nmin) 
 					context.list <- context.list[!del.nmin]
-					sel <- contextes %in% context.list
-					contextes <- contextes[sel]
+					sel <- contexts %in% context.list
+					contexts <- contexts[sel]
 					states <- states[sel]
 					weights <- weights[sel]
 				}
@@ -98,8 +98,8 @@ setMethod("cprob", signature=c(object="stslist"),
 			n <- matrix(nrow=0, ncol=1)
 		} else {
 			message(" [>] computing prob., L=", L, ", ", nbcontext, " distinct context(s)") 
-			tmat <- xtabs(weights ~ contextes+states)
-			n <- rowSums(xtabs(rep(1, length(contextes)) ~ contextes+states))
+			tmat <- xtabs(weights ~ contexts+states)
+			n <- rowSums(xtabs(rep(1, length(contexts)) ~ contexts+states))
 			n <- as.data.frame(n, ncol=1)
 			tmat <- as.data.frame(tmat[])
 

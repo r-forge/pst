@@ -16,10 +16,13 @@ seqpqplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", c
 	message(" [>] computing prob., max. length=", L)	
 	
 	prob <- predict(PST, seq=seq, L=L, decomp=TRUE)
-	sl <- seqlength(seq)
+
+	## Number of predicted symbols (used instead of sequence length)
+	sl <- rowSums(!is.na(prob))
+
 	if (measure=="log-loss") {
 		prob <- -log(prob, base=2)
-		if (missing(pqmax)) { pqmax <- 10 }
+		if (missing(pqmax)) { pqmax <- ceiling(max(prob)) }
 		pmean <- sum(prob)/sl
 		ytstep <- 1
 		ylab <- "Log-loss"

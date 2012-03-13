@@ -61,70 +61,70 @@ setMethod("predict", signature=c(object="PSTf"),
 		message( " [>] max. depth: L=", L)
 
 		message(" [>] extracting node labels from PST")
-		prefix.table <- unlist(lapply(object[1:(L+1)], names))
+		context.table <- unlist(lapply(object[1:(L+1)], names))
 		pruned.nodes <- unlist(lapply(object[1:(L+1)], pruned.nodes))
 		if (any(pruned.nodes)) { 
 			message(" [>] removing ", sum(pruned.nodes), " nodes tagged as pruned from node list")
-			prefix.table <- prefix.table[!pruned.nodes] 
+			context.table <- context.table[!pruned.nodes] 
 		}
 
-		## getting prefixes of max length L for each state
-		prefixes <- as.vector(prefix(seqdata, L=L))
+		## getting contexts of max length L for each state
+		contexts <- as.vector(context(seqdata, L=L))
 		states <- as.vector(as.matrix(seqdata))
 		prob <- vector("numeric", length=length(states))
 		prob[] <- NA
-		unique.prefixes <- unique(prefixes)
+		unique.contexts <- unique(contexts)
 
-		prefix.idx <- match(prefixes, unique.prefixes)
+		context.idx <- match(contexts, unique.contexts)
 
-		## taking longest suffix until prefix found in PST
+		## taking longest suffix until context found in PST
 		message(" [>] searching for context(s) in PST")
-		unmatched <- !unique.prefixes %in% prefix.table
+		unmatched <- !unique.contexts %in% context.table
 		while (sum(unmatched>0)) {
-			tmp <- seqdecomp(unique.prefixes[unmatched])
+			tmp <- seqdecomp(unique.contexts[unmatched])
 			if (ncol(tmp)>1) {
-				unique.prefixes[unmatched] <- seqconc(tmp[,2:ncol(tmp), drop=FALSE])
-				unique.prefixes[unique.prefixes==""] <- "e"
+				unique.contexts[unmatched] <- seqconc(tmp[,2:ncol(tmp), drop=FALSE])
+				unique.contexts[unique.contexts==""] <- "e"
 			} else { 
-				unique.prefixes[unmatched] <- "e"
+				unique.contexts[unmatched] <- "e"
 			}
 	
-			## we may have reduced the number of distinct prefixes
-			tmp <- unique(unique.prefixes)
-			unique.match <- match(unique.prefixes, tmp)
-			prefix.idx <- unique.match[prefix.idx]
+			## we may have reduced the number of distinct contexts
+			tmp <- unique(unique.contexts)
+			unique.match <- match(unique.contexts, tmp)
+			context.idx <- unique.match[context.idx]
 
 			##
-			unique.prefixes <- tmp
-			unmatched <- !unique.prefixes %in% prefix.table
-			## print(unique.prefixes[unmatched])
+			unique.contexts <- tmp
+			unmatched <- !unique.contexts %in% context.table
+			## print(unique.contexts[unmatched])
 		}
 	
 		message(" [>] computing prob., ", nrow(seqdata), " sequences, max. depth=", L, sep="")
-		message(" [>] ", length(unique.prefixes), " distinct context(s)")
+		message(" [>] ", length(unique.contexts), " distinct context(s)")
   
-		for (p in 1:length(unique.prefixes)) {
-			prefix <- unique.prefixes[p]
-			prefix.eq <- which(prefix.idx==p)
+		for (p in 1:length(unique.contexts)) {
+			context <- unique.contexts[p]
+			context.eq <- which(context.idx==p)
       
-			if (prefix=="e") {
+			if (context=="e") {
 				if (!is.null(p1)) {
 					tmp <- p1
 				} else {
 					tmp <- object[[1]][["e"]]@prob
 				}
 			} else {
-				sd <- unlist(strsplit(prefix, split="-"))
+				sd <- unlist(strsplit(context, split="-"))
 				idxl <- length(sd)+1	
 
-				tmp <- object[[idxl]][[prefix]]@prob
+				tmp <- object[[idxl]][[context]]@prob
 			}
 
 			tmp <- as.numeric(tmp)
 
 			for (s in 1:length(tmp)) {
-        			state.eq <- states[prefix.eq]==A[s]
-				prob[prefix.eq][state.eq] <- tmp[s]
+        			state.eq <- states[context.eq]==A[s]
+				prob[context.eq][state.eq] <- tmp[s]
 			}
 		}
   
