@@ -10,7 +10,7 @@ Prune an existing PST, using one or several pruning parameters.
 \usage{
 prune(object, nmin, L, r, K, keep, drop, topdown = TRUE, delete = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{object}{
 	A PST, that is an object of class PST.list as created with the pstree function.
@@ -20,7 +20,6 @@ prune(object, nmin, L, r, K, keep, drop, topdown = TRUE, delete = TRUE)
 }
   \item{L}{
 	Integer. If specified the the tree is cut at depth L., that is all nodes with depth > L are removed.
-
 }
   \item{r}{
 	Numeric. The pruning parameter as used in Ron et al. (1996) and later in Bejerano et al. (2001). A node is pruned if for any symbol 
@@ -45,6 +44,7 @@ where the cutoff \eqn{K} is specified on the scale of \eqn{\chi^{2}}-quantiles (
 \deqn{
 K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 }
+}
 
   \item{keep}{
 	character. A vector of character strings containing the names of the nodes to keep in the tree. All nodes that are not a suffix of contexts in keep are removed from the tree.
@@ -52,7 +52,6 @@ K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 
   \item{drop}{
 	character. A vector of character strings containing the names of the nodes to remove from the tree. All nodes that are a suffix of contexts in drop are removed from the tree as weel.
-}
 }
   \item{topdown}{
 %%     ~~Describe \code{topdown} here~~
@@ -66,11 +65,7 @@ K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	a PST, i.e. an object of class \code{PSTf}.
 }
 \references{
 M\"{a}chler, M. & B\"{u}hlmann, P. Variable Length Markov Chains: Methodology, Computing, and Software \emph{Journal of Computational and Graphical Statistics}, 2004, 13, pp. 435-455
