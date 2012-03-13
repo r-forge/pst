@@ -102,7 +102,7 @@ setMethod("pstree", signature="stslist",
 
 		if (i>0) {
 			for (p in 1:nrow(nodes.parent)) {
-				nodes.list[[i]][[nodes.parent[p,1]]]@leaf[nodes.parent[p,2]] <- FALSE
+				nodes.list[[i]][[nodes.parent[p,1]]]@leaf[as.character(nodes.parent[p,2])] <- FALSE
 			}
 		}
 	}
