@@ -31,7 +31,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 
 	## ORDER AT WHICH THE TREE STARTS
 	k <- x@order
-	stats <- summary(x, max.level=max.level)
+	stats <- summary(x, max.level=max.level, segmented=FALSE)
 	
 	if (missing(max.level) | is.null(max.level)) { max.level <- stats@depth }
 	if (!"cpal" %in% names(nodePar)) { nodePar[["cpal"]] <- attr(x, "cpal") }

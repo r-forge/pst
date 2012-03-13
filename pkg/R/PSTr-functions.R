@@ -50,7 +50,7 @@ node.nmin <- function(x,nmin) {
 
 
 node.leaf <- function(x) { 
-	x@leaf <- TRUE 
+	x@leaf[] <- TRUE 
 	return(x)
 }
 

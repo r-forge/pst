@@ -6,7 +6,7 @@ setMethod("summary", "PSTf", function(object, max.level) {
 
 	if (missing(max.level)) { max.level <- length(object)-1 }
 
-	stats <- pstree.stats(object, max.level=max.level)
+	stats <- PSTf.stats(object, max.level=max.level)
 	res <- new("PST.summary",
 		alphabet=object@alphabet,
 		labels=object@labels,
@@ -23,7 +23,7 @@ setMethod("summary", "PSTf", function(object, max.level) {
 )
 
 ## Stats and summary
-pstree.stats <- function(PST, max.level) {
+PSTf.stats <- function(PST, max.level) {
 	stats <- list(ns=as.integer(0), leaves=as.integer(0), nodes=as.integer(0), depth=as.integer(0))
 
 	stats$ns <- PST[[1]][["e"]]@n

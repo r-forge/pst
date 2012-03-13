@@ -96,14 +96,15 @@ setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.att
 }
 )
 
-setMethod("summary", "PSTr", function(object, max.level=NULL) {
+setMethod("summary", "PSTr", function(object, max.level=NULL, segmented=TRUE) {
 
-	stats <- pstree.rl.stats(object, max.level=max.level)
+	stats <- PSTr.stats(object, max.level=max.level, segmented=segmented)
 
 	res <- new("PST.summary",
 		alphabet=object@alphabet,
 		labels=object@labels,
 		cpal=object@cpal,
+		ns=as.integer(object@n),
 		depth=as.integer(stats$depth),
 		nodes=as.integer(stats$nodes),	
 		leaves=as.integer(stats$leaves),
@@ -114,20 +115,33 @@ setMethod("summary", "PSTr", function(object, max.level=NULL) {
 }
 )
 
-pstree.rl.stats <- function(PST, max.level) {
+PSTr.stats <- function(PST, max.level, segmented=TRUE) {
 	stats <- list(leaves=as.integer(0), nodes=as.integer(0), depth=as.integer(0))
 
 	childrens <- which.child(PST)
 
 	stats$depth <- attr(PST,"order")
 
-	if (all(PST@leaf) | (!is.null(max.level) && PST@order==max.level)) {
-		stats$leaves <- stats$leaves+1
-	} else if (is.null(max.level) | (!is.null(max.level) && max.level>PST@order)) {
+	if (!is.null(max.level) && PST@order==max.level) {
+		PST@leaf[] <- TRUE
+	}
+
+	if (segmented) {
+		stats$leaves <- stats$leaves+sum(PST@leaf)
+	} else {
+		stats$leaves <- stats$leaves+all(PST@leaf)
+	}
+
+	if (any(!PST@leaf)) {
 		stats$depth <- stats$depth+1
-		stats$nodes <- stats$nodes+1
+		if (segmented) {
+			stats$nodes <- stats$nodes+sum(!PST@leaf)
+		} else {
+			stats$nodes <- stats$nodes+1
+		}
+
 		for (i in childrens) {
-			tmp <- pstree.rl.stats(PST[[i]], max.level=max.level)
+			tmp <- PSTr.stats(PST[[i]], max.level=max.level, segmented=segmented)
 			stats$leaves <- stats$leaves+tmp$leaves
 			stats$nodes <- stats$nodes+tmp$nodes
 			if (tmp$depth>stats$depth) (stats$depth  <- tmp$depth)
