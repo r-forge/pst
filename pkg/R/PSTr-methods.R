@@ -121,7 +121,7 @@ pstree.rl.stats <- function(PST, max.level) {
 
 	stats$depth <- attr(PST,"order")
 
-	if (is.leaf(PST) | (!is.null(max.level) && PST@order==max.level)) {
+	if (all(PST@leaf) | (!is.null(max.level) && PST@order==max.level)) {
 		stats$leaves <- stats$leaves+1
 	} else if (is.null(max.level) | (!is.null(max.level) && max.level>PST@order)) {
 		stats$depth <- stats$depth+1
