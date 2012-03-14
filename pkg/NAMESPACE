@@ -5,6 +5,7 @@ importFrom(stats, logLik)
 importMethodsFrom(stats4, AIC)
 
 exportMethods(
+	"cmine",
 	"cprob",
 	"generate",
 	"impute",
