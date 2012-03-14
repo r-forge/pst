@@ -1,5 +1,11 @@
 ## 
 
+setGeneric(
+      name="cmine",
+	def=function(object, ...)
+	standardGeneric("cmine")
+)
+
 setGeneric("cprob", 
 	def=function(object, L, ...) 
 	standardGeneric("cprob")

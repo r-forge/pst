@@ -91,5 +91,26 @@ select.group <- function(x, group) {
 	return(x)
 }
 
+## Mining for state prob
+node.mine <- function(x, pmin, pmax, state) {
+	if (!missing(pmin)) {
+		tmp <- x@prob[, state] >= pmin
+	} else if (!missing(pmax)) {
+		tmp <- x@prob[, state] < pmax 
+	}
+
+	if (sum(tmp)>0) {
+		res <- new("cprobd", x@prob[tmp, state, drop=FALSE], context=x@path)
+	} else {
+		res <- NULL
+	}	
+
+	return(res)
+}
+
+
+
+
+
 
 
