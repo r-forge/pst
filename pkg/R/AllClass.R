@@ -9,6 +9,15 @@ setClass("cprobd",
 	contains="matrix"
 )
 
+setClass("cprobd.list",
+	representation(
+		alphabet="character",
+		labels="character",
+		cpal="character"
+	),
+	contains="list"
+)
+
 setClass("PSTr",
 	representation(
 		alphabet="character",

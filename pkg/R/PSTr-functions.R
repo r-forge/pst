@@ -100,7 +100,7 @@ node.mine <- function(x, pmin, pmax, state) {
 	}
 
 	if (sum(tmp)>0) {
-		res <- new("cprobd", x@prob[tmp, state, drop=FALSE], context=x@path)
+		res <- new("cprobd", x@prob[tmp, , drop=FALSE], context=x@path)
 	} else {
 		res <- NULL
 	}	

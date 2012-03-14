@@ -9,19 +9,25 @@ setMethod("cmine", signature=c(object="PSTf"),
 
 	res <- list()
 	for (i in l) {
-		tmp <- lapply(object[[i]], node.mine, pmin=pmin, pmax=pmax, state=state)
+		if (!missing(pmin)) { 
+			tmp <- lapply(object[[i]], node.mine, pmin=pmin, state=state)
+		} else if (!missing(pmax)) {
+			tmp <- lapply(object[[i]], node.mine, pmax=pmax, state=state)
+		}		
 		tmp <- tmp[!unlist(lapply(tmp, is.null))]
 		res <- c(res, tmp)
 	}
 
 	## sorting results
-	p <- unlist(lapply(res, function(x) { x@.Data }))
+	p <- unlist(lapply(res, function(x) { x@.Data[,state] }))
 
 	if (!missing(pmin)) {
 		res <- res[order(p)]
 	} else if (!missing(pmax)) {
 		res <- res[order(p, decreasing=TRUE)]
 	}
+
+	res <- new("cprobd.list", res, alphabet=object@alphabet, cpal=object@cpal, labels=object@labels)
 
 	return(res)
 }
