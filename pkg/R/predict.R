@@ -1,24 +1,24 @@
 ## Computing sequence probability
 
 setMethod("predict", signature=c(object="PSTf"), 
-	def=function(object, seqdata, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {
+	def=function(object, data, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {
 
 	if (object@grouped) {
-		sl <- seqlength(seqdata)
+		sl <- seqlength(data)
 		if (decomp) {
-			prob <- matrix(nrow=nrow(seqdata), ncol=max(sl))
-			colnames(prob) <- colnames(seqdata)
+			prob <- matrix(nrow=nrow(data), ncol=max(sl))
+			colnames(prob) <- colnames(data)
 		} else {
-			prob <- matrix(nrow=nrow(seqdata), ncol=1)
+			prob <- matrix(nrow=nrow(data), ncol=1)
 			colnames(prob) <- output
 		}
 
-		rownames(prob) <- rownames(seqdata)
+		rownames(prob) <- rownames(data)
 
 		nbgroup <- length(levels(object@group))
 		group <- factor(group)
-		if (length(group)!=nrow(seqdata)) {
-			stop(" group must contain one value for each sequence in seqdata")
+		if (length(group)!=nrow(data)) {
+			stop(" group must contain one value for each sequence in data")
 		}
 
 		for (g in 1:nbgroup) {
@@ -26,15 +26,15 @@ setMethod("predict", signature=c(object="PSTf"),
 			group.idx <- which(group==levels(group)[g])
 
 			pst <- subtree(object, group=g)
-			prob.tmp <- predict(pst, seqdata[group.idx,], L=L, p1=p1, output=output, decomp=decomp, base=base)
+			prob.tmp <- predict(pst, data[group.idx,], L=L, p1=p1, output=output, decomp=decomp, base=base)
 			prob[group.idx,] <- prob.tmp
 		}
 	
 		return(prob)
 	} else {
-		if (any(as.data.frame(seqdata)==attr(seqdata,"nr"))) {
+		if (any(as.data.frame(data)==attr(data,"nr"))) {
 			message(" [>] found missing value in sequence data")
-			if (!attr(seqdata, "nr") %in% object@alphabet) {
+			if (!attr(data, "nr") %in% object@alphabet) {
 				message(" [>] PST built without missing value as additional state")
 				if (!decomp) {
 					message("    [>] sequence probabilities not calculated on the same number of values")
@@ -45,8 +45,8 @@ setMethod("predict", signature=c(object="PSTf"),
 		debut <- Sys.time()
 
 		A <- alphabet(object)
-		n <- nrow(seqdata)
-		sl <- seqlength(seqdata)
+		n <- nrow(data)
+		sl <- seqlength(data)
 
 		message(" [>] ", n, " sequence(s) - min/max length: ", min(sl),"/",max(sl))
 
@@ -69,8 +69,8 @@ setMethod("predict", signature=c(object="PSTf"),
 		}
 
 		## getting contexts of max length L for each state
-		contexts <- as.vector(context(seqdata, L=L))
-		states <- as.vector(as.matrix(seqdata))
+		contexts <- as.vector(context(data, L=L))
+		states <- as.vector(as.matrix(data))
 		prob <- vector("numeric", length=length(states))
 		prob[] <- NA
 		unique.contexts <- unique(contexts)
@@ -100,7 +100,7 @@ setMethod("predict", signature=c(object="PSTf"),
 			## print(unique.contexts[unmatched])
 		}
 	
-		message(" [>] computing prob., ", nrow(seqdata), " sequences, max. depth=", L, sep="")
+		message(" [>] computing prob., ", nrow(data), " sequences, max. depth=", L, sep="")
 		message(" [>] ", length(unique.contexts), " distinct context(s)")
   
 		for (p in 1:length(unique.contexts)) {
@@ -128,9 +128,9 @@ setMethod("predict", signature=c(object="PSTf"),
 			}
 		}
   
-  		prob <- matrix(prob, ncol=ncol(seqdata))
-		rownames(prob) <- rownames(seqdata)
-		colnames(prob) <- colnames(seqdata)
+  		prob <- matrix(prob, ncol=ncol(data))
+		rownames(prob) <- rownames(data)
+		colnames(prob) <- colnames(data)
 
 		if (output=="logloss") {
 			prob <- -log(prob, base=base)
@@ -146,8 +146,8 @@ setMethod("predict", signature=c(object="PSTf"),
 			}
 
 			## if only one sequences we return a matrix as well 
-			if (is.null(dim(prob))) { prob <- matrix(prob, nrow=nrow(seqdata)) }
-			rownames(prob) <- rownames(seqdata)
+			if (is.null(dim(prob))) { prob <- matrix(prob, nrow=nrow(data)) }
+			rownames(prob) <- rownames(data)
 			colnames(prob) <- output
 		}
 

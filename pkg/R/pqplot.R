@@ -1,21 +1,22 @@
 ## Probability distribution of a node and its parents
 ## and outcomes of the gain function 
 
-seqpqplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
+setMethod("pqplot", signature=c(object="PSTf", data="stslist"), 
+	def <- function(object, data, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
 	measure="prob", pqmax, ...) {
-	A <- PST@alphabet
-	cpal <- cpal(seq)
+	A <- object@alphabet
+	cpal <- cpal(data)
 	nbstate <- length(A)
-	nr <- attr(seq, "nr")
+	nr <- attr(data, "nr")
 	oolist <- list(...)
 
 	if (missing(L)) {
-		L <- length(PST)-1
+		L <- length(object)-1
 	}
 	
 	message(" [>] computing prob., max. length=", L)	
 	
-	prob <- predict(PST, seq=seq, L=L, decomp=TRUE)
+	prob <- predict(object, data=data, L=L, decomp=TRUE)
 
 	## Number of predicted symbols (used instead of sequence length)
 	sl <- rowSums(!is.na(prob))
@@ -35,13 +36,13 @@ seqpqplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", c
 
 	poff <- 0
 
-	if (any(seq==nr)) {
+	if (any(data==nr)) {
 		A <- c(A, nr)
-		cpal <- c(cpal, attr(seq, "missing.color"))
+		cpal <- c(cpal, attr(data, "missing.color"))
 		nbstate <- nbstate+1
 	}
 
-	seqbar <- TraMineR:::seqgbar(as.matrix(seq), seql=sl, statl=A)
+	seqbar <- TraMineR:::seqgbar(as.matrix(data), seql=sl, statl=A)
 
 	if (plotseq) {
 		## Plotting path
@@ -94,8 +95,8 @@ seqpqplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", c
 		}
 	}
 
-	tpos <- seq(1, sl, by=attr(seq, "xtstep"))
-	tlab <- colnames(seq)[tpos]
+	tpos <- seq(1, sl, by=attr(data, "xtstep"))
+	tlab <- colnames(data)[tpos]
 	tpos <- tpos + (tpos*space)
 
 	axis(1, at=tpos-0.5, labels=tlab, pos=-0.04)
@@ -109,3 +110,4 @@ seqpqplot <- function(PST, seq, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", c
 		cex.axis=cex.plot)
 
 }
+)

@@ -35,6 +35,12 @@ setGeneric(
 	standardGeneric("ppplot")
 )
 
+setGeneric(
+      name="pqplot",
+	def=function(object, data, ...)
+	standardGeneric("pqplot")
+)
+
 
 setGeneric(
       name="prune",
