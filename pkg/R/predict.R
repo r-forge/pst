@@ -5,29 +5,38 @@ setMethod("predict", signature=c(object="PSTf"),
 
 	if (object@grouped) {
 		sl <- seqlength(data)
-		if (decomp) {
-			prob <- matrix(nrow=nrow(data), ncol=max(sl))
-			colnames(prob) <- colnames(data)
-		} else {
-			prob <- matrix(nrow=nrow(data), ncol=1)
-			colnames(prob) <- output
-		}
-
-		rownames(prob) <- rownames(data)
-
 		nbgroup <- length(levels(object@group))
-		group <- factor(group)
-		if (length(group)!=nrow(data)) {
-			stop(" group must contain one value for each sequence in data")
+		
+		if (missing(group)) {
+			prob <- list()
+			message(" [>] cross prediction for ", nrow(data), " sequence(s) - ", nbgroup, " models")
+		} else {
+			group <- factor(group)
+			if (length(group)!=nrow(data)) {
+				stop(" group must contain one value for each sequence in data")
+			}
+			if (decomp) {
+				prob <- matrix(nrow=nrow(data), ncol=max(sl))
+				colnames(prob) <- colnames(data)
+			} else {
+				prob <- matrix(nrow=nrow(data), ncol=1)
+				colnames(prob) <- output
+			}
+			rownames(prob) <- rownames(data)
 		}
 
 		for (g in 1:nbgroup) {
 			message(" [>] predicting states for group ", g)
-			group.idx <- which(group==levels(group)[g])
-
 			pst <- subtree(object, group=g)
-			prob.tmp <- predict(pst, data[group.idx,], L=L, p1=p1, output=output, decomp=decomp, base=base)
-			prob[group.idx,] <- prob.tmp
+
+			if (!missing(group)) {
+				group.idx <- which(group==levels(group)[g])
+				prob.tmp <- predict(pst, data[group.idx,], L=L, p1=p1, output=output, decomp=decomp, base=base)
+				prob[group.idx,] <- prob.tmp
+
+			} else {
+				prob[[g]] <- predict(pst, data, L=L, p1=p1, output=output, decomp=decomp, base=base)
+			}
 		}
 	
 		return(prob)
@@ -100,7 +109,7 @@ setMethod("predict", signature=c(object="PSTf"),
 			## print(unique.contexts[unmatched])
 		}
 	
-		message(" [>] computing prob., ", nrow(data), " sequences, max. depth=", L, sep="")
+		message(" [>] computing prob. - ", nrow(data), " sequence(s) - max. depth=", L, sep="")
 		message(" [>] ", length(unique.contexts), " distinct context(s)")
   
 		for (p in 1:length(unique.contexts)) {
