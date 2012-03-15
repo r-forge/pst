@@ -1,6 +1,6 @@
 ## Extracts a given group
 setMethod("subtree", "PSTf",  function(object, group) {
-	if (!object@gsegmented) {
+	if (!object@segmented) {
 		stop(" this is not a grouped PST")
 	}
 
@@ -23,7 +23,7 @@ setMethod("subtree", "PSTf",  function(object, group) {
 		object[[i]] <- object[[i]][!remove]
 	}
 
-	object <- new("PSTf", object, data=seqdata, alphabet=A, cpal=cpal, labels=labels, grouped=FALSE)
+	object <- new("PSTf", object, data=seqdata, alphabet=A, cpal=cpal, labels=labels, segmented=FALSE)
 	return(object)
 }
 )
