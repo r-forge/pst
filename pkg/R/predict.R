@@ -3,7 +3,7 @@
 setMethod("predict", signature=c(object="PSTf"), 
 	def=function(object, data, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {
 
-	if (object@grouped) {
+	if (object@segmented) {
 		sl <- seqlength(data)
 		nbgroup <- length(levels(object@group))
 		

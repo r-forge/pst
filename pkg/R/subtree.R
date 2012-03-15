@@ -1,6 +1,6 @@
 ## Extracts a given group
 setMethod("subtree", "PSTf",  function(object, group) {
-	if (!object@grouped) {
+	if (!object@gsegmented) {
 		stop(" this is not a grouped PST")
 	}
 

@@ -34,17 +34,17 @@ setMethod("pstree", signature="stslist",
 	if (!missing(group)) {
 		group <- factor(group)
 		nbgroup <- length(levels(group))
-		grouped <- TRUE
+		segmented <- TRUE
 		message(" [>] ", nbgroup, " groups")
 	} else {
 		group <- factor(NULL)
-		grouped <- FALSE
+		segmented <- FALSE
 	}
 
 	message(" [>] L=", L, ", nmin=", nmin, if (!missing(ymin)) { paste(", ymin=", ymin, sep="") })
 
 	for (i in 0:L) {
-		if (grouped) {
+		if (segmented) {
 			tmp <- NULL
 			for (g in 1:nbgroup) {
 				data <- x[group==levels(group)[g],]
@@ -107,7 +107,7 @@ setMethod("pstree", signature="stslist",
 		}
 	}
 
-	res <- new("PSTf", nodes.list, data=x, alphabet=A, cpal=StCol, labels=StLab, grouped=grouped, group=group)
+	res <- new("PSTf", nodes.list, data=x, alphabet=A, cpal=StCol, labels=StLab, segmented=segmented, group=group)
 	
 	if (nested.list) {
 		res <- as.pstree(res)

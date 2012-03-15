@@ -8,7 +8,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 	A <- alphabet(object)
 	cpal <- cpal(object)
 	labels <- stlab(object)
-	grouped <- object@grouped
+	segmented <- object@segmented
 	group <- object@group
 
 	object <- as(object, "list")
@@ -55,12 +55,12 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 		}
 
 		pruned <- unlist(lapply(nodes, function(x) {sum(x@pruned)}))
-		plabel <- if (grouped) { " node segment(s) pruned" } else { " node(s) pruned" }
+		plabel <- if (segmented) { " node segment(s) pruned" } else { " node(s) pruned" }
 
 		message(" [>] L=",i-1,", ", sum(pruned),"/", sum(nbnodes), " node(s) pruned")
 
 		if (delete & sum(pruned)>0) {
-			if (grouped) {
+			if (segmented) {
 				nodes <- lapply(nodes, remove.pruned.group)
 				pruned.id <- which(unlist(lapply(nodes, function(x) {nrow(x@prob)==0})))
 			} else {
@@ -83,7 +83,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 		object[[i-1]] <- parents
 	}
 
-	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, grouped=grouped, group=group)
+	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, segmented=segmented, group=group)
 
 	return(object)
 }
