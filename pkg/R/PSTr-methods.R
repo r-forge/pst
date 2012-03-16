@@ -164,7 +164,7 @@ setMethod("show", "PST.summary", function(object) {
 	for (i in 1:min(nbstates,maxstatedisplay))
 		cat("     ",i, "=", object@alphabet[i], " (", labels[i], ")","\n", sep="")
 	if (nbstates>12) message("      ...")
-	cat(" [>] PST estimated using", ns, "symbols \n") 
+	cat(" [>] PST fitted on", ns, "symbols \n") 
 	cat(" [>] max. depth:", object@depth,"\n")
 	cat(" [>] ", object@nodes, " node(s), ", object@leaves, " leave(s)\n", sep="")
 	cat(" [>] (", object@nodes,"+",object@leaves,") * (",nbstates, "-1) = ", object@freepar, " free parameters \n", sep="")
