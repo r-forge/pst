@@ -116,7 +116,9 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 					else if (!inner) {c("bottom", "no")}
 					else {c("no", "no")}
 			} else {
-				probAxes <- if (path=="e") {c("no", "left")} else {c("no", "no")}
+				probAxes <- if (path=="e") {
+					if (horiz) { c("no", "right") } else { c("no", "left") } } 
+					else {c("no", "no")}
 			}
 
 			plotNodeProb(Node.xleft, Node.ybottom, Node.xright, Node.ytop, prob=prob, state=NULL, 
@@ -147,7 +149,7 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 		type <- Xtract("type", ePar, default = "rectangle", 1)
 		col <- Xtract("col", ePar, default = "grey", 1)
 		lty <- Xtract("lty", ePar, default = par("lty"), 1)
-		lwd <- Xtract("lwd", ePar, default = par("lwd"), 1)
+		lwd <- Xtract("lwd", ePar, default = 3, 1)
 		stcol <- Xtract("stcol", ePar, default = cpal)
 
 		if (type == "rectangle") {
@@ -179,15 +181,17 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 			## edge parameters
             		col <- Xtract("col", ePar, default = "grey", i)
             		lty <- Xtract("lty", ePar, default = par("lty"), i)
-            		lwd <- Xtract("lwd", ePar, default = par("lwd"), i)
+            		lwd <- Xtract("lwd", ePar, default = 3, i)
 			c.size <- Xtract("c.size", ePar, default = (node.size/2)*0.66)
-			c.col <- Xtract("c.col", ePar, default = "white", i)
+			c.col <- Xtract("c.col", ePar, default = "state", i)
 			c.border <- Xtract("c.border", ePar, default = par("fg"), i)
 			p.lwd <- Xtract("p.lwd", ePar, default = lwd, i)
 			p.lty <- Xtract("p.lty", ePar, default = lty, i)
 			t.col <- Xtract("t.col", ePar, default = "black", i)
 			t.cex <- Xtract("t.cex", ePar, default = lab.cex, i)
 			t.font <- Xtract("t.font", ePar, default = par("font"), i)
+			## Color from circle to prob barplot
+			ctp.col <- Xtract("ctp", ePar, default = "edge", i)
 
 			if (type == "triangle") {
 				if (horiz) {
@@ -218,7 +222,8 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 				}
 			} else {
 				## The color of the edge
-				ecol <- if (k %in% names(stcol)) { stcol[k] } else { col }
+				ecol <- if (ctp.col=="state" & k %in% names(stcol)) { stcol[k] } else { col }
+				ccol <- if (c.col=="state" & k %in% names(stcol)) { stcol[k] } else { col }
 
 				if (horiz) {
 					if (getOption("verbose")) { 
@@ -235,7 +240,7 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 					segments(yMid, xBot, xTop+1, xBot, col=ecol, lty=lty, lwd=lwd)
 
 					if (node.type=="prob") {
-						symbols(yMid, xBot, circles=1, bg=ecol, fg=col, add=TRUE, inches=c.size*gratio)
+						symbols(yMid, xBot, circles=1, bg=ccol, fg=col, add=TRUE, inches=c.size*gratio)
 						text(yMid, xBot, asTxt(k), cex=t.cex, font=t.font, col=t.col)
 					}
 					
@@ -250,7 +255,7 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 
 					if (node.type=="prob") {
 						symbols(xBot, yMid, 
-							circles=c.size, bg=ecol, fg=col, add=TRUE, inches=FALSE)
+							circles=c.size, bg=ccol , fg=col, add=TRUE, inches=FALSE)
 						text(xBot, yMid, asTxt(k), cex=t.cex, font=t.font, col=t.col)
 					}
 				}

@@ -5,13 +5,13 @@ plotNodeLimit <- function (x1, x2, subtree, max.level) {
 	if (inner) {
 	        ## K <- length(subtree)
 		K <- which.child(subtree)
-        	mTop <- summary(subtree, max.level=max.level)@leaves
+        	mTop <- summary(subtree, max.level=max.level, segmented=FALSE)@leaves
         	limit <- integer(length(K))
 		names(limit) <- K
         	xx1 <- x1
 
         	for (k in K) {
-            		m <- summary(subtree[[k]], max.level=max.level)@leaves
+            		m <- summary(subtree[[k]], max.level=max.level, segmented=FALSE)@leaves
             		xx1 <- xx1 + ((x2 - x1) * m/mTop)
 			limit[k] <- xx1
 		}

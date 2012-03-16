@@ -78,6 +78,11 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, group, horiz
 			segments(x0-(0.1*xsize), y0, x0-(0.15*xsize), y0)
 			segments(x0-(0.1*xsize), y1, x0-(0.15*xsize), y1)
 			text(x=c(x0-(0.25*xsize),x0-(0.25*xsize)), y=c(y0, y1), labels=c(0,1), cex=cex.axes, srt=90)
+		} else if (axes[2]=="right") {
+			segments(x1+(0.1*xsize), y0, x1+(0.1*xsize), y1)
+			segments(x1+(0.1*xsize), y0, x1+(0.15*xsize), y0)
+			segments(x1+(0.1*xsize), y1, x1+(0.15*xsize), y1)
+			text(x=c(x1+(0.25*xsize),x1+(0.25*xsize)), y=c(y0, y1), labels=c(0,1), cex=cex.axes, srt=90)
 		}
 
 		## A bar showing the pruned and unpruned nodes
