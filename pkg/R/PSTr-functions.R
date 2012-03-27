@@ -8,7 +8,7 @@ node.keep <- function(x, keep.list) {
 }
 
 ## Return the label of a parent's node 
-node.parent <- function(x) {
+node.parent <- function(x, segmented=FALSE) {
 	if (x@order==1) { 
 		parent <- "e" 
 	} else {
@@ -17,9 +17,14 @@ node.parent <- function(x) {
 		parent <- paste(parent, collapse="-")
 	}
 	
+	if (segmented) {
+		parent <- cbind(parent, group=rownames(x@prob))
+	}
+
 	return(parent)
 }
 
+## gain function
 node.pdiv <- function(x, plist, A, K, r, N) {
 	parent <- plist[[node.parent(x)]]
 	glist <- rownames(x@prob)
@@ -94,9 +99,9 @@ select.group <- function(x, group) {
 ## Mining for state prob
 node.mine <- function(x, pmin, pmax, state) {
 	if (!missing(pmin)) {
-		tmp <- x@prob[, state] >= pmin
+		tmp <- rowSums(x@prob[, state, drop=FALSE]) >= pmin
 	} else if (!missing(pmax)) {
-		tmp <- x@prob[, state] < pmax 
+		tmp <- rowSums(x@prob[, state, drop=FALSE]) < pmax 
 	}
 
 	if (sum(tmp)>0) {
@@ -108,6 +113,25 @@ node.mine <- function(x, pmin, pmax, state) {
 	return(res)
 }
 
+
+## Merging two nodes
+node.merge <- function(x, y, segmented) {
+	if (segmented) {
+		x@prob <- rbind(x@prob, y@prob)
+		x@counts <- rbind(x@counts, y@counts)
+		x@n <- c(x@n, y@n)
+		x@pruned <- c(x@pruned, y@pruned)
+		x@leaf <- c(x@leaf, y@leaf)
+	} else {
+		x@counts <- rbind(x@prob, y@counts)
+		x@prob <- x@counts/sum(x@counts)
+		x@n <- x@n+y@n
+		x@pruned <- x@pruned & y@pruned
+		x@leaf <- x@leaf & y@leaf
+	}
+
+	return(x)
+}
 
 
 
