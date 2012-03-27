@@ -19,7 +19,7 @@ setMethod("cmine", signature=c(object="PSTf"),
 	}
 
 	## sorting results
-	p <- unlist(lapply(res, function(x) { x@.Data[,state] }))
+	p <- unlist(lapply(res, function(x) { rowSums(x@.Data[,state, drop=FALSE]) }))
 
 	if (!missing(pmin)) {
 		res <- res[order(p)]
