@@ -62,13 +62,14 @@ plotNodeProb <- function(x0, y0, x1, y1, prob, state, cpal, pruned, group, horiz
 			segments(x0, y0+(0.1*ysize)+axe.offset, x1, y0+(0.1*ysize)+axe.offset)
 			segments(x0, y0+(0.1*ysize)+axe.offset, x0, y0+(0.2*ysize)+axe.offset)
 			segments(x1, y0+(0.1*ysize)+axe.offset, x1, y0+(0.2*ysize)+axe.offset)
-			text(x=c(x0,x1), y=c(y0+(0.25*ysize)+axe.offset, y0+(0.25*ysize)+axe.offset), 
-				labels=rownames(prob)[c(1, nbgroup)], cex=0.6)
+			text(x=pretty(c(x0,x1), n=nbgroup-1), y=y0+(0.25*ysize)+axe.offset, 
+				labels=rownames(prob)[1:nbgroup], cex=cex.axes)
 		} else if (axes[1]=="top") {
 			segments(x0, y1-(0.1*ysize), x1, y1-(0.1*ysize))
 			segments(x0, y1-(0.1*ysize), x0, y1-(0.2*ysize))
 			segments(x1, y1-(0.1*ysize), x1, y1-(0.2*ysize))
-			text(x=c(x0,x1), y=c(y1-(0.25*ysize), y1-(0.25*ysize)), labels=c(1, nbgroup), cex=cex.axes)
+			text(x=pretty(c(x0,x1), n=nbgroup-1), y=y1-(0.25*ysize), 
+				labels=rownames(prob)[1:nbgroup], cex=cex.axes)
 		}
 
 

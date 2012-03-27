@@ -112,9 +112,11 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 			Node.xright <- if (horiz) {Node.xleft-(node.size*gratio)} else { Node.xleft+node.size }
 
 			if (nrow(prob)>1) {
-				probAxes <- if (path=="e") {c("top", "left")} 
-					else if (!inner) {c("bottom", "no")}
-					else {c("no", "no")}
+				if (path=="e") {
+					if (horiz) { probAxes <- c("bottom", "right") } else { probAxes <- c("top", "left") }
+				} else if (!inner) {
+					if (horiz) { probAxes <- c("no", "no") } else { probAxes <- c("bottom", "no") }
+				} else { probAxes <- c("no", "no") }
 			} else {
 				probAxes <- if (path=="e") {
 					if (horiz) { c("no", "right") } else { c("no", "left") } } 
