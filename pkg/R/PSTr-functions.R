@@ -25,12 +25,12 @@ node.parent <- function(x, segmented=FALSE) {
 }
 
 ## gain function
-node.pdiv <- function(x, plist, A, K, r, N) {
+node.pdiv <- function(x, plist, A, K, r, N, has.child) {
 	parent <- plist[[node.parent(x)]]
 	glist <- rownames(x@prob)
 
 	for (n in 1:nrow(x@prob)) {
-		if (x@leaf[n] & !x@pruned[n]) {
+		if (!x@pruned[n] & (x@leaf[n] | !x@path %in% has.child) ) {
 			if (!missing(K)) {
 				x@pruned[n] <- !pdiv(x@prob[n,], parent@prob[glist[n],], K=K, N=x@n[n])
 			} else if (!missing(r)) {

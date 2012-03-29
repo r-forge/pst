@@ -48,9 +48,9 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 				nodes <- lapply(nodes, node.nmin, nmin)
 			}
 			if (!missing(K)) {
-				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, K=K)
+				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, K=K, has.child=has.child)
 			} else if (!missing(r)) {
-				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, r=r)
+				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, r=r, has.child=has.child)
 			}
 		}
 
@@ -69,10 +69,14 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 			nodes <- nodes[-pruned.id]
 			## Nodes having no more childrens set as leaves
 			pnames <- unlist(lapply(nodes, node.parent))
-			newleaves <- !names(parents) %in% pnames
 			parents <- lapply(parents, function(x, pnames) {if (!x@path %in% pnames) {x@leaf[] <- TRUE}; x}, pnames)
 		} else {
-			has.child <- object[[i]]$parent[!pruned]
+			if (segmented) {
+				stop(" pruning with delete=FALSE not implemented for segmented PST")
+			} else {
+				unpruned.id <- which(pruned==0)
+				has.child <- unlist(lapply(nodes[unpruned.id], node.parent))
+			}
 		}
 
 		if (length(nodes)==0) {
