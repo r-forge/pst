@@ -30,7 +30,7 @@ node.pdiv <- function(x, plist, A, K, r, N, has.child) {
 	glist <- rownames(x@prob)
 
 	for (n in 1:nrow(x@prob)) {
-		if (!x@pruned[n] & (x@leaf[n] | !x@path %in% has.child) ) {
+		if (!x@pruned[n] & (x@leaf[n] | (!is.null(has.child) && !x@path %in% has.child)) ) {
 			if (!missing(K)) {
 				x@pruned[n] <- !pdiv(x@prob[n,], parent@prob[glist[n],], K=K, N=x@n[n])
 			} else if (!missing(r)) {
