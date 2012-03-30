@@ -1,8 +1,8 @@
 
 ## If node not in keep.list it is tagged as pruned
-node.keep <- function(x, keep.list) {
-	if (!x@path %in% keep.list) {
-		x@pruned <- TRUE
+node.keep <- function(x, keep.list, has.child) {
+	if (!x@path %in% keep.list & (x@leaf | (!is.null(has.child) && !x@path %in% has.child))) {
+		x@pruned[] <- TRUE
 	}
 	return(x)
 }

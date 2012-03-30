@@ -1,7 +1,7 @@
 ## Mining for contexts
 
 setMethod("cmine", signature=c(object="PSTf"), 
-	def=function(object, l, pmin, pmax, state) {
+	def=function(object, l, pmin, pmax, state, as.tree=FALSE) {
 
 	if (missing(l)) { 
 		l <- 1:length(object)
@@ -19,15 +19,24 @@ setMethod("cmine", signature=c(object="PSTf"),
 	}
 
 	## sorting results
-	p <- unlist(lapply(res, function(x) { rowSums(x@.Data[,state, drop=FALSE]) }))
+	if (length(res)> 0) {
+		p <- unlist(lapply(res, function(x) { rowSums(x@.Data[,state, drop=FALSE]) }))
 
-	if (!missing(pmin)) {
-		res <- res[order(p)]
-	} else if (!missing(pmax)) {
-		res <- res[order(p, decreasing=TRUE)]
+		if (!missing(pmin)) {
+			res <- res[order(p)]
+		} else if (!missing(pmax)) {
+			res <- res[order(p, decreasing=TRUE)]
+		}
 	}
 
-	res <- new("cprobd.list", res, alphabet=object@alphabet, cpal=object@cpal, labels=object@labels)
+	if (as.tree) {
+		res <- prune(object, keep=names(res))
+	} else {
+		res <- new("cprobd.list", res, alphabet=if (class(object)=="PSTf.mc") { object@c.alphabet } else { object@alphabet }, 
+			cpal=if (class(object)=="PSTf.mc") { object@c.cpal } else { object@cpal }, 
+			labels=if (class(object)=="PSTf.mc") { object@c.labels } else { object@labels }
+			)
+	}
 
 	return(res)
 }

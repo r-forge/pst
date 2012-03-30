@@ -17,7 +17,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 
 	if (!missing(keep)) {
 		if (!inherits(keep,"stslist")) {
-			keep <- seqdef(keep, alphabet=A)
+			keep <- seqdef(keep, alphabet=A, nr="#")
 		}
 		keep.sl <- seqlength(keep)
 	}
@@ -35,13 +35,9 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 				if ( (i-1)>max(keep.sl) ) {
 					nodes <- lapply(nodes, node.prune)
 				} else {
-					keep.list <- NULL
-					for (z in max((i-1), min(keep.sl)):max(keep.sl)) {
-						keep.tmp <- keep[keep.sl==z,, drop=FALSE]
-						keep.list <- c(keep.list, seqconc(keep.tmp[,(z-i+2):z]))
-					}
-					keep.list <- unique(keep.list)
-					nodes <- lapply(nodes, node.keep, keep.list)
+					keep.tmp <- keep[keep.sl==i-1,, drop=FALSE]
+					keep.list <- seqconc(keep.tmp)
+					nodes <- lapply(nodes, node.keep, keep.list, has.child)
 				}
 			}
 			if (!missing(nmin)) {
