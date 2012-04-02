@@ -82,9 +82,11 @@ setMethod("pstree", signature="stslist",
 			names(tmp.leaf) <- rownames(prob)[idx]
 			tmp.pruned <- rep(FALSE, length(idx))
 			names(tmp.pruned) <- rownames(prob)[idx]
+			tmp.n <- as.numeric(tmp[idx,"n", drop=FALSE])
+			names(tmp.n) <- rownames(prob)[idx]
 
 			tmp.list[[n]] <- new("PSTr", list(), 
-				counts=counts[idx, ,drop=FALSE], n=as.numeric(tmp[idx,"n", drop=FALSE]), prob=prob[idx,,drop=FALSE],
+				counts=counts[idx, ,drop=FALSE], n=tmp.n, prob=prob[idx,,drop=FALSE],
 				path=n, 
 				order=as.integer(i),
 				## alphabet=as.character(NULL), cpal=as.character(NULL), labels=as.character(NULL),

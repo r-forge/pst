@@ -1,7 +1,9 @@
+## Initialize method
+
+
 ## TAKEN FROM dengrogram method
 ## The ``generic'' method for "[["  (identical to e.g., "[[.POSIXct"):
 ## --> subbranches are pstrees as well!
-
 setMethod("[[", "PSTr", function(x, i, drop = TRUE, root.attr=FALSE) {
 	## cl <- class(x)
 	alphabet <- x@alphabet

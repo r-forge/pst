@@ -66,7 +66,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 			## Nodes having no more childrens set as leaves
 			pnames <- unlist(lapply(nodes, node.parent))
 			parents <- lapply(parents, function(x, pnames) {if (!x@path %in% pnames) {x@leaf[] <- TRUE}; x}, pnames)
-		} else {
+		} else if (sum(pruned)>0) {
 			if (segmented) {
 				stop(" pruning with delete=FALSE not implemented for segmented PST")
 			} else {
