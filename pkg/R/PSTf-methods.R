@@ -51,19 +51,11 @@ PSTf.stats <- function(PST, max.level) {
 
 
 ## Plot method
-setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
-	nodePar = list(), edgePar = list(), nodelab = c("perpendicular", "textlike", "none"), 
-	dLeaf = NULL, axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
-	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
-	xlim=NULL, ylim=NULL, ...) {
+setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL, ...) {
 
 	x <- as.pstree(x, max.level=max.level)
 
-	plot(x, y=missing, max.level=max.level,
-	nodePar = nodePar, edgePar = edgePar, nodelab = nodelab,
-	dLeaf = dLeaf, axis=axis, xlab = xlab, ylab = ylab, 
-	xaxt = xaxt, yaxt = yaxt, horiz = horiz, frame.plot = frame.plot, 
-	xlim=xlim, ylim=ylim, ...)
+	plot(x, y=missing, max.level=max.level, ...)
 
 }
 )
