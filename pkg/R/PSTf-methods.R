@@ -57,7 +57,7 @@ setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
 	xlim=NULL, ylim=NULL, ...) {
 
-	x <- as.pstree(x, L=max.level)
+	x <- as.pstree(x, max.level=max.level)
 
 	plot(x, y=missing, max.level=max.level,
 	nodePar = nodePar, edgePar = edgePar, nodelab = nodelab,
@@ -68,17 +68,12 @@ setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
 }
 )
 
-setMethod("print", "PSTf", function (x, max.level = NULL, digits.d = 1, give.attr = FALSE, 
-    wid = getOption("width"), nest.lev = 0, indent.str = "", 
-    stem = "--"
-	## , ...
-	) {
+setMethod("print", "PSTf", function (x, max.level = NULL, ...) {
 
-	x <- as.pstree(x, L=max.level)
+	x <- as.pstree(x, max.level=max.level)
+	call
 
-	print(x, max.level = max.level, digits.d = digits.d, give.attr = give.attr, 
-    		wid = wid, nest.lev = nest.lev, indent.str = indent.str, 
-    		stem = stem)
+	print(x, max.level = max.level, ...)
 }
 )
 	
