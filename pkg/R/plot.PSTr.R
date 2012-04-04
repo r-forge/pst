@@ -3,8 +3,8 @@
 ## =======================================
 
 setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
-	nodePar = list(), edgePar = list(), nodelab = c("perpendicular", "textlike", "none"), 
-	dLeaf = NULL, axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
+	nodePar = list(), edgePar = list(), dLeaf = NULL, 
+	axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
 	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
@@ -23,8 +23,6 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	} else {
 		legpos <- NULL
 	}
-
-	nodelab <- match.arg(nodelab)
 
 	## Groups
 	groups <- rownames(x@prob)
@@ -84,10 +82,8 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 			{strwidth("w")}
         else {strheight("x")})
 
-	plotNode(x1, x2, x, nodelab = nodelab, 
-		dLeaf = dLeaf, nPar = nodePar, ePar = edgePar, 
+	plotNode(x1, x2, x, dLeaf = dLeaf, nPar = nodePar, ePar = edgePar, 
 		horiz = horiz, gratio=gratio, max.level=max.level, group=groups)
-
 
 	## Plotting the legend
 	if (!is.null(legpos)) {
