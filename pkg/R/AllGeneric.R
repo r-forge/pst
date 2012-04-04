@@ -44,7 +44,7 @@ setGeneric(
 
 setGeneric(
       name="prune",
-	def=function(object, nmin, L, r, K, keep, drop, topdown=TRUE, delete=TRUE)
+	def=function(object, ...)
 	standardGeneric("prune")
 )
 

@@ -2,7 +2,7 @@
 ## Pruning Probabilistic Suffix Trees
 ## ==================================
 
-setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=TRUE, delete=TRUE) {
+setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, state, topdown=TRUE, delete=TRUE) {
 	
 	data <- object@data
 	A <- alphabet(object)
@@ -11,16 +11,21 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 	segmented <- object@segmented
 	group <- object@group
 
-	object <- as(object, "list")
-	has.child <- NULL
-	## if (missing(L)) { L <- length(object)-1 }
-
 	if (!missing(keep)) {
+		if (class(object)=="PSTf.mc") {
+			c.A <- object@c.alphabet
+		} else {
+			c.A <- object@alphabet
+		}
+
 		if (!inherits(keep,"stslist")) {
-			keep <- seqdef(keep, alphabet=A, nr="#")
+			keep <- seqdef(keep, alphabet=c.A, nr="#")
 		}
 		keep.sl <- seqlength(keep)
 	}
+
+	object <- as(object, "list")
+	has.child <- NULL
 
 	for (i in length(object):2) {
 		nodes <- object[[i]]
@@ -39,6 +44,11 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, K, keep, drop, topdown=T
 					keep.list <- seqconc(keep.tmp)
 					nodes <- lapply(nodes, node.keep, keep.list, has.child)
 				}
+			}
+			if (!missing(state)) {
+				state.tmp <- seqdecomp(names(nodes))
+				state.tmp <- which(rowSums(state.tmp==state)>0)
+				nodes[state.tmp] <- lapply(nodes[state.tmp], node.prune)
 			}
 			if (!missing(nmin)) {
 				nodes <- lapply(nodes, node.nmin, nmin)

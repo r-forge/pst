@@ -39,15 +39,18 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	hgt <- max.level
 	mem.x <- stats@leaves
 	
-	node.size <- Xtract("node.size", nodePar, default = 0.6)
-	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x))
+	node.size <- Xtract("node.size", edgePar, default = 0.6)
+	gratio <- Xtract("gratio", edgePar, default=(((hgt-k)+1)/mem.x))
+	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
+	leave.lw <- Xtract("leave.lw", edgePar, default=node.size)
 
 	yTop <- k
 	x1 <- 0.5
 	x2 <- mem.x + 0.5
 	xl. <- if (horiz) { c(x1 -((node.size/2)*gratio), x2 + ((node.size/2)*gratio)) } 
 		else { c(x1 -(node.size/2), x2 + (node.size/2)) }
-	yl. <- if (horiz) { c(k-(node.size/2), hgt+(node.size/2)) } else { c(k-((node.size/2)*gratio), hgt+((node.size/2)*gratio)) }
+	yl. <- if (horiz) { c(k-(node.size/2), hgt+(node.size/2)+leave.lh) 
+		} else { c(k-((node.size/2)*gratio), hgt+((node.size/2)*gratio)+leave.lh) }
 	yl. <- rev(yl.)
 
 	## If horiz=TRUE, x and y are inverted

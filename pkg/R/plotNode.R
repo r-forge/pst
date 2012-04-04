@@ -145,13 +145,15 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 		}
         }
 
+	## Setting edge parameters
+	type <- Xtract("type", ePar, default = "rectangle", 1)
+	col <- Xtract("col", ePar, default = "grey", 1)
+	lty <- Xtract("lty", ePar, default = par("lty"), 1)
+	lwd <- Xtract("lwd", ePar, default = 3, 1)
+	c.size <- Xtract("c.size", ePar, default = (node.size/2)*0.66)
+
 	## If there are children, potting edges and child nodes
 	if (inner) {
-		## Setting edge parameters
-		type <- Xtract("type", ePar, default = "rectangle", 1)
-		col <- Xtract("col", ePar, default = "grey", 1)
-		lty <- Xtract("lty", ePar, default = par("lty"), 1)
-		lwd <- Xtract("lwd", ePar, default = 3, 1)
 		stcol <- Xtract("stcol", ePar, default = cpal)
 
 		if (type == "rectangle") {
@@ -184,7 +186,6 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
             		col <- Xtract("col", ePar, default = "grey", i)
             		lty <- Xtract("lty", ePar, default = par("lty"), i)
             		lwd <- Xtract("lwd", ePar, default = 3, i)
-			c.size <- Xtract("c.size", ePar, default = (node.size/2)*0.66)
 			c.col <- Xtract("c.col", ePar, default = "state", i)
 			c.border <- Xtract("c.border", ePar, default = par("fg"), i)
 			p.lwd <- Xtract("p.lwd", ePar, default = lwd, i)
@@ -279,6 +280,38 @@ plotNode <- function(x1, x2, subtree, nodelab, dLeaf, nPar,
 				plotNode(bx$limit[idx], bx$limit[idx+1], subtree = child, 
                 			nodelab, dLeaf, nPar=nPar, ePar=ePar, 
                 			horiz=horiz, gratio=gratio, max.level=max.level, group=group)
+		}
+	} else if (node.type=="prob") {
+		leave.lh <- Xtract("leave.lh", ePar, default=0.1)
+		leave.lw <- Xtract("leave.lw", ePar, default=node.size)
+		leave.csize <- Xtract("leave.csize", ePar, default=c.size*0.5)
+
+		## Bare verticale en dessous du rectangle
+		if (horiz) {
+			segments(Node.xleft, yTop, Node.xleft+leave.lh, yTop, col=col, lty=lty, lwd=lwd)
+		} else {
+			segments(X, Node.ybottom, X, Node.ybottom+leave.lh, col=col, lty=lty, lwd=lwd)
+		}
+
+		if (all(subtree@leaf, na.rm=TRUE)) {
+		## Leave indicator
+			if (horiz) {
+				## Bare horizontale du rateau
+				segments(Node.xleft+leave.lh, yTop-(leave.lw/2), Node.xleft+leave.lh, yTop+(leave.lw/2), 
+					col=col, lty=lty, lwd=lwd)
+			} else {
+				## Bare horizontale du rateau
+				segments(X-(leave.lw/2), Node.ybottom+leave.lh, X+(leave.lw/2), 
+					Node.ybottom+leave.lh, col=col, lty=lty, lwd=lwd)
+			}
+		} else {
+			if (horiz) {
+				symbols(Node.xleft+leave.lh, yTop, circles=leave.lw/2, inches=leave.csize*gratio, add=TRUE,
+					fg=col, bg=col)
+			} else {
+				symbols(X, Node.ybottom+leave.lh, circles=leave.csize, inches=FALSE, add=TRUE,
+					fg=col, bg=col)
+			}
 		}
 	}
 }
