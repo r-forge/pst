@@ -1,6 +1,6 @@
 Package: PST
-Version: 0.51
-Date: 2012-03-15
+Version: 0.52
+Date: 2012-04-04
 Title: Probabilistic Suffix Trees 
 Author: Alexis Gabadinho <alexis.gabadinho@unige.ch>, Gilbert Ritschard <gilbert.ritschard@unige.ch>.
 Maintainer: Alexis Gabadinho <alexis.gabadinho@unige.ch>
