@@ -6,11 +6,15 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), dLeaf = NULL, 
 	axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
-	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
+	xlim, ylim, withlegend=TRUE, ltext=NULL, legend.cex=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
+	## Margins
 	Lmar <- if (axis) { 4 } else { 2 }
-
 	if (horiz) { par(mar=c(Lmar,2,4,2)) } else { par(mar=c(2,Lmar,4,2)) }
+
+	## Global setting for cex
+	oolist <- list(...)
+	cex <- if ("cex" %in% names(oolist)) { oolist[["cex"]] } else { 1 }
 
 	if (use.layout) {
 		## Saving graphical parameters
@@ -38,13 +42,13 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	mem.x <- stats@leaves
 	
 	node.size <- Xtract("node.size", edgePar, default = 0.6)
-	gratio <- Xtract("gratio", edgePar, default=(((hgt-k)+1)/mem.x))
+	gratio <- Xtract("gratio", nodePar, default=if (horiz) { ((hgt-k)+1)/mem.x } else { ((hgt-k)+1)/mem.x } )
 	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
 	leave.lw <- Xtract("leave.lw", edgePar, default=node.size)
 
 	yTop <- k
-	x1 <- 0.5
-	x2 <- mem.x + 0.5
+	x1 <- 1
+	x2 <- mem.x
 	xl. <- if (horiz) { c(x1 -((node.size/2)*gratio), x2 + ((node.size/2)*gratio)) } 
 		else { c(x1 -(node.size/2), x2 + (node.size/2)) }
 	yl. <- if (horiz) { c(k-(node.size/2), hgt+(node.size/2)+leave.lh) 
@@ -83,7 +87,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
         else {strheight("x")})
 
 	plotNode(x1, x2, x, dLeaf = dLeaf, nPar = nodePar, ePar = edgePar, 
-		horiz = horiz, gratio=gratio, max.level=max.level, group=groups)
+		horiz = horiz, gratio=gratio, max.level=max.level, group=groups, cex=cex)
 
 	## Plotting the legend
 	if (!is.null(legpos)) {
@@ -92,7 +96,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 
 		cpal <- Xtract("cpal", nodePar, default = x@cpal)
 
-		PST.legend(legpos, ltext, cpal, cex=cex.legend)
+		PST.legend(legpos, ltext, cpal, cex=legend.cex)
 	}
 
 	## Restoring graphical parameters

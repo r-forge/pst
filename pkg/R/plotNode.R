@@ -2,7 +2,7 @@
 ## Plotting nodes
 ## ==============
 plotNode <- function(x1, x2, subtree, dLeaf, nPar, 
-    ePar, horiz = FALSE, gratio, max.level, group) {
+    ePar, horiz = FALSE, gratio, max.level, group, cex) {
 
 	scale <- seq(0, 1, 0.2)
 	vprob <- FALSE
@@ -50,14 +50,13 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 
 	node.type <- Xtract("node.type", nPar, default = c("prob", "prob"), i)
 	pch <- Xtract("pch", nPar, default = 1L:2, i)
-	cex <- Xtract("cex", nPar, default = c(1, 1), i)
 	pruned.col <- Xtract("pruned.col", nPar, default = "red")
 	root.col <- Xtract("root.col", nPar, default = "grey")
 	bg <- Xtract("bg", nPar, default = par("bg"), i)
 	pform <- Xtract("pform", nPar, default = "SPS")
 
 	lab.col <- Xtract("lab.col", nPar, default = par("col"), i)
-	lab.cex <- Xtract("lab.cex", nPar, default = c(1, 1), i)
+	lab.cex <- Xtract("lab.cex", nPar, default = cex)
 	lab.font <- Xtract("lab.font", nPar, default = par("font"), i)
 	lab.type <- Xtract("lab.type", nPar, default = "n", i)
 	lab.srt <- Xtract("lab.srt", nPar, default = 0, i)
@@ -103,7 +102,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 	col <- Xtract("col", ePar, default = "grey", 1)
 	lty <- Xtract("lty", ePar, default = par("lty"), 1)
 	lwd <- Xtract("lwd", ePar, default = 3, 1)
-	c.size <- Xtract("c.size", ePar, default = if (horiz) { node.size*0.66*gratio } else { (node.size/2)*0.66 } )
+	c.size <- Xtract("c.size", ePar, default = if (horiz) { (node.size/2)*0.66*gratio } else { (node.size/2)*0.66 } )
 
 	## If there are children, potting edges and child nodes
 	if (inner) {
@@ -144,18 +143,13 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 			p.lwd <- Xtract("p.lwd", ePar, default = lwd, i)
 			p.lty <- Xtract("p.lty", ePar, default = lty, i)
 			t.col <- Xtract("t.col", ePar, default = "black", i)
-			t.cex <- Xtract("t.cex", ePar, default = lab.cex, i)
+			t.cex <- Xtract("t.cex", ePar, default = cex)
 			t.font <- Xtract("t.font", ePar, default = par("font"), i)
 			## Color from circle to prob barplot
 			ctp.col <- Xtract("ctp", ePar, default = "edge", i)
 
 			if (type == "triangle") {
 				if (horiz) {
-					## slope <- (xBot-xTop)/(yBot-yTop)/gratio
-					## xadj <- (slope*((yTop+(node.radius))-yBot))+xBot
-					## xadj <- yTop
-					## tmp <- xBot+((node.size/2)*gratio)
-					## xBot <- yBot-((node.size/2)*gratio)
 					tmp <- xBot
 					xBot <- yBot
 					yBot <- tmp
@@ -169,8 +163,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 				if (node.type=="prob") {
 					segments(xadj, yNode.bottom, xBot, yBot-((node.size/2)*gratio), 
 						## col=if (path=="e") {col} else {cpal[which(state==alphabet)]},
-						col=col,
-						lty=lty, lwd=lwd)
+						col=col, lty=lty, lwd=lwd)
 				} else {
 					## segments(xadj, yTop+((node.size/2)*gratio), xBot, 
 					##	yBot-((node.size/2)*gratio), col=col, lty=lty, lwd=lwd)
@@ -196,7 +189,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 					segments(yMid, xBot, xTop+1, xBot, col=ecol, lty=lty, lwd=lwd)
 
 					if (node.type=="prob") {
-						symbols(yMid, xBot, circles=c.size, bg=ccol, fg=col, add=TRUE, inches=FALSE)
+						symbols(yMid, xBot, circles=1, bg=ccol, fg=col, add=TRUE, inches=c.size)
 						text(yMid, xBot, asTxt(k), cex=t.cex, font=t.font, col=t.col)
 					}
 					
@@ -218,37 +211,41 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 
 			## Plotting the node
 			plotNode(bx$limit[idx], bx$limit[idx+1], subtree = child, dLeaf, nPar=nPar, ePar=ePar, 
-                		horiz=horiz, gratio=gratio, max.level=max.level, group=group)
+                		horiz=horiz, gratio=gratio, max.level=max.level, group=group, cex=cex)
 		}
 	} else if (node.type=="prob") {
 		leave.lh <- Xtract("leave.lh", ePar, default=0.1)
 		leave.lw <- Xtract("leave.lw", ePar, default=node.size)
 		leave.csize <- Xtract("leave.csize", ePar, default=c.size*0.5)
-
+		Node.lim <- ((node.size/2)*gratio)
+		
 		## Bare verticale en dessous du rectangle
 		if (horiz) {
-			segments(xTop, yTop, xTop+leave.lh, yTop, col=col, lty=lty, lwd=lwd)
+			segments(xTop, yTop, xTop+Node.lim+leave.lh, yTop, col=col, lty=lty, lwd=lwd)
 		} else {
-			segments(X, yTop, X, yTop+leave.lh, col=col, lty=lty, lwd=lwd)
+			segments(X, yTop, X, yTop+Node.lim+leave.lh, col=col, lty=lty, lwd=lwd)
 		}
 
 		if (all(subtree@leaf, na.rm=TRUE)) {
-		## Leave indicator
+			## Leave indicator
 			if (horiz) {
 				## Bare horizontale du rateau
-				segments(xTop+leave.lh, yTop-(leave.lw/2), xTop+leave.lh, yTop+(leave.lw/2), 
+				## segments(xTop+(leave.lh/2), yTop-(leave.lw/2), xTop+(leave.lh/2), yTop+(leave.lw/2),col=col,lty=lty,lwd=lwd)
+				segments(xTop+Node.lim+leave.lh, yTop-(leave.lw/4), 
+					xTop+Node.lim+leave.lh, yTop+(leave.lw/4), 
 					col=col, lty=lty, lwd=lwd)
 			} else {
 				## Bare horizontale du rateau
-				segments(X-(leave.lw/2), yTop+leave.lh, X+(leave.lw/2), 
-					yTop+leave.lh, col=col, lty=lty, lwd=lwd)
+				## segments(X-(leave.lw/2), yTop+(leave.lh/2), X+(leave.lw/2), yTop+(leave.lh/2), col=col, lty=lty, lwd=lwd)
+				segments(X-(leave.lw/4), yTop+Node.lim+leave.lh, X+(leave.lw/4), 
+					yTop+Node.lim+leave.lh, col=col, lty=lty, lwd=lwd)
 			}
 		} else {
 			if (horiz) {
-				symbols(xTop+leave.lh, yTop, circles=leave.lw/2, inches=leave.csize*gratio, add=TRUE,
+				symbols(xTop+Node.lim+leave.lh, yTop, circles=leave.lw/2, inches=leave.csize*gratio, add=TRUE,
 					fg=col, bg=col)
 			} else {
-				symbols(X, yTop+leave.lh, circles=leave.csize, inches=FALSE, add=TRUE,
+				symbols(X, yTop+Node.lim+leave.lh, circles=leave.csize, inches=FALSE, add=TRUE,
 					fg=col, bg=col)
 			}
 		}
