@@ -102,7 +102,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 	col <- Xtract("col", ePar, default = "grey", 1)
 	lty <- Xtract("lty", ePar, default = par("lty"), 1)
 	lwd <- Xtract("lwd", ePar, default = 3, 1)
-	c.size <- Xtract("c.size", ePar, default = if (horiz) { (node.size/2)*0.66*gratio } else { (node.size/2)*0.66 } )
+	c.size <- Xtract("c.size", ePar, default = (node.size/2)*0.66 )
 
 	## If there are children, potting edges and child nodes
 	if (inner) {
@@ -189,7 +189,13 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 					segments(yMid, xBot, xTop+1, xBot, col=ecol, lty=lty, lwd=lwd)
 
 					if (node.type=="prob") {
-						symbols(yMid, xBot, circles=1, bg=ccol, fg=col, add=TRUE, inches=c.size)
+						## Converting into inches otherwise for unknown reason symbols is not working
+						## iconv <- -strwidth("x")/strwidth("x", units="inches")/max.level
+						## message("iconv:", iconv)
+						pin <- par("pin")
+						iconv <- 0.16/max.level*gratio
+
+						symbols(yMid, xBot, circles=c.size*gratio, bg=ccol, fg=col, inches=iconv, add=TRUE)
 						text(yMid, xBot, asTxt(k), cex=t.cex, font=t.font, col=t.col)
 					}
 					
@@ -230,13 +236,11 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 			## Leave indicator
 			if (horiz) {
 				## Bare horizontale du rateau
-				## segments(xTop+(leave.lh/2), yTop-(leave.lw/2), xTop+(leave.lh/2), yTop+(leave.lw/2),col=col,lty=lty,lwd=lwd)
 				segments(xTop+Node.lim+leave.lh, yTop-(leave.lw/4), 
 					xTop+Node.lim+leave.lh, yTop+(leave.lw/4), 
 					col=col, lty=lty, lwd=lwd)
 			} else {
 				## Bare horizontale du rateau
-				## segments(X-(leave.lw/2), yTop+(leave.lh/2), X+(leave.lw/2), yTop+(leave.lh/2), col=col, lty=lty, lwd=lwd)
 				segments(X-(leave.lw/4), yTop+Node.lim+leave.lh, X+(leave.lw/4), 
 					yTop+Node.lim+leave.lh, col=col, lty=lty, lwd=lwd)
 			}
@@ -254,9 +258,9 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 	## Plotting the probability distribution or the circle representing the node
 	if (node.type=="prob") {
 		Node.ytop <- if (horiz) {yTop-(node.size/2)} else { yTop-ns.adj }
-		Node.ybottom <- if (horiz) {yTop+(node.size/2)} else { Node.ytop+(ns.adj*2) }
-		Node.xleft <- if (horiz) {xTop+(node.size/2)*gratio} else {X-(node.size/2)}
-		Node.xright <- if (horiz) {Node.xleft-(node.size*gratio)} else { Node.xleft+node.size }
+		Node.ybottom <- if (horiz) {yTop+(node.size/2)} else { yTop+ns.adj }
+		Node.xleft <- if (horiz) {xTop+((node.size/2)*gratio) } else {X-(node.size/2)}
+		Node.xright <- if (horiz) {xTop-((node.size/2)*gratio)} else { Node.xleft+node.size }
 
 		if (nrow(prob)>1) {
 			if (path=="e") {

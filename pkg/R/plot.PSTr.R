@@ -40,9 +40,10 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 
 	hgt <- max.level
 	mem.x <- stats@leaves
+	pin <- par("pin")
 	
 	node.size <- Xtract("node.size", edgePar, default = 0.6)
-	gratio <- Xtract("gratio", nodePar, default=if (horiz) { ((hgt-k)+1)/mem.x } else { ((hgt-k)+1)/mem.x } )
+	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x)*(pin[1]/pin[2]) )
 	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
 	leave.lw <- Xtract("leave.lw", edgePar, default=node.size)
 
