@@ -2,7 +2,7 @@
 ## Plotting nodes
 ## ==============
 plotNode <- function(x1, x2, subtree, dLeaf, nPar, 
-    ePar, horiz = FALSE, gratio, max.level, group, cex) {
+    ePar, horiz = FALSE, gratio, max.level, group, cex, nc) {
 
 	scale <- seq(0, 1, 0.2)
 	vprob <- FALSE
@@ -192,10 +192,8 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 						## Converting into inches otherwise for unknown reason symbols is not working
 						## iconv <- -strwidth("x")/strwidth("x", units="inches")/max.level
 						## message("iconv:", iconv)
-						pin <- par("pin")
-						iconv <- 0.16/max.level*gratio
 
-						symbols(yMid, xBot, circles=c.size*gratio, bg=ccol, fg=col, inches=iconv, add=TRUE)
+						symbols(yMid, xBot, circles=c.size, bg=ccol, fg=col, inches=nc/4, add=TRUE)
 						text(yMid, xBot, asTxt(k), cex=t.cex, font=t.font, col=t.col)
 					}
 					
@@ -217,7 +215,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 
 			## Plotting the node
 			plotNode(bx$limit[idx], bx$limit[idx+1], subtree = child, dLeaf, nPar=nPar, ePar=ePar, 
-                		horiz=horiz, gratio=gratio, max.level=max.level, group=group, cex=cex)
+                		horiz=horiz, gratio=gratio, max.level=max.level, group=group, cex=cex, nc=nc)
 		}
 	} else if (node.type=="prob") {
 		leave.lh <- Xtract("leave.lh", ePar, default=0.1)
@@ -246,7 +244,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 			}
 		} else {
 			if (horiz) {
-				symbols(xTop+Node.lim+leave.lh, yTop, circles=leave.lw/2, inches=leave.csize*gratio, add=TRUE,
+				symbols(xTop+Node.lim+leave.lh, yTop, circles=1, inches=(nc/4)*0.5, add=TRUE,
 					fg=col, bg=col)
 			} else {
 				symbols(X, yTop+Node.lim+leave.lh, circles=leave.csize, inches=FALSE, add=TRUE,

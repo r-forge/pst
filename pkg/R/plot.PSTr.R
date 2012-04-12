@@ -43,7 +43,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	pin <- par("pin")
 	
 	node.size <- Xtract("node.size", edgePar, default = 0.6)
-	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x)*(pin[1]/pin[2]) )
+	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x))
 	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
 	leave.lw <- Xtract("leave.lw", edgePar, default=node.size)
 
@@ -74,6 +74,13 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	plot(0, xlim = xlim, ylim = ylim, type = "n", xlab = xlab,
 		ylab = ylab, frame.plot = frame.plot, xaxt=xaxt, yaxt=yaxt, ...)
 
+	if (horiz) {
+		## Size of one unit in inches (to correctly draw circles)  
+		nc <- par("pin")[2]/par("usr")[3]
+	} else {
+		nc <- NULL
+	}
+
 	if (axis) {
 		if (horiz) {
 			axis(1, at=0:hgt)
@@ -88,7 +95,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
         else {strheight("x")})
 
 	plotNode(x1, x2, x, dLeaf = dLeaf, nPar = nodePar, ePar = edgePar, 
-		horiz = horiz, gratio=gratio, max.level=max.level, group=groups, cex=cex)
+		horiz = horiz, gratio=gratio, max.level=max.level, group=groups, cex=cex, nc=nc)
 
 	## Plotting the legend
 	if (!is.null(legpos)) {
