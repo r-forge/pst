@@ -1,6 +1,6 @@
 ## Comparing two distributions
 
-pdiv <- function(p1, p2, r, K, N, value=FALSE) {
+pdiv <- function(p1, p2, r, C, N, value=FALSE) {
 	if (length(p1)!=length(p2)) {
 		stop("p1 and p2 are not of equal lengths")
 	} else if (any(p1==0) | any(p2==0)) {
@@ -8,9 +8,9 @@ pdiv <- function(p1, p2, r, K, N, value=FALSE) {
 	} else if (!missing(r)) {
 		if (any(p1>=r*p2) || any(p1<=(1/r)*p2)) { div <- TRUE } else { div <- FALSE }
 
-	} else if (!missing(K)) {
+	} else if (!missing(C)) {
 		delta <- sum(p1*log(p1/p2))
-		if ((delta*N) < K) { div <- FALSE } else { div <- TRUE }
+		if ((delta*N) < C) { div <- FALSE } else { div <- TRUE }
 	}
 
 	if (value) {
@@ -23,7 +23,7 @@ pdiv <- function(p1, p2, r, K, N, value=FALSE) {
 
 ## Comparing two distributions - matrix version
 
-pdiv.m <- function(prob, A, r, K, value=FALSE) {
+pdiv.m <- function(prob, A, r, C, value=FALSE) {
 	as <- length(A)
 	p1 <- prob[1:as]
 	p2 <- prob[(as+1):(as*2)] 
@@ -36,9 +36,9 @@ pdiv.m <- function(prob, A, r, K, value=FALSE) {
 	} else if (!missing(r)) {
 		if (any(p1>=r*p2) || any(p1<=(1/r)*p2)) { div <- TRUE } else { div <- FALSE }
 
-	} else if (!missing(K)) {
+	} else if (!missing(C)) {
 		delta <- sum(p1*log(p1/p2))
-		if ((delta*N) < K) { div <- FALSE } else { div <- TRUE }
+		if ((delta*N) < C) { div <- FALSE } else { div <- TRUE }
 	}
 
 	if (value) {
