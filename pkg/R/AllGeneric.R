@@ -30,7 +30,7 @@ setGeneric(
 
 setGeneric(
       name="ppplot",
-	def=function(object, path, state, r, K,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
+	def=function(object, path, state, r, C,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
 		pruned.col="red", div.col="green", ...)
 	standardGeneric("ppplot")
 )
@@ -66,7 +66,7 @@ setGeneric(
 )
 
 setGeneric(name="tune",
-	def=function(object, K, criterion="AIC", output="PST")
+	def=function(object, ...)
 	standardGeneric("tune")
 )
 

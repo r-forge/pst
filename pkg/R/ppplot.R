@@ -2,10 +2,14 @@
 ## and illustration of the pruning process 
 
 setMethod("ppplot", signature="PSTf", 
-	def=function(object, path, state, r, K,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
+	def=function(object, path, state, r, C,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
 		pruned.col="red", div.col="green", ...) {
 
 		A <- object@alphabet
+		c.A <- if (class(object)=="PSTf.mc") { object@c.alphabet }  else { A }
+		cpal <- c(object@cpal)
+		c.cpal <- if (class(object)=="PSTf.mc") { object@c.cpal }  else { cpal }
+
 		if (!missing(state) && is.character(state)) { 
 			state <- which(state==A)
 		}
@@ -16,7 +20,6 @@ setMethod("ppplot", signature="PSTf",
 		if (length(path)==1) { path <- seqdecomp(path) }
 
 		sl <- length(path)
-		cpal <- c(object@cpal)
 
 		## Retrieving probabilities
 		prob <- matrix(nrow=nbstate, ncol=sl+1)
@@ -43,19 +46,19 @@ setMethod("ppplot", signature="PSTf",
 		poff <- 0
 
 		nr <- if (!missing(r)) { length(r) } else { 0 }
-		nK <- if (!missing(K)) { length(K) } else { 0 }
+		nC <- if (!missing(C)) { length(C) } else { 0 }
 
 		plot(NULL, 
 			xlim=c(1-seqscale, sl+2),
-			ylim=c(0,(seqscale+gsep+1+((nr+nK)*(pscale+ppsep))+ (((nr+nK)>0) * gsep))),
+			ylim=c(0,(seqscale+gsep+1+((nr+nC)*(pscale+ppsep))+ (((nr+nC)>0) * gsep))),
 			axes=FALSE,
 			xlab="L (memory)", ylab="",
 			...)
 
 		## Tag as div 
-		if (!missing(r) | !missing(K)) {
-			div <- matrix(nrow=nr+nK, ncol=sl)
-			pruned <- matrix(nrow=nr+nK, ncol=sl)
+		if (!missing(r) | !missing(C)) {
+			div <- matrix(nrow=nr+nC, ncol=sl)
+			pruned <- matrix(nrow=nr+nC, ncol=sl)
 
 			for (j in lsp:sl) {
 				idpar <- 1
@@ -66,9 +69,9 @@ setMethod("ppplot", signature="PSTf",
 					}
 				}
 	
-				if (nK>0) {
-					for (i in 1:nK) { 
-						div[idpar, j] <- pdiv(prob[,j], prob[,(j+1)], K=K[i], N=N[,j])
+				if (nC>0) {
+					for (i in 1:nC) { 
+						div[idpar, j] <- pdiv(prob[,j], prob[,(j+1)], C=C[i], N=N[,j])
 						idpar <- idpar+1
 					}
 				}
@@ -76,7 +79,7 @@ setMethod("ppplot", signature="PSTf",
 
 			pruned[,lsp] <- !div[,lsp]
 			for (j in (lsp+1):sl) {
-				for (pp in 1:(nr+nK)) {		
+				for (pp in 1:(nr+nC)) {		
 					pruned[pp, j] <- !div[pp, j] & pruned[pp, j-1]
 				}
 			}
@@ -84,7 +87,7 @@ setMethod("ppplot", signature="PSTf",
 			ppar.lab.pos <- NULL
 			poff <- poff+(pscale/2)
 
-			for (pp in 1:(nr+nK)) {
+			for (pp in 1:(nr+nC)) {
 				segments(1, poff, sl+1, poff, col="grey", lwd=3)
 	
 				for (i in 1:sl) {
@@ -105,7 +108,7 @@ setMethod("ppplot", signature="PSTf",
 
 			ppar.lab <- NULL
 			if (nr>0) { ppar.lab <- c(ppar.lab, paste("r", 1:nr, sep="")) }
-			if (nK>0) { ppar.lab <- c(ppar.lab, paste("K", 1:nK, sep="")) }
+			if (nC>0) { ppar.lab <- c(ppar.lab, paste("C", 1:nC, sep="")) }
 
 			axis(2, at=ppar.lab.pos, 
 				labels=ppar.lab, 
@@ -122,7 +125,7 @@ setMethod("ppplot", signature="PSTf",
 		for (i in 1:sl) {
 			segments(i, poff, i, poff+(seqscale/2)+gsep, col="grey", lwd=3)
 	
-			symbols(x=i, y=poff, circles=seqscale, bg=cpal[which(path[i]==A)], add=TRUE, inches=FALSE)
+			symbols(x=i, y=poff, circles=seqscale, bg=c.cpal[which(path[i]==c.A)], add=TRUE, inches=FALSE)
 			text(x=i, y=poff, labels=path[i])
 			plotProb(i-seqscale, prob.yBottom , i+seqscale, prob.yBottom+1, prob=t(prob[,i]), state, cpal=cpal)
 		}
