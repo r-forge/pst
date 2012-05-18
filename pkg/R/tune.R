@@ -17,7 +17,7 @@ setMethod("tune", signature=c(object="PSTf"),
 	AIC.comp <- vector(mode="numeric", length=nbmod)
 	AIC.comp[] <- NA
 
-	K <- sort(K)
+	C <- sort(C)
 
 	for (i in 1:nbmod) {
 		suppressMessages(pst <- prune(object, C=C[i]))
