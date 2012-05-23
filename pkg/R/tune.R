@@ -1,14 +1,13 @@
 ##
 
 setMethod("tune", signature=c(object="PSTf"), 
-	def=function(object, C, criterion="AICc", output="PST") {
+	def=function(object, C, criterion="AIC", output="PST") {
 
 	if (!inherits(object, "PSTf") || missing(object)) {
 		stop(" [!] please provide the name of a valid PST object", call.=FALSE)
 	}
 
 	debut <- Sys.time()
-
 	nbmod <- length(C)
 
 	nodes.comp <- vector(mode="integer", length=nbmod) 
@@ -25,6 +24,7 @@ setMethod("tune", signature=c(object="PSTf"),
 		nodes.comp[i] <- pst.sum@nodes
 		leaves.comp[i] <- pst.sum@leaves
 		freepar.comp[i] <- pst.sum@freepar
+		n <- pst.sum@ns
 
 		suppressMessages(pst.AIC <- AIC(pst))
 
@@ -42,10 +42,16 @@ setMethod("tune", signature=c(object="PSTf"),
 		}
 	}
 
+	if (criterion=="AIC" & min(n/freepar.comp)<=40) {
+		message( " [!] n/K<=40 for at least one model, consider using AICc criterion")
+	}
+
 	best.sum <- summary(pst.best)
 	
-	message(" [>] model ", id.best, " selected : ", criterion, "=", round(AIC.comp[id.best],2) , " (C=", round(C[id.best],2), ")")
-	message(" [>] ", best.sum@nodes, " nodes, ", best.sum@leaves, " leaves, ", best.sum@freepar, " free parameters")
+	message(" [>] model ", id.best, " selected : ", criterion, "=", round(AIC.comp[id.best],2) , 
+		" (C=", round(C[id.best],2), ")")
+	message(" [>] ", best.sum@nodes, " nodes, ", best.sum@leaves, " leaves, ", 
+		best.sum@freepar, " free parameters")
 	
 	if (output=="PST") {
 		return(pst.best)
