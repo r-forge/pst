@@ -22,12 +22,15 @@ setMethod("cplot", signature="PSTf",
 			seg <- rownames(prob)
 		}
 
-		plot(NULL, axes=FALSE, xlab="", ylab="Prob", xlim=c(1,(length(seg)+1)), ylim=c(1,0))
+		plot(NULL, axes=FALSE, ylab="Prob", xlim=c(1,(length(seg)+1)), ylim=c(1,0), ...)
 
 		## prob matrix is reversed because we are using the function for plotting the tree nodes (yaxis is reversed) 
 		plotNodeProb(1, 1, length(seg)+1, 0, prob=prob, cpal=cpal, group=seg, pruned=pruned)
 
-		if (length(seg)>1) { axis(1, at=seq(1.5, length(seg)+0.5, by=x.by), labels=seg) }
+		if (length(seg)>1) { 
+			slab.pos <- seq(1, length(seg), by=x.by)
+			axis(1, at=slab.pos+0.5, labels=seg[slab.pos]) 
+		}
 		axis(2, at=seq(0,1, by=y.by), labels=rev(seq(0,1, by=y.by)))
 	}
 )
