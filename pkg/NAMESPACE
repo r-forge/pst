@@ -6,6 +6,7 @@ importMethodsFrom(stats4, AIC)
 
 exportMethods(
 	"cmine",
+	"cplot",
 	"cprob",
 	"generate",
 	"impute",

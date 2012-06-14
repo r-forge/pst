@@ -6,6 +6,11 @@ setGeneric(
 	standardGeneric("cmine")
 )
 
+setGeneric(name="cplot",
+	def=function(object, context, ...)
+	standardGeneric("cplot")
+)
+
 setGeneric("cprob", 
 	def=function(object, L, ...) 
 	standardGeneric("cprob")
