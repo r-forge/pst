@@ -276,9 +276,17 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 				cpal=cpal, pruned=pruned, group=group, axes=probAxes)
 	} else if (node.type=="path") {
 		state <- seqdecomp(path)[1]
-		col.node <- if (path=="e") root.col else cpal[which(state==alphabet)]
+		node.ccol <- Xtract("c.col", nPar, default="white")
+		
+		if (node.ccol=="state") {
+			node.ccol <- if (path=="e") root.col else cpal[which(state==alphabet)]
+		}
 		symbols(xTop, if (horiz) Y else yTop, circles=node.size/2, inches=inches, add=TRUE, 
-			fg=if (pruned) pruned.col else par("col"), bg=col.node)
+			fg=if (pruned) pruned.col else par("col"), bg=node.ccol)
+		## State
+		text(xTop, yTop, state, xpd = TRUE, 
+			## srt = lab.srt, pos=lab.pos, offset=lab.offset,
+			cex = lab.cex, col = lab.col, font = lab.font)
 	}
 
 	## The node label
