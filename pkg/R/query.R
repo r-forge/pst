@@ -3,6 +3,7 @@
 setMethod("query", signature=c(object="PSTf"), 
 	def=function(object, context, state, output="prob", exact=FALSE) {
 		A <- attr(object, "alphabet")
+		cA <- if (class(object)=="PSTf.mc") { object@c.alphabet } else { A }
 
 		if (missing(context) || context=="e") {
 			context <- "e"
@@ -11,12 +12,12 @@ setMethod("query", signature=c(object="PSTf"),
 			sd <- unlist(strsplit(context, split="-"))
       			context <- paste(sd, collapse="-")
 			idxl <- length(sd)+1
-			if (any(!sd %in% A)) {
+			if (any(!sd %in% cA)) {
 				stop(" [!] one or more symbol not in alphabet")
 			} 
 		}
 
-		if (exact && !context %in% names(object[[idxl]]) && object[[idxl]][[context]]@pruned) {
+		if (exact && (!context %in% names(object[[idxl]]) || object[[idxl]][[context]]@pruned)) {
 			message( "[>] node is not in the tree")
 			res <- NULL
 		} else {
