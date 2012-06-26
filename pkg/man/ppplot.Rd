@@ -2,7 +2,7 @@
 \alias{ppplot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+	Plotting a branch of a PST
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -13,7 +13,7 @@ ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "cir
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-%%     ~~Describe \code{object} here~~
+	A PST
 }
   \item{path}{
 %%     ~~Describe \code{path} here~~
@@ -75,25 +75,8 @@ ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "cir
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-structure(function (object, path, state, r, C, cex.plot = 1, 
-    seqscale = 0.3, node.type = "circle", pscale = seqscale/2, 
-    pruned.col = "red", div.col = "green", ...) 
-standardGeneric("ppplot"), generic = structure("ppplot", package = "PST"), package = "PST", group = list(), valueClass = character(0), signature = c("object", 
-"path", "state", "r", "C", "cex.plot", "seqscale", "node.type", 
-"pscale", "pruned.col", "div.col"), default = `NULL`, skeleton = function (object, 
-    path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "circle", 
-    pscale = seqscale/2, pruned.col = "red", div.col = "green", 
-    ...) 
-stop("invalid call in method dispatch to \"ppplot\" (no default method)", 
-    domain = NA)(object, path, state, r, C, cex.plot, seqscale, 
-    node.type, pscale, pruned.col, div.col, ...), class = structure("standardGeneric", package = "methods"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

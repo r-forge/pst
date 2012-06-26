@@ -2,7 +2,7 @@
 \alias{cplot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+	Plotting single nodes
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -12,15 +12,9 @@ cplot(object, context, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{
-%%     ~~Describe \code{object} here~~
-}
-  \item{context}{
-%%     ~~Describe \code{context} here~~
-}
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
-}
+  \item{object}{ A PST }
+  \item{context}{ The label of the node to plot, provided as a string where states are separated by '-'}
+  \item{\dots}{ %%     ~~Describe \code{\dots} here~~ }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -48,19 +42,8 @@ cplot(object, context, ...)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-structure(function (object, context, ...) 
-standardGeneric("cplot"), generic = structure("cplot", package = "PST"), package = "PST", group = list(), valueClass = character(0), signature = c("object", 
-"context"), default = `NULL`, skeleton = function (object, 
-    context, ...) 
-stop("invalid call in method dispatch to \"cplot\" (no default method)", 
-    domain = NA)(object, context, ...), class = structure("standardGeneric", package = "methods"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

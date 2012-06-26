@@ -3,6 +3,12 @@
 setMethod("predict", signature=c(object="PSTf"), 
 	def=function(object, data, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {
 
+	mlist <- c("prob", "SIMn", "logloss", "SIMo")
+
+	if (!output %in% mlist) {
+		stop(" output must be one of: ", mlist)
+	}
+
 	if (object@segmented) {
 		sl <- seqlength(data)
 		nbgroup <- length(levels(object@group))
@@ -65,6 +71,10 @@ setMethod("predict", signature=c(object="PSTf"),
 
 		if (is.null(L)) {
 			L <- length(object)-1
+		} 
+		
+		if (output=="SIMo") {
+			P0 <- predict(object, data, L=0, output="prob", decomp=TRUE)
 		}
 
 		message( " [>] max. depth: L=", L)
@@ -145,6 +155,8 @@ setMethod("predict", signature=c(object="PSTf"),
 			prob <- -log(prob, base=base)
 		} else if (output=="SIMn") {
 			prob <- log(prob, base=base)
+		} else if (output=="SIMo") {
+			prob <- log(prob/P0, base=base)
 		}
 
 		if (!decomp) {
@@ -152,6 +164,8 @@ setMethod("predict", signature=c(object="PSTf"),
 				prob <- apply(prob,1, rowProds)
 			} else if (output %in% c("logloss", "SIMn")) {
 				prob <- rowSums(prob)/rowSums(!is.na(prob))
+			} else if (output=="SIMo") {
+				prob <- rowSums(prob)
 			}
 
 			## if only one sequences we return a matrix as well 
