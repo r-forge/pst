@@ -15,6 +15,7 @@ setMethod("predict", signature=c(object="PSTf"),
 		
 		if (missing(group)) {
 			prob <- list()
+			names(prob) <- levels(object@group)
 			message(" [>] cross prediction for ", nrow(data), " sequence(s) - ", nbgroup, " models")
 		} else {
 			group <- factor(group)
