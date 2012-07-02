@@ -6,7 +6,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), dLeaf = NULL, 
 	axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
-	xlim, ylim, withlegend=TRUE, ltext=NULL, legend.cex=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
+	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
 	## Margins
 	Lmar <- if (axis) { 4 } else { 2 }
@@ -104,7 +104,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 
 		cpal <- Xtract("cpal", nodePar, default = x@cpal)
 
-		PST.legend(legpos, ltext, cpal, cex=legend.cex)
+		PST.legend(legpos, ltext, cpal, cex=cex.legend)
 	}
 
 	## Restoring graphical parameters
