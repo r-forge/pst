@@ -14,8 +14,8 @@ setMethod("predict", signature=c(object="PSTf"),
 		nbgroup <- length(levels(object@group))
 		
 		if (missing(group)) {
-			prob <- vector(mode="list", length=nbgroup)
-			names(prob) <- levels(object@group)
+			prob <- matrix(nrow=nrow(data), ncol=nbgroup)
+			colnames(prob) <- levels(object@group)
 			message(" [>] cross prediction for ", nrow(data), " sequence(s) - ", nbgroup, " models")
 		} else {
 			group <- factor(group)
@@ -42,7 +42,7 @@ setMethod("predict", signature=c(object="PSTf"),
 				prob[group.idx,] <- prob.tmp
 
 			} else {
-				prob[[g]] <- predict(pst, data, L=L, p1=p1, output=output, decomp=decomp, base=base)
+				prob[,g] <- predict(pst, data, L=L, p1=p1, output=output, decomp=decomp, base=base)
 			}
 		}
 	
