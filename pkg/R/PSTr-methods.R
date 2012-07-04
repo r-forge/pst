@@ -1,5 +1,28 @@
 ## Initialize method
 
+setMethod("initialize", "PSTr", function(.Object, path, counts, n, order, ymin, group=1, ...) {
+
+	nd <- nrow(counts)
+	.Object@leaf <- rep(FALSE,nd)
+	names(.Object@leaf) <- group
+	.Object@pruned <- rep(FALSE, nd)
+	names(.Object@pruned) <- group
+	rownames(counts) <- group
+	names(n) <- group
+
+	counts <- as.matrix(counts)
+	.Object@prob <- counts/rowSums(counts)
+
+	## Smoothing
+	if (!is.null(ymin) & any(.Object@prob==0)) {
+		ids <- which(rowSums(.Object@prob==0)>0)
+		.Object@prob[ids,] <- ((1-(ncol(counts)*ymin)) * .Object@prob[ids,]) + ymin
+	}
+	callNextMethod(.Object, path=path, counts=counts, n=n, order=order, ...)
+}
+)
+
+
 
 ## TAKEN FROM dengrogram method
 ## The ``generic'' method for "[["  (identical to e.g., "[[.POSIXct"):

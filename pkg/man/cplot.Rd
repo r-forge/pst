@@ -12,10 +12,11 @@ cplot(object, context, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{ A PST }
-  \item{context}{ The label of the node to plot, provided as a string where states are separated by '-'}
-  \item{\dots}{ %%     ~~Describe \code{\dots} here~~ }
+  \item{object}{ a PST as created by the \code{\link{pstree()}} function. }
+  \item{context}{ the label of the node to plot, provided as a string where states are separated by '-', see examples.}
+  \item{\dots}{ arguments to be passed to the plot function or other graphical parameters. }
 }
+
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
