@@ -1,11 +1,11 @@
-\name{pqplot-methods}
+\name{pqplot}
 \alias{pqplot-methods}
 \alias{pqplot,PSTf,stslist-method}
 \title{ 
 	Prediction quality plot
 }
 \description{
- ~~ Methods for function \code{pqplot} in package \pkg{PST} ~~
+	Plot the prediction of each state in a sequence
 }
 
 \usage{
@@ -15,20 +15,21 @@
 
 \arguments{
 	\item{object}{
-		a fitted PST, that is an object of class PSTf as returned by the \link{pstree} or \link{prune} function.
-	}
+		a fitted PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} function.
+}
 	\item{data} { 
-		a state sequence object created with the ‘seqdef’ TraMineR function.
-	}
+		a state sequence object created with the \code{\link{seqdef}} TraMineR function.
+}
 	\item{cdata} {
 		Under development.
-	}
+}
 	\item{plotseq} { 
 		logical. If TRUE, the sequence is displayed separately, and the prediction plot is plotted above.
-	}
+}
 }
 
 \details{
+	The \code{pqplot()} function displays either the predicted probabilities or the log-loss for each position of a single sequence as a series of barplots.
 }
 
 \value{

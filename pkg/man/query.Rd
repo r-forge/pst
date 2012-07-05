@@ -1,4 +1,4 @@
-\name{query-methods}
+\name{query}
 \docType{methods}
 \alias{query-methods}
 \alias{query,PSTf-method}

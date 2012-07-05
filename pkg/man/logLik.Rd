@@ -1,4 +1,4 @@
-\name{logLik-methods}
+\name{logLik}
 \docType{methods}
 \alias{logLik-methods}
 \alias{logLik,PSTf-method}

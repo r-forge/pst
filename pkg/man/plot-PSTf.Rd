@@ -18,55 +18,60 @@
 
 \arguments{
   \item{x}{
-	A PST, that is an object of class PSTf as created by the \link{pstree} or \linl{prune} functions.
+	A PST, that is an object of class PSTf as created by the \link{pstree} or \link{prune} functions.
 }
-  \item{max.level}{ integer. The maximal depth for the display of the tree.
+  \item{max.level}{ 
+	integer. The maximal depth for the display of the tree.
 }
-  \item{nodePar}{ list. A list of parameters for tuning the node representation.
+  \item{nodePar}{ 
+	list. A list of parameters for tuning the node representation.
 }
-  \item{edgePar}{ list. A list of parameters for tuning the edges representation.
+  \item{edgePar}{ 
+	list. A list of parameters for tuning the edges representation.
 }
-  \item{axis}{ logical. If TRUE the axes are displayed on the plot.
+  \item{axis}{ 
+	logical. If TRUE the axes are displayed on the plot.
 }
-  \item{xlab}{ character. Label for the x axis. }
+  \item{xlab}{ 
+	character. Label for the x axis.
 }
-  \item{ylab}{ character. Label for the y axis representing the tree depth.}
+  \item{ylab}{ 
+	character. Label for the y axis representing the tree depth.
 }
-
-  \item{horiz}{ logical. If FALSE, the tree is represented vertically. The root node at depth L=0 is plotted on the top, and the nodes of maximal depth are plotted on the bottom of the plot. If TRUE, the tree is represented horizontally. The root node at depth L=0 is plotted on the right, and the nodes of maximal depth are plotted on the left of the plot.
+  \item{horiz}{ 
+	logical. If FALSE, the tree is represented vertically. The root node at depth L=0 is plotted on the top, and the nodes of maximal depth are plotted on the bottom of the plot. If TRUE, the tree is represented horizontally. The root node at depth L=0 is plotted on the right, and the nodes of maximal depth are plotted on the left of the plot.
 }
-  \item{}{
+  \item{withlegend}{ 
+	defines if and where the legend of the state colors is plotted. The default value \code{TRUE} sets the position of the legend automatically. Other possible value is \code{"right"}.
 }
-  \item{}{
+  \item{ltext}{
+	optional description of the states to appear in the legend. Must be a vector of character strings with number of elements equal to the size of the alphabet. If unspecified, the \code{label} attribute of the \code{seqdata} sequence object is used (see \code{\link{seqdef}}).
 }
-  \item{withlegend}{ defines if and where the legend of the state colors is
-          plotted. The default value ‘TRUE’ sets the position of the
-          legend automatically. Other possible value is ‘"right"’.
+	\item{cex.legend}{
+	expansion factor for setting the size of the font for the labels in the legend. The default value is 1. Values lesser than 1 will reduce the size of the font, values greater than 1 will increase the size.
 }
-
-  \item{ltext}{optional description of the states to appear in the legend. Must be a vector of character strings with number of elements equal to the size of the alphabet. If unspecified, the \code{label} attribute of the \code{seqdata} sequence object is used (see \code{\link{seqdef}}).}
-
-	\item{cex.legend}{expansion factor for setting the size of the font for the labels in the legend. The default value is 1. Values lesser than 1 will reduce the size of the font, values greater than 1 will increase the size.}
-
- \item{use.layout}{if \code{TRUE}, \code{\link[graphics]{layout}} is used to arrange plots when using the group option or plotting a legend. When layout is activated, the standard '\code{\link[graphics]{par}(mfrow=....)}' for arranging plots does not work. With \code{withlegend=FALSE} and \code{group=NULL}, layout is automatically deactivated and '\code{par(mfrow=....)}' can be used.}
-
- \item{legend.prop}{sets the proportion of the graphic area used for plotting the legend when \code{use.layout=TRUE} and \code{withlegend=TRUE}. Default value is set according to the place (bottom or right of the graphic area) where the legend is plotted. Values from 0 to 1.}
+ \item{use.layout}{
+	if \code{TRUE}, \code{\link[graphics]{layout}} is used to arrange plots when using the group option or plotting a legend. When layout is activated, the standard '\code{\link[graphics]{par}(mfrow=....)}' for arranging plots does not work. With \code{withlegend=FALSE} and \code{group=NULL}, layout is automatically deactivated and '\code{par(mfrow=....)}' can be used.
+}
+ \item{legend.prop}{
+	sets the proportion of the graphic area used for plotting the legend when \code{use.layout=TRUE} and \code{withlegend=TRUE}. Default value is set according to the place (bottom or right of the graphic area) where the legend is plotted. Values from 0 to 1.
+}
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+	arguments to be passed to the plot function or graphical parameters
 }
 }
+
 \details{
-	The graphical representation of a PST uses a recursive function. Hence the main argument of the function is a tree represented as a nested list (an object of class \code{\link{PSTr}}. The 
+	The graphical representation of a PST uses a recursive function. Hence the main argument of the function is a tree represented as a nested list (an object of class \code{\link{PSTr}}.
 }
 \value{
 	Either a vector of sequence probabilities (decomp=FALSE) or a matrix (if decomp=FALSE) containing for each sequence (row) the probability of each state in columns.   
-
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+	Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~
