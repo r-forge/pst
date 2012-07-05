@@ -1,5 +1,5 @@
 \name{generate}
-\alias{generate}
+\alias{generate,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Generate sequences using a PST

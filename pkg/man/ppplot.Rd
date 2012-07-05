@@ -1,5 +1,6 @@
 \name{ppplot}
-\alias{ppplot}
+\docType{methods}
+\alias{ppplot,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Plotting a branch of a PST

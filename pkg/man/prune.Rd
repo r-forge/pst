@@ -1,5 +1,7 @@
 \name{prune}
-\alias{prune}
+\docType{methods}
+% \alias{prune-methods}
+\alias{prune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Prune a PST
@@ -8,7 +10,7 @@ Prune a PST
 Prune an existing PST, using one or several pruning parameters.
 }
 \usage{
-prune(object, nmin, L, r, K, keep, drop, topdown = TRUE, delete = TRUE)
+prune(object, nmin, L, r, C, keep, drop, topdown = TRUE, delete = TRUE)
 }
 
 \arguments{
@@ -33,7 +35,7 @@ or
 }
 
 }
-  \item{K}{
+  \item{C}{
 	Numeric. The pruning parameter as described in M\"{a}chler et B\"{u}hlmann (2004). The node labelled \eqn{wu} is pruned if
 \deqn{
 \Delta_{wu}=\sum_{x \in A} \hat{P}(x|wu)\log \left( \frac{\hat{P}(x|wu)}{\hat{P}(x|u)} \right) N(wu) < K

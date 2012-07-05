@@ -1,4 +1,6 @@
+## ==============================
 ## Computing sequence probability
+## ==============================
 
 setMethod("predict", signature=c(object="PSTf"), 
 	def=function(object, data, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {

@@ -1,6 +1,7 @@
-\name{query}
-\alias{query}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\name{query-methods}
+\docType{methods}
+\alias{query-methods}
+\alias{query,PSTf-method}
 \title{
 	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree
 }

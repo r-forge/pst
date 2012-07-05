@@ -1,11 +1,13 @@
 \name{pstree}
-\alias{pstree}
+\docType{methods}
+\alias{pstree-methods}
+\alias{pstree,stslist-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Grow a Probabilistic Suffix Tree (PST)
 }
 \description{
-
+Grow a Probabilistic Suffix Tree (PST)
 }
 \usage{
 pstree(x, group, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)

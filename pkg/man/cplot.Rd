@@ -1,5 +1,5 @@
 \name{cplot}
-\alias{cplot}
+\alias{cplot,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Plotting single nodes
@@ -31,7 +31,7 @@ cplot(object, context, ...)
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+	Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~

@@ -1,11 +1,13 @@
 \name{cprob}
-\alias{cprob}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\docType{methods}
+\alias{cprob-methods}
+\alias{cprob,stslist-method}
+
 \title{
 	Empirical conditional probability distributions
 }
 \description{
-	Computes the empirical conditional probability distributions of order L from a set of sequences
+	Compute the empirical conditional probability distributions of order L from a set of sequences
 }
 \usage{
 cprob(object, L, ...)
@@ -13,10 +15,9 @@ cprob(object, L, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	a sequence object, that is an object of class stslist as created by TraMineR \link{seqdef()} function.
+	a sequence object, that is an object of class stslist as created by TraMineR \link{seqdef} function.
 }
-  \item{L}{
-	context length.
+  \item{L}{ integer. Context length.
 }
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

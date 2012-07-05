@@ -1,5 +1,7 @@
-\name{logLik}
-\alias{logLik}
+\name{logLik-methods}
+\docType{methods}
+\alias{logLik-methods}
+\alias{logLik,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Log Likelihood of a PST

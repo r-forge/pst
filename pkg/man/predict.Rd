@@ -1,5 +1,5 @@
-\name{predict}
-\alias{predict}
+\name{predict-methods}
+\alias{predict,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Compute the probability of categorical sequences using a Probabilistic Suffix Tree
@@ -16,7 +16,7 @@ predict(object, data, ...)
 	A PST, that is an object of class PSTf as created by the pstree or prune functions.
 }
   \item{data}{
-	a sequence object, that is an object of class stslist as created by the seqdef() TraMineR function. The sequence object contains the sequences to predict.
+	a sequence object, that is an object of class stslist as created by the \code{\link{seqdef}} TraMineR function. The sequence object contains the sequences to predict.
 }
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

@@ -1,5 +1,6 @@
 \name{tune}
-\alias{tune}
+\docType{methods}
+\alias{tune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	AIC/AICc based model selection 
@@ -8,14 +9,14 @@
 	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value
 }
 \usage{
-tune(object, K, criterion = "AIC", output = "PST")
+tune(object, C, criterion = "AIC", output = "PST")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
 	A PST, that is an object of class 'PSTf' 
 }
-  \item{K}{
+  \item{C}{
 	a vector of pruning parameters. See \code{\link{prune}} for details.
 }
   \item{criterion}{
