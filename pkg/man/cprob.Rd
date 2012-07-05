@@ -51,7 +51,10 @@ cprob(object, L, ...)
 \examples{
 	data(s1)
 	s1 <- seqdef(s1)
-	cprob(s1, L=3)
+	cprob(s1, L=0, prob=FALSE)
+	cprob(s1, L=1, prob=TRUE)
+	cprob(s1, L=1, prob=FALSE)
+	cprob(s1, L=1, prob=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
