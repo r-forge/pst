@@ -17,13 +17,13 @@
 	\item{object}{
 		a fitted PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} function.
 }
-	\item{data} { 
+	\item{data}{ 
 		a state sequence object created with the \code{\link{seqdef}} TraMineR function.
 }
-	\item{cdata} {
+	\item{cdata}{
 		Under development.
 }
-	\item{plotseq} { 
+	\item{plotseq}{ 
 		logical. If TRUE, the sequence is displayed separately, and the prediction plot is plotted above.
 }
 }

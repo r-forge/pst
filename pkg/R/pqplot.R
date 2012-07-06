@@ -2,8 +2,9 @@
 ## and outcomes of the gain function 
 
 setMethod("pqplot", signature=c(object="PSTf", data="stslist"), 
-	def <- function(object, data, cdata, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
-	measure="prob", pqmax, ...) {
+	def <- function(object, data, cdata, L, stcol, plotseq=FALSE, ptype="barplot", 
+	cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
+	measure="prob", pqmax, seqscale, ...) {
 
 	oolist <- list(...)
 
@@ -12,9 +13,9 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 	message(" [>] computing prob., max. length=", L)
 	
 	if (!missing(cdata)) {
-		prob <- predict(object, data=data, cdata=cdata, L=L, decomp=TRUE)
+		prob <- suppressMessages(predict(object, data=data, cdata=cdata, L=L, decomp=TRUE))
 	} else {
-		prob <- predict(object, data=data, L=L, decomp=TRUE)
+		prob <- suppressMessages(predict(object, data=data, L=L, decomp=TRUE))
 	}
 
 	## Number of predicted symbols (used instead of sequence length)
@@ -50,32 +51,27 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 
 		## Plotting path
 		barw <- 1
-		seqscale <- 0.3
-		seqpsep <- 0.1
+		if (missing(seqscale)) { seqscale <- pqmax/3 }
+		seqpsep <- 0.1*pqmax
 		poff <- seqscale+seqpsep
 
 		tmp <- matrix(tmp, nrow=length(c.A))
 		tmp <- tmp*seqscale
 
-		if (!"main" %in% names(oolist)) {
-			main <- paste("States probabilities for seq")
-		}
-
 		barplot(tmp, col=c.cpal, width=barw,
 			## ylab=ylab,
 			## xlim=c(0,(sl+1)),
-			ylim=c(0,(poff+1)),
+			ylim=c(0,(poff+pqmax)),
 			horiz=FALSE,
 			axes=FALSE,
 			axisnames=FALSE,
-			main=main,
 			space=space,
 			...)
 	}
 
 	## Plotting probability distributions
 	if (ptype=="barplot") {
-		if (stcol) {
+		if (missing(stcol)) {
 			A <- alphabet(data)
 			cpal <- cpal(data)
 			nr <- attr(data, "nr")
@@ -91,18 +87,21 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 			stcol <- cpal
 		} else {
 			tmp <- prob
-			stcol <- "red"
 		}
 
 		barplot(tmp, col=stcol, offset=poff, add=plotseq, ylim=c(0,(poff+pqmax)), 
 			space=space, axes=FALSE, axisnames=FALSE, ylab=ylab, ...)
-		abline(h=pmean, col="red")
+		abline(h=pmean+poff, col="red")
 
-	} else if (ptype=="lines") {
+	} else {
+		if (missing(stcol)) { stcol <- "blue" }
+
+		xt <- if (ptype=="s") { 0:(length(prob)-1) } else { 0.5:(length(prob)-0.5) }
+
 		if (plotseq) {
-			lines(0.5:(length(prob)-0.5), prob+poff, col="red", type="s")
+			lines(xt, prob+poff, col=stcol, type=ptype)
 		} else {
-			plot(0.5:(length(prob)-0.5), prob+poff, col="red", type="s")
+			plot(xt, prob+poff, col=stcol, type=ptype)
 		}
 	}
 

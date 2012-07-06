@@ -2,23 +2,23 @@
 \alias{cplot,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Plotting single nodes
+	Plot single nodes
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-cplot(object, context, ...)
+	cplot(object, context, ...)
 }
-%- maybe also 'usage' for other objects documented here.
+%% ============================================
 \arguments{
   \item{object}{ a PST as created by the \code{\link{pstree()}} function. }
   \item{context}{ the label of the node to plot, provided as a string where states are separated by '-', see examples.}
   \item{\dots}{ arguments to be passed to the plot function or other graphical parameters. }
 }
-
+%%  ============================================
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+	The \code{cplot()} function displays a single node labelled with \code{context} of the tree where one or mode barplots (if \code{object} is a segmented PST) represent the probability distribution(s) stored in the node.
 }
 \value{
 %%  ~Describe the value returned
@@ -43,6 +43,11 @@ cplot(object, context, ...)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+data(s1)
+s1 <- seqdef(s1)
+S1 <- pstree(s1, L=3)
+
+cplot(S1, "a-b")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
