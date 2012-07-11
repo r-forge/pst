@@ -27,14 +27,10 @@ tune(object, C, criterion = "AIC", output = "PST")
 }
 }
 \details{
-The \code{tune} function selects among a series of PST pruned with different values of the \eqn{C} cutoff the model having the lowest $AIC$ or $AIC_{c}$ value. The function can return either the selected PST or a data frame containing the statistics for each model.
+The \code{tune} function selects among a series of PST pruned with different values of the \eqn{C} cutoff the model having the lowest \eqn{AIC} or \eqn{AIC_{c}} value. The function can return either the selected PST or a data frame containing the statistics for each model.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	If \code{output="PST"} a PST that is an object of class \code{PSTf}. If \code{output="stats"} a matrix with the results of the tuning procedure. The selected model is tagged with \code{*}, while models with \eqn{AIC < min(AIC)+2} or \eqn{AIC_{c} < min(AIC_{c})+2} are tagged with \code{**}, and models with \eqn{AIC < min(AIC)+10} or \eqn{AIC_{c} < min(AIC_{c})+10} are tagged with \code{***}.
 }
 \references{
 Burnham, K. P. & Anderson, D. R. (2004) Multimodel Inference \emph{Sociological Methods & Research}, 33, pp. 261-304
