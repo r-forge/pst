@@ -10,34 +10,41 @@
 	Compute the empirical conditional probability distributions of order L from a set of sequences
 }
 \usage{
-cprob(object, L, ...)
+cprob(object, L, cdata=NULL, context, stationary=TRUE, nmin=1, prob=TRUE, weighted=TRUE, with.missing=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
 	a sequence object, that is an object of class stslist as created by TraMineR \link{seqdef} function.
 }
-  \item{L}{ integer. Context length.
+\item{L}{ 
+integer. Context length.
 }
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+\item{cdata}{ 
+under development 
+}
+\item{context}{
+	character. An optional subsequence (a character string where symbols are separated by '-') for which the conditional probability distribution is to be computed.
+}
+\item{stationary}{
+logical. If \code{FALSE} probability distributions are computed for each sequence position L+1 ... l where l is the maximal sequence length. If \code{TRUE} the probability distributions are  stationary that is time homogenous. 
 }
 }
 \details{
-	Returns a matrix whose rows correspond to each contexts of length L found at least nmin times in the sequence data and followed by a valid symbol. Columns are either the counts of symbols found after context or the probability distribution. 
+	The \code{cprob()} function returns either the empiral probability distributions of order \code{L} or the counts on which the probabilities are computed. The empirical conditional probability \eqn{\hat{P}(\sigma | x)} of observing a symbol \eqn{\sigma \in A} after the subsequence \eqn{x} of length \eqn{l=L} is computed as 
+\deqn{
+\hat{P}(\sigma | x) = \frac{N(x\sigma)}{\sum_{\sigma \in A} N(x\sigma)}
+}
+where \eqn{N(x\sigma)} is the observed frequency of the subsequence \eqn{x\sigma}, that is the concatenation of the subsequence $x$ and the symbol $\sigma$. The empirical probability $\hat{P}(\sigma | x)$ is the maximal likelihood estimator of the probability $P(\sigma | x)$.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	Either a matrix if \Com{stationary=FALSE} with one row for each subsequence of length $L$ and minimal frequency $nmin$ appearing in \code{object}, or a list where each element corresponds to one subsequence and contains a matrix whith the probability distribution at each position $p$ where a state is preceded by the subsequence.  
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~

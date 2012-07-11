@@ -6,7 +6,7 @@
 	AIC/AICc based model selection 
 }
 \description{
-	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value
+	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value is selected.
 }
 \usage{
 tune(object, C, criterion = "AIC", output = "PST")
@@ -14,10 +14,10 @@ tune(object, C, criterion = "AIC", output = "PST")
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class 'PSTf' 
+	A PST, that is an object of class 'PSTf' as returned by the \code{\link{pstree}} or \code{\link{prune}} funtion.
 }
-  \item{C}{
-	a vector of pruning parameters. See \code{\link{prune}} for details.
+  \item{C}{ 
+	numeric. A vector of pruning parameters. See \code{\link{prune}} for details.
 }
   \item{criterion}{
 	The criterion used to select the model, either AIC or AICc. AICc should generally be used as with PST models the ratio between the number of observations and the number of estimated parameters is usually low. \cite{Burnham et al, 2004} suggests to use AICc instead of AIC when the ratio is lower than 40.
@@ -27,7 +27,7 @@ tune(object, C, criterion = "AIC", output = "PST")
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+The \code{tune} function selects among a series of PST pruned with different values of the \eqn{C} cutoff the model having the lowest $AIC$ or $AIC_{c}$ value. The function can return either the selected PST or a data frame containing the statistics for each model.
 }
 \value{
 %%  ~Describe the value returned
@@ -40,7 +40,7 @@ tune(object, C, criterion = "AIC", output = "PST")
 Burnham, K. P. & Anderson, D. R. (2004) Multimodel Inference \emph{Sociological Methods & Research}, 33, pp. 261-304
 }
 \author{
-%%  ~~who you are~~
+Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~
