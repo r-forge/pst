@@ -38,7 +38,7 @@ logical. If \code{FALSE} probability distributions are computed for each sequenc
 where \eqn{N(x\sigma)} is the observed frequency of the subsequence \eqn{x\sigma}, that is the concatenation of the subsequence $x$ and the symbol $\sigma$. The empirical probability $\hat{P}(\sigma | x)$ is the maximal likelihood estimator of the probability $P(\sigma | x)$.
 }
 \value{
-	Either a matrix if \Com{stationary=FALSE} with one row for each subsequence of length $L$ and minimal frequency $nmin$ appearing in \code{object}, or a list where each element corresponds to one subsequence and contains a matrix whith the probability distribution at each position $p$ where a state is preceded by the subsequence.  
+	Either a matrix if \code{stationary=FALSE} with one row for each subsequence of length $L$ and minimal frequency $nmin$ appearing in \code{object}, or a list where each element corresponds to one subsequence and contains a matrix whith the probability distribution at each position $p$ where a state is preceded by the subsequence.  
 }
 \references{
 %% ~put references to the literature/web site here ~
