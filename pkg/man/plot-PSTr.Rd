@@ -20,6 +20,9 @@
   \item{x}{
 	A PST, that is an object of class \code{\PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
+  \item{y}{
+	not applicable
+  }
   \item{max.level}{ 
 	integer. The maximal depth for the display of the tree.
 }
