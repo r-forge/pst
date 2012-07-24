@@ -1,24 +1,24 @@
 \name{impute}
 \docType{methods}
 \alias{impute}
-\alias{impute,PSTf, stslist-method}
+\alias{impute,PSTf,stslist-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Impute missing states in sequences using a Probabilistic Suffix Tree
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+	Missing states in a sequecne object are imputed by using the Probabilistic Suffix Tree. The context preceding the missing status is used to predict it.
 }
 \usage{
-impute(object, data, method="pmax")
+\S4method{impute}{PSTf, stslist}(object, data, method="pmax")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class PSTf as created by the pstree or prune functions.
+	A PST, that is an object of class \code{\PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{data}{
-	a sequence object, that is an object of class stslist as created by the \code{\link{seqdef}} TraMineR function. The sequence object contains the sequences to impute. See details.
+	a sequence object of class 'stslist' as defined with the \code{seqdef} function of the \code{\link{TraMineR}} library. The sequence object contains the sequences to impute. See details.
 }
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

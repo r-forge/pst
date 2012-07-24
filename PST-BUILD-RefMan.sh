@@ -1,1 +1,1 @@
-R CMD Rd2dvi --pdf --output=PST-RefMan.pdf pkg
+R CMD Rd2pdf --pdf --output=PST-RefMan.pdf pkg

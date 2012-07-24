@@ -13,7 +13,7 @@ Example data set containing one single sequence
  chr "s1"
 }
 \details{
-A sequence object can be created with the dedicated \code{TraMineR} \code{\link{seqdef}} function. See example below. 
+A sequence object can be created with the dedicated \code{TraMineR} \code{\link{seqdef}} function. State sequence objects are the main argument for the \code{\link{pstree}} method that creates Probabilistic Suffix Trees. See example below. 
 }
 \source{
 %%  ~~ reference to a publication or URL from which the data were obtained ~~
@@ -22,7 +22,14 @@ A sequence object can be created with the dedicated \code{TraMineR} \code{\link{
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
+## Loading the data
 data(s1)
-## maybe str(s1) ; plot(s1) ...
+
+## Creating a state sequence object
+s1.seq <- seqdef(s1)
+
+## Building and plotting a PST
+S1 <- pstree(s1.seq, L = 3)
+plot(S1)
 }
 \keyword{datasets}

@@ -11,7 +11,7 @@ Prune a PST
 Prune an existing PST, using one or several pruning parameters.
 }
 \usage{
-prune(object, nmin, L, r, C, keep, drop, topdown = TRUE, delete = TRUE)
+\S4method{prune}{PSTf}(object, nmin, L, r, C, keep, drop, topdown = TRUE, delete = TRUE)
 }
 
 \arguments{

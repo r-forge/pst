@@ -1,5 +1,5 @@
 \name{pqplot}
-\alias{pqplot-methods}
+\alias{pqplot}
 \alias{pqplot,PSTf,stslist-method}
 \title{ 
 	Prediction quality plot
@@ -9,7 +9,7 @@
 }
 
 \usage{
-	pqplot(object, data, cdata, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
+\S4method{pqplot}{PSTf, stslist}(object, data, cdata, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
 	measure="prob", pqmax, ...)
 }
 

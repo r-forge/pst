@@ -15,7 +15,7 @@ logLik(object, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{\link{PSTf}} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	A PST, that is an object of class \code{\PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

@@ -9,7 +9,7 @@
 	Plot a PST either under a flat representation or nested representation
 }
 \usage{
-	plot(x, y=missing, max.level=NULL,
+	\S4method{plot}{PSTf}(x, y=missing, max.level=NULL,
 		nodePar = list(), edgePar = list(), dLeaf = NULL, 
 		axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 		xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
@@ -18,7 +18,7 @@
 
 \arguments{
   \item{x}{
-	A PST, that is an object of class PSTf as created by the \link{pstree} or \link{prune} functions.
+	A PST, that is an object of class \code{\PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{max.level}{ 
 	integer. The maximal depth for the display of the tree.

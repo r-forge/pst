@@ -11,7 +11,7 @@ Grow a Probabilistic Suffix Tree (PST)
 Grow a Probabilistic Suffix Tree (PST)
 }
 \usage{
-pstree(x, group, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
+\S4method{pstree}{stslist}(x, group, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,9 +35,6 @@ pstree(x, group, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE, ...)
 }
   \item{with.missing}{
 	logical. If TRUE, the missing state is added to the alphabet
-}
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
 }
 }
 \details{
@@ -72,9 +69,9 @@ Bejerano, G. & Yona, G. Variations on probabilistic suffix trees: statistical mo
 \examples{
 ## Builds a PST on one single sequence
 data(s1)
-s1 <- seqdef(s1)
-s1
-S1 <- pstree(s1, L = 3)
+s1.seq <- seqdef(s1)
+s1.seq
+S1 <- pstree(s1.seq, L = 3)
 print(S1, digits = 3)
 S1
 }

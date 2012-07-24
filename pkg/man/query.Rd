@@ -3,6 +3,7 @@
 \alias{query}
 %% \alias{query-methods}
 \alias{query,PSTf-method}
+\alias{round,cprob-method}
 \title{
 	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree
 }
@@ -35,17 +36,13 @@ query(object, context, state, output = "prob", exact = FALSE)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+	An object of class \code{cprobd}, with available \code{round} method.
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~
