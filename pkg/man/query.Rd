@@ -8,16 +8,15 @@
 	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree for a user provided context. 
 }
 \usage{
-query(object, context, state, output = "prob", exact = FALSE)
+\S4method{query}{PSTf}(object, context, state, output = "prob", exact = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A fitted PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
-
+	A PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{context}{
 	Character. The string labelling the node to retrieve. States must be separated by '-' as for example in 'a-a-b'. If the node labelled with this string does not exist in the tree, the node labelled with the longest suffix is searched for, and so on until an existing node is  found.

@@ -11,7 +11,7 @@ Grow a Probabilistic Suffix Tree (PST)
 Grow a Probabilistic Suffix Tree (PST)
 }
 \usage{
-\S4method{pstree}{stslist}(x, group, L, nmin = 1, ymin, weighted = TRUE, with.missing = FALSE)
+\S4method{pstree}{stslist}(x, group, L, cdata=NULL, nmin = 1, ymin=NULL, weighted = TRUE, with.missing = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +20,9 @@ Grow a Probabilistic Suffix Tree (PST)
 }
   \item{group}{
 	a vector giving the group membership of each observation in x. If specified, a 'grouped' PST is produced containing one PST for each group. 
+}
+  \item{cdata}{ 
+	under development.
 }
   \item{L}{
 	maximal depth of the PST. Default to maximal length of the sequence(s) in object minus 1.

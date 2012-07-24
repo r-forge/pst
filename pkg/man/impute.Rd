@@ -10,7 +10,7 @@
 	Missing states in a sequecne object are imputed by using the Probabilistic Suffix Tree. The context preceding the missing status is used to predict it.
 }
 \usage{
-\S4method{impute}{PSTf, stslist}(object, data, method="pmax")
+\S4method{impute}{PSTf,stslist}(object, data, method="pmax")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,8 +20,9 @@
   \item{data}{
 	a sequence object of class 'stslist' as defined with the \code{seqdef} function of the \code{\link{TraMineR}} library. The sequence object contains the sequences to impute. See details.
 }
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+  \item{method}{
+	character. If \code{method='pmax'} the state having the highest probability according to the probability distribution associated with the context preceding the missing status is imputed. If \code{method='prob'} the imputation is done randomly by using this probability distribution.
+
 }
 }
 \details{

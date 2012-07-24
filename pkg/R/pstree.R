@@ -1,7 +1,7 @@
 ## BUILDING A PROBABILISTIC SUFFIX TREE
 
 setMethod("pstree", signature="stslist", 
-	function(x, group, L, cdata=NULL, nmin=1, ymin=NULL, weighted=TRUE, with.missing=FALSE, nested.list=FALSE) {
+	function(x, group, L, cdata=NULL, nmin=1, ymin=NULL, weighted=TRUE, with.missing=FALSE) {
 
 	debut <- Sys.time()
 
@@ -117,10 +117,6 @@ setMethod("pstree", signature="stslist",
 		res <- new("PSTf.mc", res, c.data=cdata, c.alphabet=c.A, c.cpal=c.cpal)
 	}
 		
-	if (nested.list) {
-		res <- as.pstree(res)
-	}
-
 	fin <- Sys.time()
 	message(" [>] total time: ", format(round(fin-debut, 3)))
 

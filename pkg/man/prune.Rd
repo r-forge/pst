@@ -11,7 +11,7 @@ Prune a PST
 Prune an existing PST, using one or several pruning parameters.
 }
 \usage{
-\S4method{prune}{PSTf}(object, nmin, L, r, C, keep, drop, topdown = TRUE, delete = TRUE)
+\S4method{prune}{PSTf}(object, nmin, L, r, C, keep, drop, state, delete = TRUE)
 }
 
 \arguments{
@@ -56,7 +56,7 @@ K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
   \item{drop}{
 	character. A vector of character strings containing the names of the nodes to remove from the tree. All nodes that are a suffix of contexts in drop are removed from the tree as weel.
 }
-  \item{topdown}{
+  \item{state}{
 %%     ~~Describe \code{topdown} here~~
 }
   \item{delete}{
