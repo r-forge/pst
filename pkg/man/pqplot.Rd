@@ -9,8 +9,8 @@
 }
 
 \usage{
-\S4method{pqplot}{PSTf,stslist}(object, data, cdata, L, stcol=TRUE, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
-	measure="prob", pqmax, ...)
+\S4method{pqplot}{PSTf,stslist}(object, data, cdata, L, stcol, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
+	measure="prob", pqmax, seqscale, ...)
 }
 
 \arguments{
@@ -26,6 +26,27 @@
 	\item{plotseq}{ 
 		logical. If TRUE, the sequence is displayed separately, and the prediction plot is plotted above.
 }
+	\item{ptype}{
+}
+	\item{cex.plot}{
+}
+	\item{space}{
+}
+	\item{grid}{
+	logical
+}	
+	\item{seqprob}{
+}
+	\item{measure}{
+	character. Measure used for prediction quality. Either \code{'prob'} or \code{'logloss'}.$
+}
+	\item{pqmax}{
+		max coordinate for the prediction quality plot, i.e. the max of the y axis.
+	}
+	\item{seqscale}{
+		numeric. If \code{plotseq=TRUE}, width of the bar representing the sequence as a proportion of the y axis range.
+	}
+	
 }
 
 \details{
@@ -52,6 +73,7 @@ S1 <- pstree(s1, L=3)
 
 z <- seqdef("a-b-a-a-b")
 pqplot(S1, z)
+pqplot(S1, z, measure="logloss", plotseq=TRUE)
 }
 
 \keyword{methods}
