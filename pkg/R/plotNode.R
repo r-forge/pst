@@ -5,7 +5,6 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
     ePar, horiz = FALSE, gratio, max.level, group, cex, nc) {
 
 	scale <- seq(0, 1, 0.2)
-	vprob <- FALSE
 
 	## Retrieving requested attributes
 	prob <- subtree@prob
@@ -295,10 +294,5 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 	text(xTop, yTop, nodeText, xpd = TRUE, srt = lab.srt, pos=lab.pos, offset=lab.offset,
 		cex = lab.cex, col = lab.col, font = lab.font)
 
-	if (vprob) {
-		text(X, Y+0.2+ns.adj, 
-			paste("(", paste(round(prob,2), collapse=","),")", sep=""),
-			xpd = TRUE, srt = srt, pos=pos, offset=offset, cex = lab.cex, col = lab.col, font = lab.font)
-	}
 }
 
