@@ -9,7 +9,7 @@
 	Plot a PST either under a flat representation or nested representation
 }
 \usage{
-	\S4method{plot}{PSTf,ANY}(x, y=missing, max.level=NULL,
+	\S4method{plot}{PSTr,ANY}(x, y=missing, max.level=NULL,
 		nodePar = list(), edgePar = list(), dLeaf = NULL, 
 		axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 		xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
@@ -71,7 +71,7 @@
 %% ~put references to the literature/web site here ~
 }
 \author{
-	Alexis Gabadinho
+	Alexis Gabadinho, code from ....
 }
 \note{
 %%  ~~further notes~~
