@@ -1,5 +1,6 @@
 \name{predict}
 \docType{methods}
+\alias{predict}
 \alias{predict,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
