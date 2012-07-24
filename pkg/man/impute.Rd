@@ -1,5 +1,6 @@
 \name{impute}
 \docType{methods}
+\alias{impute}
 \alias{impute,PSTf, stslist-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{

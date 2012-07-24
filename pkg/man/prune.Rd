@@ -1,6 +1,7 @@
 \name{prune}
 \docType{methods}
 % \alias{prune-methods}
+\alias{prune}
 \alias{prune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{

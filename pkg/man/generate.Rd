@@ -1,11 +1,12 @@
 \name{generate}
+\alias{generate}
 \alias{generate,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Generate sequences using a PST
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Generate sequences with a Probabilistic Suffix Tree (PST)
 }
 \usage{
 generate(object, l, n, s1, p1, method, L, ...)
@@ -13,7 +14,7 @@ generate(object, l, n, s1, p1, method, L, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{\link{PSTf}} as returned by \code{\link{pstree}} or \code{\link{prune}}.
+	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{l}{
 	Integer: Length of the sequence(s) to generate
@@ -41,11 +42,7 @@ generate(object, l, n, s1, p1, method, L, ...)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A state sequence object (an object of class \code{stslist}) containing \code{n} sequences. This object can be passed as argument to all the functions for visualization and analysis provided by the \code{\link{TraMineR}} package. 
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -54,7 +51,7 @@ generate(object, l, n, s1, p1, method, L, ...)
 %%  ~~who you are~~
 }
 \note{
-%%  ~~further notes~~
+Alexis Gabadinho
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

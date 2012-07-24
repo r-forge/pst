@@ -1,4 +1,5 @@
 \name{cplot}
+\alias{cplot}
 \alias{cplot,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{

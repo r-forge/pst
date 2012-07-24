@@ -6,7 +6,7 @@
 	Compute the probability of categorical sequences using a Probabilistic Suffix Tree
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Compute the probability (likelihood) of categorical sequences using a Probabilistic Suffix Tree
 }
 \usage{
 predict(object, data, ...)
@@ -40,7 +40,7 @@ P(abaab) = P(a) \times P(b|a) \times P(a|ab) \times P(a|aba) \times P(b|abaa)
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~

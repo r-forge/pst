@@ -1,5 +1,6 @@
 \name{tune}
 \docType{methods}
+\alias{tune}
 \alias{tune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -14,7 +15,7 @@ tune(object, C, criterion = "AIC", output = "PST")
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class 'PSTf' as returned by the \code{\link{pstree}} or \code{\link{prune}} funtion.
+	A PST, that is an object of class 'PSTf' as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{C}{ 
 	numeric. A vector of pruning parameters. See \code{\link{prune}} for details.

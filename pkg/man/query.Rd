@@ -1,6 +1,7 @@
 \name{query}
 \docType{methods}
-\alias{query-methods}
+\alias{query}
+%% \alias{query-methods}
 \alias{query,PSTf-method}
 \title{
 	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree
@@ -14,7 +15,7 @@ query(object, context, state, output = "prob", exact = FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A fitted PST, that is an object of class PSTf as returned by the \link{pstree()} or \link{prune()} function.
+	A fitted PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 
 }
   \item{context}{

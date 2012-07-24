@@ -62,7 +62,7 @@
 }
 
 \details{
-	The graphical representation of a PST uses a recursive function. Hence the main argument of the function is a tree represented as a nested list (an object of class \code{\link{PSTr}}.
+	The graphical representation of a PST uses a recursive function. Hence the main argument of the function is a tree represented as a nested list (an object of class \code{PSTr}.
 }
 \value{
 	Either a vector of sequence probabilities (decomp=FALSE) or a matrix (if decomp=FALSE) containing for each sequence (row) the probability of each state in columns.   

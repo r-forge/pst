@@ -1,6 +1,7 @@
 \name{pstree}
 \docType{methods}
-\alias{pstree-methods}
+\alias{pstree}
+%% \alias{pstree-methods}
 \alias{pstree,stslist-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
