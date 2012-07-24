@@ -18,7 +18,7 @@
 
 \arguments{
   \item{x}{
-	A PST, that is an object of class \code{\PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{y}{
 	not applicable
