@@ -23,6 +23,13 @@
 	\item{cdata}{
 		Under development.
 }
+	\item{L}{
+		integer. Maximal context length for sequence prediction. This is the same as pruning the PST by removing all nodes of depth<L before prediction. 
+}
+	\item{stcol}{
+		color to use to represent the states in the plot of the prediction qualities. 
+	}
+
 	\item{plotseq}{ 
 		logical. If TRUE, the sequence is displayed separately, and the prediction plot is plotted above.
 }
@@ -46,7 +53,9 @@
 	\item{seqscale}{
 		numeric. If \code{plotseq=TRUE}, width of the bar representing the sequence as a proportion of the y axis range.
 	}
-	
+	\item{\dots}{
+		optional graphical parameters to be passed to the plot function.
+	}
 }
 
 \details{

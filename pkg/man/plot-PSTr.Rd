@@ -1,4 +1,4 @@
-\name{plot}
+\name{plot-PSTr}
 \alias{plot,PSTf,ANY-method}
 \alias{plot,PSTr,ANY-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
