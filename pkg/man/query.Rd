@@ -3,7 +3,7 @@
 \alias{query}
 %% \alias{query-methods}
 \alias{query,PSTf-method}
-\alias{round,cprob-method}
+\alias{round,cprobd-method}
 \title{
 	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree
 }

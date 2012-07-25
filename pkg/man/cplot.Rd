@@ -6,10 +6,10 @@
 	Plot single nodes
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Plot the next symbol probability distribution associated with a particular node in a PST
 }
 \usage{
-	cplot(object, context, ...)
+	\S4method{cplot}{PSTf}(object, context, state, all=FALSE, x.by=1, y.by=0.2, ...)
 }
 %% ============================================
 \arguments{
