@@ -32,8 +32,8 @@
 	character. One or several states of the alphabet for which the (cumulated) probability is greater than \code{pmin} or less than \code{pmax}.
 }
 	\item{as.tree}{
-		logical. If \code{TRUE} the \code{cmine} method returns a subtree of the PST given as input with selected contexts (including their parent nodes, even if these don't statistify the defined criterion). If \code{FALSE} the output is the list of selected contexts. See value. 
-
+		logical. If \code{TRUE} the \code{cmine} method returns a subtree of the PST given as input with selected contexts (including their parent nodes, even if these don't statistify the defined criterion). If \code{FALSE} the output is the list of selected contexts. See value.
+} 
 }
 
 \section{details}{
