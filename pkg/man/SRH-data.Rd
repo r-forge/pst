@@ -29,7 +29,7 @@ Sequence data on self rated health from the Swiss household panel
   }
 }
 \details{
-A sequence object can be built by using the seqdef function of the TraMineR package.
+A sequence object can be built by using the seqdef function of the TraMineR package. Respondant's self rated health is collected at each yearly wave of the SHP with the following question: \emph{How do you feel right now?}. Possible answers are: very well; well; so, so (average), not very well and not well at all. The sequences are made of an individual's responses over 11 yearly waves of the SHP, starting with wave 1 in 1999. Variable p99c01 contains the self rated health at wave 1, p00c01 contains the self rated health at wave 2, etc... Note that sequences may contain missing values due to wave or item non response. 
 }
 \source{
 Swiss Household Panel \url{www.swisspanel.ch}
@@ -39,7 +39,7 @@ Swiss Household Panel \url{www.swisspanel.ch}
 }
 \examples{
 data(SRH)
-state.list <- levels(SRH$p99c01)[10:6]
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("B2", "B1", "M", "G1", "G2"), weights=SRH$wp09lp1s)
+state.list <- levels(SRH$p99c01)
+SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), weights=SRH$wp09lp1s)
 }
 \keyword{datasets}

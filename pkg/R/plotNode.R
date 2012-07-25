@@ -1,7 +1,7 @@
 ## ==============
 ## Plotting nodes
 ## ==============
-plotNode <- function(x1, x2, subtree, dLeaf, nPar, 
+plotNode <- function(x1, x2, subtree, nPar, 
     ePar, horiz = FALSE, gratio, max.level, group, cex, nc) {
 
 	scale <- seq(0, 1, 0.2)
@@ -82,7 +82,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 
 	## 
 	if (horiz) {
-		X <- yTop + dLeaf * lab.cex
+		X <- yTop
 		Y <- xTop
 		tmp <- yTop
 		yTop <- xTop
@@ -90,7 +90,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 		offset <- nchar(nodeText)/2
 		inches <- node.size/2
         } else {
-		Y <- yTop - dLeaf * lab.cex
+		Y <- yTop
 		X <- xTop
 		offset <- nchar(nodeText)/2
 		inches <- FALSE
@@ -213,7 +213,7 @@ plotNode <- function(x1, x2, subtree, dLeaf, nPar,
 			}
 
 			## Plotting the node
-			plotNode(bx$limit[idx], bx$limit[idx+1], subtree = child, dLeaf, nPar=nPar, ePar=ePar, 
+			plotNode(bx$limit[idx], bx$limit[idx+1], subtree = child, nPar=nPar, ePar=ePar, 
                 		horiz=horiz, gratio=gratio, max.level=max.level, group=group, cex=cex, nc=nc)
 		}
 	} else if (node.type=="prob") {

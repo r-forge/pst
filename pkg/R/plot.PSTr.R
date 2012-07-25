@@ -3,7 +3,7 @@
 ## =======================================
 
 setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
-	nodePar = list(), edgePar = list(), dLeaf = NULL, 
+	nodePar = list(), edgePar = list(),
 	axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
 	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
 	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
@@ -89,12 +89,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 		}		
 	}
 
-	if (is.null(dLeaf)) 
-		dLeaf <- 0.75 * (if (horiz) 
-			{strwidth("w")}
-        else {strheight("x")})
-
-	plotNode(x1, x2, x, dLeaf = dLeaf, nPar = nodePar, ePar = edgePar, 
+	plotNode(x1, x2, x, nPar = nodePar, ePar = edgePar, 
 		horiz = horiz, gratio=gratio, max.level=max.level, group=groups, cex=cex, nc=nc)
 
 	## Plotting the legend

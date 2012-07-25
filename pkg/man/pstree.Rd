@@ -41,7 +41,11 @@ Grow a Probabilistic Suffix Tree (PST)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+A PST is built by successively adding nodes corresponding to subsequences of increasing length \eqn{L}. The algorithm calls the \code{\link{cprob}} function which returns either the empiral probability distributions of order $L$ or the counts on which the probabilities are computed. The empirical conditional probability \eqn{\hat{P}(\sigma | x)} of observing a symbol \eqn{\sigma \in A} after the subsequence \eqn{x} of length \eqn{l=L} is computed as 
+\deqn{
+\hat{P}(\sigma | x) = \frac{N(x\sigma)}{\sum_{\sigma \in A} N(x\sigma)}
+}
+where \eqn{N(x\sigma)} is the observed frequency of the subsequence \eqn{x\sigma}, that is the concatenation of the subsequence \eqn{x} and the symbol \eqn{\sigma}. The empirical probability \eqn{\hat{P}(\sigma | x)} is the maximal likelihood estimator of the probability \eqn{P(\sigma | x)}.
 }
 \value{
 	an object of class 'PSTf', a list with L elements and following attributes 

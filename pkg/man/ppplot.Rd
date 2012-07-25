@@ -7,10 +7,11 @@
 	Plotting a branch of a PST
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+ The \code{ppplot} function displays the probability distributions of a context all its parent nodes (suffixes) in the tree. One can give a vector of pruning cutoffs as optional argument to this function, either for \eqn{r} or \eqn{C} or both, and the graphic will display the outcome of the gain function. 
 }
 \usage{
-ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "circle", pscale = seqscale/2, pruned.col = "red", div.col = "green", ...)
+ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "circle", 
+	pscale = seqscale/2, pruned.col = "red", div.col = "green", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -65,7 +66,7 @@ ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "cir
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Alexis Gabadinho
 }
 \note{
 %%  ~~further notes~~
@@ -74,9 +75,13 @@ ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "cir
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{prune}}
 }
 \examples{
+data(s1)
+s1.seq <- seqdef(s1)
+S1 <- pstree(s1.seq, L=5)
+ppplot(S1, "a-a-b-b-a")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
