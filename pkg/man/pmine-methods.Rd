@@ -34,7 +34,6 @@ Mine for (sub)sequences in a state sequence object satisfying user defined crite
 	integer. The \code{lag} first states in the sequence are omitted. 
 }
   \item{state}{
-	logical. If TRUE, weights attached to the sequence object are used in the estimation of probabilities.
 }
   \item{average}{
 	logical. If \code{TRUE}, the \code{pmin} or \code{pmax} probability is supposed to be the average state probability in the (sub)sequences. If \code{FALSE} (sub)sequences having every state probability less than \code{pmax} or greater than \code{pmin} are selected.

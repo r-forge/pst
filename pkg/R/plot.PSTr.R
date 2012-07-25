@@ -3,9 +3,9 @@
 ## =======================================
 
 setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
-	nodePar = list(), edgePar = list(),
-	axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
-	xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
+	nodePar = list(), edgePar = list(), 
+	axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
+	xaxt = "n", yaxt = "n", horiz = FALSE,  
 	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
 	## Margins
@@ -72,7 +72,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	if (missing(ylim) || is.null(ylim)) { ylim <- yl. }
 
 	plot(0, xlim = xlim, ylim = ylim, type = "n", xlab = xlab,
-		ylab = ylab, frame.plot = frame.plot, xaxt=xaxt, yaxt=yaxt, ...)
+		ylab = ylab, xaxt=xaxt, yaxt=yaxt, ...)
 
 	if (horiz) {
 		## Size of one unit in inches (to correctly draw circles)  

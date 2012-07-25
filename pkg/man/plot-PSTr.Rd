@@ -10,9 +10,9 @@
 }
 \usage{
 	\S4method{plot}{PSTr,ANY}(x, y=missing, max.level=NULL,
-		nodePar = list(), edgePar = list(), dLeaf = NULL, 
-		axis=FALSE, xlab = "", ylab = if (axis) { "L" } else {""}, 
-		xaxt = "n", yaxt = "n", horiz = FALSE, frame.plot = FALSE, 
+		nodePar = list(), edgePar = list(),
+		axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
+		xaxt = "n", yaxt = "n", horiz = FALSE,
 		xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...)
 }
 
