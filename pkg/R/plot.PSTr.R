@@ -44,7 +44,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	mem.x <- stats@leaves
 	pin <- par("pin")
 	
-	node.type <- Xtract("node.type", nodePar, default = c("prob", "prob"), i)
+	node.type <- Xtract("node.type", nodePar, default = "prob")
 	node.size <- Xtract("node.size", edgePar, default = 0.6)
 	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x))
 	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
