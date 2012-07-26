@@ -1,3 +1,7 @@
+[0.64]
+- important changes in the plot funtion for PST. New main recursive plotting function called plotTree and separate functions plotEdge and plotNode which allow in the future the user to build his own functions to plot the content of each node and the edges linking the nodes
+- many changes in documentation files
+
 [0.63]
 - cleaning code in plotNode()
 - added and modified documentation files  

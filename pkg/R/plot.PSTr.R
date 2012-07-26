@@ -8,6 +8,8 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	xaxt = "n", yaxt = "n", horiz = FALSE,  
 	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
+	cpal <- x@cpal
+
 	## Margins
 	Lmar <- if (axis) { 4 } else { 2 }
 	if (horiz) { par(mar=c(Lmar,2,4,2)) } else { par(mar=c(2,Lmar,4,2)) }
@@ -42,6 +44,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	mem.x <- stats@leaves
 	pin <- par("pin")
 	
+	node.type <- Xtract("node.type", nodePar, default = c("prob", "prob"), i)
 	node.size <- Xtract("node.size", edgePar, default = 0.6)
 	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x))
 	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
@@ -50,7 +53,8 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	yTop <- k
 	x1 <- 1
 	x2 <- mem.x
-	xl. <- if (horiz) { c(x1 -((node.size/2)*gratio), x2 + ((node.size/2)*gratio)) } 
+
+	xl. <- if (horiz) { c(x1-((node.size/2)*gratio), x2 + ((node.size/2)*gratio)) } 
 		else { c(x1 -(node.size/2), x2 + (node.size/2)) }
 	yl. <- if (horiz) { c(k-(node.size/2), hgt+(node.size/2)+leave.lh) 
 		} else { c(k-((node.size/2)*gratio), hgt+((node.size/2)*gratio)+leave.lh) }
@@ -71,7 +75,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	if (missing(xlim) || is.null(xlim)) { xlim <- xl. }
 	if (missing(ylim) || is.null(ylim)) { ylim <- yl. }
 
-	plot(0, xlim = xlim, ylim = ylim, type = "n", xlab = xlab,
+	plot(0, xlim = xlim, ylim = ylim, type = "n", xlab = xlab, frame.plot=FALSE,
 		ylab = ylab, xaxt=xaxt, yaxt=yaxt, ...)
 
 	if (horiz) {
@@ -89,15 +93,13 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 		}		
 	}
 
-	plotNode(x1, x2, x, nPar = nodePar, ePar = edgePar, 
-		horiz = horiz, gratio=gratio, max.level=max.level, group=groups, cex=cex, nc=nc)
+	plotTree(x1, x2, x, nPar = nodePar, ePar = edgePar, 
+		horiz = horiz, gratio=gratio, max.level=max.level, group=groups, cex=cex, nc=nc, cpal=cpal)
 
 	## Plotting the legend
 	if (!is.null(legpos)) {
 		## Extracting some sequence characteristics
 		if (is.null(ltext)) ltext <- x@labels
-
-		cpal <- Xtract("cpal", nodePar, default = x@cpal)
 
 		PST.legend(legpos, ltext, cpal, cex=cex.legend)
 	}
