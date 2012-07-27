@@ -24,7 +24,6 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 	bx <- plotNodeLimit(x1, x2, subtree, max.level)
 	xTop <- bx$x
 	yTop <- subtree@order
-	xBot <- mean(x1, x2)
 
 	if (getOption("verbose")) {
         	cat(if (inner) { "inner node" } else { "leaf" } , ":" )
