@@ -45,7 +45,7 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	pin <- par("pin")
 	
 	node.type <- Xtract("node.type", nodePar, default = "prob")
-	node.size <- Xtract("node.size", edgePar, default = 0.6)
+	node.size <- Xtract("node.size", nodePar, default = 0.6)
 	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x))
 	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
 	leave.lw <- Xtract("leave.lw", edgePar, default=node.size)
@@ -54,10 +54,14 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	x1 <- 1
 	x2 <- mem.x
 
-	xl. <- if (horiz) { c(x1-((node.size/2)*gratio), x2 + ((node.size/2)*gratio)) } 
-		else { c(x1 -(node.size/2), x2 + (node.size/2)) }
-	yl. <- if (horiz) { c(k-(node.size/2), hgt+(node.size/2)+leave.lh) 
-		} else { c(k-((node.size/2)*gratio), hgt+((node.size/2)*gratio)+leave.lh) }
+	if (horiz) {
+		xl. <- c(x1-((node.size/2)*gratio), x2 + ((node.size/2)*gratio))
+		yl. <- c(k-(node.size/2), hgt+(node.size/2)+leave.lh)
+	} else {
+		ym <- if (node.type=="prob") { 0.5 } else { (node.size/2)*gratio }
+		xl. <- c(x1 -(node.size/2), x2 + (node.size/2))
+		yl. <- c(k-ym, hgt+((node.size/2)*gratio)+leave.lh)
+	}
 	yl. <- rev(yl.)
 
 	## If horiz=TRUE, x and y are inverted

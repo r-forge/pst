@@ -22,8 +22,8 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 	inner <- !length(children)==0 && x1 != x2 && !depth==max.level
 
 	bx <- plotNodeLimit(x1, x2, subtree, max.level)
-	xTop <- bx$x
-	yTop <- subtree@order
+	X <- bx$x
+	Y <- subtree@order
 
 	if (getOption("verbose")) {
         	cat(if (inner) { "inner node" } else { "leaf" } , ":" )
@@ -32,9 +32,9 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 			str(nPar)
 		}
         	cat(if (inner) 
-        	    paste(" height", formatC(yTop), "; "), "(x1,x2)= (", 
+        	    paste(" height", formatC(Y), "; "), "(x1,x2)= (", 
         	    formatC(x1, width = 4), ",", formatC(x2, width = 4), 
-        		    ")", "--> xTop=", formatC(xTop, width = 8), "\n", 
+        		    ")", "--> X=", formatC(X, width = 8), "\n", 
         		    sep = "")
 	}
 
@@ -72,8 +72,8 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 	leave.csize <- Xtract("leave.csize", nPar, default=c.size*0.5)
 	leave.lh <- Xtract("leave.lh", nPar, default=0.1)
 	leave.lw <- Xtract("leave.lw", nPar, default=node.size)
-    lty <- Xtract("lty", nPar, default = par("lty"), i)
-    lwd <- Xtract("lwd", nPar, default = 3, i)
+	lty <- Xtract("lty", nPar, default = par("lty"), i)
+	lwd <- Xtract("lwd", nPar, default = 3, i)
 
 	## TEXT APPEARING in THE NODE
 	nodeText <- NULL
@@ -88,23 +88,20 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 			} else if (lab.type[ltidx]=="state") { nodeText[ltidx] <- state }
 			else if (lab.type[ltidx]=="n") { nodeText[ltidx] <- round(sum(subtree@n, na.rm=TRUE),1) }
 			else if (lab.type[ltidx]=="prob") { 
-				nodeText[ltidx] <- paste("(",paste(round(prob,2),collapse=","),")",sep="") 				}
+				nodeText[ltidx] <- paste("(",paste(round(prob,2),collapse=","),")",sep="")
+			}
 		}
 		nodeText <- paste(nodeText, collapse="\n")
 	}
 
 	## 
 	if (horiz) {
-		X <- yTop
-		Y <- xTop
-		tmp <- yTop
-		yTop <- xTop
-		xTop <- tmp
+		tmp <- Y
+		Y <- X
+		X <- tmp
 		offset <- nchar(nodeText)/2
 		inches <- node.size/2
 	} else {
-		Y <- yTop
-		X <- xTop
 		offset <- nchar(nodeText)/2
 		inches <- FALSE
 	}
@@ -114,23 +111,26 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 		## iconv <- -strwidth("x")/strwidth("x", units="inches")/max.level
 		## message("iconv:", iconv)
 
-		ccol <- cpal[which(node.id==names(cpal))]
+		ccol <- if (node.id=="e") { root.col } else { cpal[which(node.id==names(cpal))] }
 
+		## Plotting the circle with the node id
 		if (horiz) {
 			## Middle of the edge stemming from children
-			yMid <- (xTop-((node.size/2)*gratio)+xTop-0.5)/2
-			symbols(yMid, yTop, circles=c.size, bg=ccol, fg=fg.col, inches=nc/4, add=TRUE)
-			text(yMid, yTop, asTxt(node.id), cex=t.cex, font=t.font, col=t.col)
+			yMid <- (X-((node.size/2)*gratio)+X-0.5)/2
+			segments(yMid, Y, X, Y, col=fg.col, lty=lty, lwd=lwd)
+			symbols(yMid, Y, circles=c.size, bg=ccol, fg=fg.col, inches=nc/4, add=TRUE)
+			text(yMid, Y, asTxt(node.id), cex=t.cex, font=t.font, col=t.col)
 		} else {
-			yMid <- (yTop-((node.size/2)*gratio)+yTop-0.5)/2
-			symbols(xTop, yMid, circles=c.size, bg=ccol , fg=fg.col, add=TRUE, inches=FALSE)
-			text(xTop, yMid, asTxt(node.id), cex=t.cex, font=t.font, col=t.col)
+			yMid <- (Y-((node.size/2)*gratio)+Y-0.5)/2
+			segments(X, yMid, X, Y, col=fg.col, lty=lty, lwd=lwd)
+			symbols(X, yMid, circles=c.size, bg=ccol , fg=fg.col, add=TRUE, inches=FALSE)
+			text(X, yMid, asTxt(node.id), cex=t.cex, font=t.font, col=t.col)
 		}
 
-		Node.ytop <- if (horiz) {yTop-(node.size/2)} else { yTop-ns.adj }
-		Node.ybottom <- if (horiz) {yTop+(node.size/2)} else { yTop+ns.adj }
-		Node.xleft <- if (horiz) {xTop+((node.size/2)*gratio) } else {X-(node.size/2)}
-		Node.xright <- if (horiz) {xTop-((node.size/2)*gratio)} else { Node.xleft+node.size }
+		Node.ytop <- if (horiz) {Y-(node.size/2)} else { Y-ns.adj }
+		Node.ybottom <- if (horiz) {Y+(node.size/2)} else { Y+ns.adj }
+		Node.xleft <- if (horiz) {X+((node.size/2)*gratio) } else {X-(node.size/2)}
+		Node.xright <- if (horiz) {X-((node.size/2)*gratio)} else { Node.xleft+node.size }
 
 		if (nrow(prob)>1) {
 			if (path=="e") {
@@ -148,29 +148,29 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 		if (!inner) {
 			## Bare verticale en dessous du rectangle
 			if (horiz) {
-				segments(xTop, yTop, xTop+Node.lim+leave.lh, yTop, col=fg.col, lty=lty, lwd=lwd)
+				segments(X, Y, X+Node.lim+leave.lh, Y, col=fg.col, lty=lty, lwd=lwd)
 			} else {
-				segments(xTop, yTop, xTop, yTop+Node.lim+leave.lh, col=fg.col, lty=lty, lwd=lwd)
+				segments(X, Y, X, Y+Node.lim+leave.lh, col=fg.col, lty=lty, lwd=lwd)
 			}
 
 			if (all(subtree@leaf, na.rm=TRUE)) {
 			## Leave indicator
 				if (horiz) {
 					## Bare horizontale du rateau
-					segments(xTop+Node.lim+leave.lh, yTop-(leave.lw/4), 
-						xTop+Node.lim+leave.lh, yTop+(leave.lw/4), 
+					segments(X+Node.lim+leave.lh, Y-(leave.lw/4), 
+						X+Node.lim+leave.lh, Y+(leave.lw/4), 
 						col=fg.col, lty=lty, lwd=lwd)
 				} else {
 					## Bare horizontale du rateau
-					segments(xTop-(leave.lw/4), yTop+Node.lim+leave.lh, xTop+(leave.lw/4), 
-						yTop+Node.lim+leave.lh, col=fg.col, lty=lty, lwd=lwd)
+					segments(X-(leave.lw/4), Y+Node.lim+leave.lh, X+(leave.lw/4), 
+						Y+Node.lim+leave.lh, col=fg.col, lty=lty, lwd=lwd)
 				}
 			} else {
 				if (horiz) {
-					symbols(xTop+Node.lim+leave.lh, yTop, circles=1, inches=(nc/4)*0.5, add=TRUE,
+					symbols(X+Node.lim+leave.lh, Y, circles=1, inches=(nc/4)*0.5, add=TRUE,
 						fg=fg.col, bg=fg.col)
 				} else {
-					symbols(xTop, yTop+Node.lim+leave.lh, circles=leave.csize, inches=FALSE, add=TRUE,
+					symbols(X, Y+Node.lim+leave.lh, circles=leave.csize, inches=FALSE, add=TRUE,
 						fg=fg.col, bg=fg.col)
 				}
 			}
@@ -185,16 +185,16 @@ plotNode <- function(x1, x2, subtree, nPar, horiz = FALSE, gratio, max.level, gr
 		if (node.ccol=="state") {
 			node.ccol <- if (path=="e") root.col else cpal[which(state==alphabet)]
 		}
-		symbols(xTop, if (horiz) Y else yTop, circles=node.size/2, inches=inches, add=TRUE, 
+		symbols(X, Y, circles=node.size/2, inches=inches, add=TRUE, 
 			fg=if (pruned) pruned.col else par("col"), bg=node.ccol)
 		## State
-		text(xTop, yTop, state, xpd = TRUE, 
+		text(X, Y, state, xpd = TRUE, 
 			## srt = lab.srt, pos=lab.pos, offset=lab.offset,
 			cex = lab.cex, col = lab.col, font = lab.font)
 	}
 
 	## The node label
-	text(xTop, yTop, nodeText, xpd = TRUE, srt = lab.srt, pos=lab.pos, offset=lab.offset,
+	text(X, Y, nodeText, xpd = TRUE, srt = lab.srt, pos=lab.pos, offset=lab.offset,
 		cex = lab.cex, col = lab.col, font = lab.font)
 
 }
