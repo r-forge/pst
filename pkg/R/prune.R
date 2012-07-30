@@ -25,7 +25,10 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, de
 	}
 
 	object <- as(object, "list")
-	has.child <- NULL
+	cnodes <- NULL
+
+	message(" [>] pruning results: ")
+	message("   ", format("[L]", width=5, justify="right"), format("[nodes]",width=9, justify="right"), format("[pruned]", width=10, justify="right"))
 
 	for (i in length(object):2) {
 		nodes <- object[[i]]
@@ -42,7 +45,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, de
 				} else {
 					keep.tmp <- keep[keep.sl==i-1,, drop=FALSE]
 					keep.list <- seqconc(keep.tmp)
-					nodes <- lapply(nodes, node.keep, keep.list, has.child)
+					nodes <- lapply(nodes, node.keep, keep.list, clist=cnodes)
 				}
 			}
 			if (!missing(state)) {
@@ -54,37 +57,46 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, de
 				nodes <- lapply(nodes, node.nmin, nmin)
 			}
 			if (!missing(C)) {
-				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, C=C, has.child=has.child)
+				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, C=C, clist=cnodes)
 			} else if (!missing(r)) {
-				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, r=r, has.child=has.child)
+				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, r=r, clist=cnodes)
 			}
 		}
 
-		pruned <- unlist(lapply(nodes, function(x) {sum(x@pruned)}))
+		pruned <- unlist(lapply(nodes, function(x) { sum(x@pruned) } ))
 		plabel <- if (segmented) { " node segment(s) pruned" } else { " node(s) pruned" }
 
-		message(" [>] L=",i-1,", ", sum(pruned),"/", sum(nbnodes), " node(s) pruned")
+		message("   ", format(i-1, width=5), format(sum(nbnodes),width=9), format(sum(pruned), width=10))
 
-		if (delete & sum(pruned)>0) {
-			if (segmented) {
-				nodes <- lapply(nodes, remove.pruned.group)
-				pruned.id <- which(unlist(lapply(nodes, function(x) {nrow(x@prob)==0})))
-			} else {
-				pruned.id <- which(pruned==1)
-			}
-			nodes <- nodes[-pruned.id]
-			## Nodes having no more childrens set as leaves
-			pnames <- unlist(lapply(nodes, node.parent))
-			parents <- lapply(parents, function(x, pnames) {if (!x@path %in% pnames) {x@leaf[] <- TRUE}; x}, pnames)
-		} else if (sum(pruned)>0) {
-			if (segmented) {
-				stop(" pruning with delete=FALSE not implemented for segmented PST")
-			} else {
-				unpruned.id <- which(pruned==0)
-				has.child <- unlist(lapply(nodes[unpruned.id], node.parent))
-			}
+		if (sum(pruned)>0) {
+			cnodes <- lapply(nodes, delete.pruned)
+			## Removing empty nodes
+			pruned.id <- which(unlist(lapply(cnodes, function(x) { nrow(x@prob)==0 } )))
+			if (length(pruned.id)>0) { cnodes <- cnodes[-pruned.id] }
+
+			## 
+			if (delete) {
+				nodes <- cnodes
+				cnodes <- NULL
+
+				if (length(nodes)>0) {
+					## Node segments having no more childrens set as leaves
+					remaining <- lapply(nodes, function(x) { rownames(x@prob) })
+					rplist <- unlist(lapply(nodes, node.parent))
+
+					parents <- lapply(parents, set.leaves, remaining, rplist)
+				} else {
+					parents <- lapply(parents, function(x) { x@leaf[] <- TRUE; x })
+				}
+
+				## pnames <- unlist(lapply(nodes, node.parent))
+				## parents <- lapply(parents, function(x, pnames) {if (!x@path %in% pnames) {x@leaf[] <- TRUE}; x}, pnames)
+			} 
+		} else if (!delete) {
+				cnodes <- nodes
 		}
 
+		## =====================
 		if (length(nodes)==0) {
 			object <- object[-i]
 		} else {

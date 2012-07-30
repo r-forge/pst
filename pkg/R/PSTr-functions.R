@@ -1,7 +1,12 @@
 
 ## If node not in keep.list it is tagged as pruned
-node.keep <- function(x, keep.list, has.child) {
-	if (!x@path %in% keep.list & (x@leaf | (!is.null(has.child) && !x@path %in% has.child))) {
+node.keep <- function(x, keep.list, clist) {
+	## 
+	if (!is.null(clist)) {
+		tmp <- unlist(lapply(clist, node.parent))
+	}	
+
+	if (!x@path %in% keep.list & (x@leaf | (!is.null(clist) && !x@path %in% tmp))) {
 		x@pruned[] <- TRUE
 	}
 	return(x)
@@ -25,12 +30,24 @@ node.parent <- function(x, segmented=FALSE) {
 }
 
 ## gain function
-node.pdiv <- function(x, plist, A, C, r, N, has.child) {
+node.pdiv <- function(x, plist, A, C, r, N, clist) {
 	parent <- plist[[node.parent(x)]]
+
+	## 
+	if (!is.null(clist)) {
+		tmp <- unlist(lapply(clist, node.parent))
+		children <- clist[which(tmp==x@path)]
+		if (length(children)>0) {
+			children <- unlist(lapply(children, function(x) rownames(x@prob)))
+		}
+	} else {
+		children <- NULL
+	}	
+
 	glist <- rownames(x@prob)
 
 	for (n in 1:nrow(x@prob)) {
-		if (!x@pruned[n] & (x@leaf[n] | (!is.null(has.child) && !x@path %in% has.child)) ) {
+		if (!x@pruned[n] & (x@leaf[n] || (!is.null(clist) & !glist[n] %in% children))) {
 			if (!missing(C)) {
 				x@pruned[n] <- !pdiv(x@prob[n,], parent@prob[glist[n],], C=C, N=x@n[n])
 			} else if (!missing(r)) {
@@ -67,7 +84,7 @@ is.pruned <- function(x) {
 	return(x@pruned)
 }
 
-remove.pruned.group <- function(x) {
+delete.pruned <- function(x) {
 	if (any(x@pruned)) {
 		idxnp <- !x@pruned
 		x@prob <- x@prob[idxnp,, drop=FALSE]
@@ -133,7 +150,15 @@ node.merge <- function(x, y, segmented) {
 	return(x)
 }
 
+## set leave
+set.leaves <- function(x, clist, cplist) {
+	child <- which(x@path==cplist)
+	pchild <- unique(as.vector(unlist(clist[child])))
+	leaves <- !names(x@leaf) %in% pchild
+	if (sum(leaves)>0) { x@leaf[leaves] <- TRUE }
 
+	return(x)
+}
 
 
 
