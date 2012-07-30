@@ -44,6 +44,12 @@
   \item{horiz}{ 
 	logical. If FALSE, the tree is represented vertically. The root node at depth L=0 is plotted on the top, and the nodes of maximal depth are plotted on the bottom of the plot. If TRUE, the tree is represented horizontally. The root node at depth L=0 is plotted on the right, and the nodes of maximal depth are plotted on the left of the plot.
 }
+  \item{xlim}{
+	numeric. Vector of length 2 giving the x limits for the plot. By default the limits are 1 .. number of terminal nodes (at max.level if specified). This may be usefull to facilitate comparison if several trees are plotted on the same figure.
+}
+  \item{ylim}{
+	numeric. Vector of length 2 giving the y limits for the plot. By default the limits are 0 .. max. depth of the tree (max.level if specified). This may be usefull to facilitate comparison if several trees are plotted on the same figure.
+}
   \item{withlegend}{ 
 	defines if and where the legend of the state colors is plotted. The default value \code{TRUE} sets the position of the legend automatically. Other possible value is \code{"right"}.
 }
