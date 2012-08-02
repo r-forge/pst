@@ -11,6 +11,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, de
 	segmented <- object@segmented
 	group <- object@group
 
+	stationary <- if (class(object)=="PSTf.ns") { FALSE } else { TRUE }
+
 	if (!missing(keep)) {
 		if (class(object)=="PSTf.mc") {
 			c.A <- object@c.alphabet
@@ -57,9 +59,9 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, de
 				nodes <- lapply(nodes, node.nmin, nmin)
 			}
 			if (!missing(C)) {
-				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, C=C, clist=cnodes)
+				nodes <- lapply(nodes, node.gain, plist=parents, C=C, clist=cnodes)
 			} else if (!missing(r)) {
-				nodes <- lapply(nodes, node.pdiv, plist=parents, A=A, r=r, clist=cnodes)
+				nodes <- lapply(nodes, node.gain, plist=parents, r=r, clist=cnodes)
 			}
 		}
 
@@ -105,7 +107,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, de
 		object[[i-1]] <- parents
 	}
 
-	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, segmented=segmented, group=group)
+	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, segmented=segmented, group=group, call=match.call())
+	if (!stationary) { object <- new("PSTf.ns", object) }
 
 	return(object)
 }

@@ -30,7 +30,7 @@ node.parent <- function(x, segmented=FALSE) {
 }
 
 ## gain function
-node.pdiv <- function(x, plist, A, C, r, N, clist) {
+node.gain <- function(x, plist, C, r, clist) {
 	parent <- plist[[node.parent(x)]]
 
 	## 
@@ -58,6 +58,7 @@ node.pdiv <- function(x, plist, A, C, r, N, clist) {
 
 	return(x)
 }
+
 
 
 node.prune <- function(x) { 

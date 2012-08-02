@@ -40,7 +40,8 @@ setClass("PSTf",
 		labels="character",
 		cpal="character",
 		segmented="logical",
-		group="factor"),
+		group="factor",
+		call="call"),
 	contains="list"
 )
 
