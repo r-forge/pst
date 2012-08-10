@@ -8,6 +8,7 @@ exportMethods(
 	"cmine",
 	"cplot",
 	"cprob",
+	"gain",
 	"generate",
 	"impute",
 	"logLik",

@@ -16,6 +16,11 @@ setGeneric("cprob",
 	standardGeneric("cprob")
 )
 
+setGeneric("gain", 
+	def=function(object, ...) 
+	standardGeneric("gain")
+)
+
 setGeneric("generate", 
 	def=function(object, l, n, s1, p1, method, L, ...) 
 	standardGeneric("generate")
