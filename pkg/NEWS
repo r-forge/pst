@@ -1,3 +1,6 @@
+[0.67]
+- added gain method to check result of a gain function and cutoff value comparing one node to its parent 
+
 [0.66]
 - changed definition of class PSTf (added "call" slot)
 - minor changes in the prune method
