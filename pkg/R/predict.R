@@ -167,9 +167,9 @@ setMethod("predict", signature=c(object="PSTf"),
 			if (output=="prob") {
 				prob <- apply(prob,1, rowProds)
 			} else if (output %in% c("logloss", "SIMn")) {
-				prob <- rowSums(prob)/rowSums(!is.na(prob))
+				prob <- rowSums(prob, na.rm=TRUE)/rowSums(!is.na(prob))
 			} else if (output=="SIMo") {
-				prob <- rowSums(prob)
+				prob <- rowSums(prob, na.rm=TRUE)
 			}
 
 			## if only one sequences we return a matrix as well 
