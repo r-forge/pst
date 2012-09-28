@@ -1,3 +1,8 @@
+[0.68]
+- changed arugments for the prune function: "gain" defines the information gain function used for pruning decisions and "cutoff" is the cutoff value
+- changed arugments for the tune function: "gain" and "cutoff" see modification for the prune function
+- pqplot: added uniform color plotting for the prediction quality measure when plotseq=TRUE
+
 [0.67]
 - added gain method to check result of a gain function and cutoff value comparing one node to its parent 
 

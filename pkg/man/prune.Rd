@@ -11,7 +11,7 @@ Prune a PST
 Prune an existing PST, using one or several pruning parameters.
 }
 \usage{
-\S4method{prune}{PSTf}(object, nmin, L, r, C, keep, drop, state, delete = TRUE)
+\S4method{prune}{PSTf}(object, nmin, L, gain, cutoff, keep, drop, state, delete = TRUE)
 }
 
 \arguments{
@@ -24,8 +24,8 @@ Prune an existing PST, using one or several pruning parameters.
   \item{L}{
 	Integer. If specified the the tree is cut at depth L., that is all nodes with depth > L are removed.
 }
-  \item{r}{
-	Numeric. The pruning parameter as used in Ron et al. (1996) and later in Bejerano et al. (2001). A node is pruned if for any symbol 
+  \item{gain}{
+	character. Function for measuring information gain. If gain="G1", the gain function is the one described in Ron et al. (1996) and later in Bejerano et al. (2001). A node is pruned if for any symbol 
 \eqn{\sigma \in A}
 \deqn{
 \frac{\tilde{P}(\sigma |s)}{\tilde{P}(\sigma | suf(s))} \leq r
@@ -34,10 +34,7 @@ or
 \deqn{
 \frac{\tilde{P}(\sigma |s)}{\tilde{P}(\sigma | suf(s))} \geq \frac{1}{r}
 }
-
-}
-  \item{C}{
-	Numeric. The pruning parameter as described in M\"{a}chler et B\"{u}hlmann (2004). The node labelled \eqn{wu} is pruned if
+If gain="G2" the gain function is the one described in M\"{a}chler et B\"{u}hlmann (2004). The node labelled \eqn{wu} is pruned if
 \deqn{
 \Delta_{wu}=\sum_{x \in A} \hat{P}(x|wu)\log \left( \frac{\hat{P}(x|wu)}{\hat{P}(x|u)} \right) N(wu) < K
 }
@@ -45,10 +42,12 @@ or
 where the cutoff \eqn{K} is specified on the scale of \eqn{\chi^{2}}-quantiles (percentages) 
 
 \deqn{
-K=K(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
+c=c(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 }
 }
-
+ \item{cutoff}{
+	numeric. Cutoff value to use with the gain function
+}
   \item{keep}{
 	character. A vector of character strings containing the names of the nodes to keep in the tree. All nodes that are not a suffix of contexts in keep are removed from the tree.
 }

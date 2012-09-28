@@ -2,7 +2,7 @@
 ## Pruning Probabilistic Suffix Trees
 ## ==================================
 
-setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, delete=TRUE) {
+setMethod("prune", "PSTf", function(object, nmin, L, gain, cutoff, keep, drop, state, delete=TRUE) {
 	
 	data <- object@data
 	A <- alphabet(object)
@@ -58,10 +58,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, r, C, keep, drop, state, de
 			if (!missing(nmin)) {
 				nodes <- lapply(nodes, node.nmin, nmin)
 			}
-			if (!missing(C)) {
-				nodes <- lapply(nodes, node.gain, plist=parents, C=C, clist=cnodes)
-			} else if (!missing(r)) {
-				nodes <- lapply(nodes, node.gain, plist=parents, r=r, clist=cnodes)
+			if (!missing(gain)) {
+				nodes <- lapply(nodes, node.gain, plist=parents, gain=gain, cutoff=cutoff, clist=cnodes)
 			}
 		}
 

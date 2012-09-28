@@ -10,15 +10,19 @@
 	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value is selected.
 }
 \usage{
-\S4method{tune}{PSTf}(object, C, criterion = "AIC", output = "PST")
+\S4method{tune}{PSTf}(object, gain="G2", clist, criterion = "AIC", output = "PST")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
 	A PST, that is an object of class 'PSTf' as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
-  \item{C}{ 
-	numeric. A vector of pruning parameters. See \code{\link{prune}} for details.
+  \item{gain}{ 
+	character. The gain function used for pruning decisions. See \code{\link{prune}} for details.
+}
+
+  \item{clist}{ 
+	numeric. A vector of cutoff values. See \code{\link{prune}} for details.
 }
   \item{criterion}{
 	The criterion used to select the model, either AIC or AICc. AICc should generally be used as with PST models the ratio between the number of observations and the number of estimated parameters is usually low. \cite{Burnham et al, 2004} suggests to use AICc instead of AIC when the ratio is lower than 40.

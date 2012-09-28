@@ -67,6 +67,8 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 			axisnames=FALSE,
 			space=space,
 			...)
+		if (missing(stcol)) { stcol="grey" }
+
 	}
 
 	## Plotting probability distributions
