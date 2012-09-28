@@ -44,7 +44,7 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 
 		if (any(cdata==attr(cdata, "nr"))) {
 			c.A <- c(A, attr(cdata, "nr"))
-			c.cpal <- c(cpal, attr(cdata, "missing.color"))
+			c.cpal <- c(c.cpal, attr(cdata, "missing.color"))
 		}
 
 		tmp <- TraMineR:::seqgbar(as.matrix(cdata), seql=sl, statl=c.A)
