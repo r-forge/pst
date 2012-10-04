@@ -11,7 +11,7 @@ Prune a PST
 Prune an existing PST, using one or several pruning parameters.
 }
 \usage{
-\S4method{prune}{PSTf}(object, nmin, L, gain, cutoff, keep, drop, state, delete = TRUE)
+\S4method{prune}{PSTf}(object, nmin, L, gain, C, keep, drop, state, delete = TRUE)
 }
 
 \arguments{
@@ -39,13 +39,13 @@ If gain="G2" the gain function is the one described in M\"{a}chler et B\"{u}hlma
 \Delta_{wu}=\sum_{x \in A} \hat{P}(x|wu)\log \left( \frac{\hat{P}(x|wu)}{\hat{P}(x|u)} \right) N(wu) < K
 }
 
-where the cutoff \eqn{K} is specified on the scale of \eqn{\chi^{2}}-quantiles (percentages) 
+where the C \eqn{K} is specified on the scale of \eqn{\chi^{2}}-quantiles (percentages) 
 
 \deqn{
 c=c(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 }
 }
- \item{cutoff}{
+ \item{C}{
 	numeric. Cutoff value to use with the gain function
 }
   \item{keep}{
@@ -94,13 +94,13 @@ s1.seq <- seqdef(s1)
 S1 <- pstree(s1.seq, L=3, nmin=2, ymin=0.001)
 
 ## --
-S1.p1 <- prune(S1, gain="G1", cutoff=1.20, delete=FALSE)
+S1.p1 <- prune(S1, gain="G1", C=1.20, delete=FALSE)
 summary(S1.p1)
 plot(S1.p1)
 
 ## --
 C95 <- qchisq(0.95,1)/2
-S1.p2 <- prune(S1, gain="G2", cutoff=C95, delete=FALSE)
+S1.p2 <- prune(S1, gain="G2", C=C95, delete=FALSE)
 plot(S1.p2)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

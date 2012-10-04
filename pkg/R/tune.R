@@ -1,14 +1,14 @@
-##
+## Model selection according to the pruning cutoff 
 
 setMethod("tune", signature=c(object="PSTf"), 
-	def=function(object, gain="G2", clist, criterion="AIC", output="PST") {
+	def=function(object, gain="G2", C, criterion="AIC", output="PST") {
 
 	if (!inherits(object, "PSTf") || missing(object)) {
 		stop(" [!] please provide the name of a valid PST object", call.=FALSE)
 	}
 
 	debut <- Sys.time()
-	nbmod <- length(clist)
+	nbmod <- length(C)
 
 	nodes.comp <- vector(mode="integer", length=nbmod) 
 	leaves.comp <- vector(mode="integer", length=nbmod) 
@@ -16,10 +16,10 @@ setMethod("tune", signature=c(object="PSTf"),
 	AIC.comp <- vector(mode="numeric", length=nbmod)
 	AIC.comp[] <- NA
 
-	clist <- sort(clist)
+	C <- sort(C)
 
 	for (i in 1:nbmod) {
-		suppressMessages(pst <- prune(object, gain=gain, cutoff=clist[i]))
+		suppressMessages(pst <- prune(object, gain=gain, C=C[i]))
 		pst.sum <- summary(pst)
 		nodes.comp[i] <- pst.sum@nodes
 		leaves.comp[i] <- pst.sum@leaves
@@ -34,7 +34,7 @@ setMethod("tune", signature=c(object="PSTf"),
 
 		AIC.comp[i] <- pst.AIC
 		
-		message(" [>] model ",i, ": ", criterion,"=", round(pst.AIC,2), " (C=", round(clist[i],2),")")
+		message(" [>] model ",i, ": ", criterion,"=", round(pst.AIC,2), " (C=", round(C[i],2),")")
 	
 		if (pst.AIC==min(AIC.comp, na.rm=TRUE)) {
 			id.best <- i
@@ -49,7 +49,7 @@ setMethod("tune", signature=c(object="PSTf"),
 	best.sum <- summary(pst.best)
 	
 	message(" [>] model ", id.best, " selected : ", criterion, "=", round(AIC.comp[id.best],2) , 
-		" (cutoff=", round(clist[id.best],2), ")")
+		" (C=", round(C[id.best],2), ")")
 	message(" [>] ", best.sum@nodes, " nodes, ", best.sum@leaves, " leaves, ", 
 		best.sum@freepar, " free parameters")
 	
@@ -62,7 +62,7 @@ setMethod("tune", signature=c(object="PSTf"),
 		support[tmp.comp>0 & tmp.comp<=2] <- "**"
 		support[tmp.comp>2 & tmp.comp<10] <- "*"
 
-		res <- data.frame(Model=1:length(clist), Cutoff=clist, Nodes=nodes.comp, Leaves=leaves.comp, Freepar=freepar.comp, AIC.comp, 			Support=support)
+		res <- data.frame(Model=1:length(C), C=C, Nodes=nodes.comp, Leaves=leaves.comp, Freepar=freepar.comp, AIC.comp, 			Support=support)
 		names(res)[6] <- criterion
 		
 		return(res)

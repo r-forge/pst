@@ -10,7 +10,7 @@
 	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value is selected.
 }
 \usage{
-\S4method{tune}{PSTf}(object, gain="G2", clist, criterion = "AIC", output = "PST")
+\S4method{tune}{PSTf}(object, gain="G2", C, criterion = "AIC", output = "PST")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,7 +21,7 @@
 	character. The gain function used for pruning decisions. See \code{\link{prune}} for details.
 }
 
-  \item{clist}{ 
+  \item{C}{ 
 	numeric. A vector of cutoff values. See \code{\link{prune}} for details.
 }
   \item{criterion}{
@@ -50,7 +50,7 @@ Alexis Gabadinho
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{prune}}
 }
 \examples{
 

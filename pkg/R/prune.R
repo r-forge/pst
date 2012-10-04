@@ -2,20 +2,19 @@
 ## Pruning Probabilistic Suffix Trees
 ## ==================================
 
-setMethod("prune", "PSTf", function(object, nmin, L, gain, cutoff, keep, drop, state, delete=TRUE) {
+setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state, delete=TRUE) {
 	
 	data <- object@data
+	cdata <- object@cdata
 	A <- alphabet(object)
 	cpal <- cpal(object)
 	labels <- stlab(object)
 	segmented <- object@segmented
 	group <- object@group
 
-	stationary <- if (class(object)=="PSTf.ns") { FALSE } else { TRUE }
-
 	if (!missing(keep)) {
-		if (class(object)=="PSTf.mc") {
-			c.A <- object@c.alphabet
+		if (has.cdata(object)) {
+			c.A <- alphabet(object@cdata)
 		} else {
 			c.A <- object@alphabet
 		}
@@ -58,8 +57,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, cutoff, keep, drop, s
 			if (!missing(nmin)) {
 				nodes <- lapply(nodes, node.nmin, nmin)
 			}
-			if (!missing(gain)) {
-				nodes <- lapply(nodes, node.gain, plist=parents, gain=gain, cutoff=cutoff, clist=cnodes)
+			if (!missing(function)) {
+				nodes <- lapply(nodes, node.gain, plist=parents, function=function, C=C, clist=cnodes)
 			}
 		}
 
@@ -105,8 +104,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, cutoff, keep, drop, s
 		object[[i-1]] <- parents
 	}
 
-	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, segmented=segmented, group=group, call=match.call())
-	if (!stationary) { object <- new("PSTf.ns", object) }
+	object <- new("PSTf", object, data=data, cdata=cdata, alphabet=A, cpal=cpal, labels=labels, segmented=segmented, group=group, call=match.call())
 
 	return(object)
 }
