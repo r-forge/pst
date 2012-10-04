@@ -16,13 +16,13 @@ Prune an existing PST, using one or several pruning parameters.
 
 \arguments{
   \item{object}{
-	A PST, that is an object of class PST.list as created with the pstree function.
+	A PST, that is an object of class \code{PSTf} as created with the \code{\link{pstree}} function.
 }
   \item{nmin}{
-	Integer. All strings having counts less than nmin are removed.
+	integer. All strings having counts less than nmin are removed.
 }
   \item{L}{
-	Integer. If specified the the tree is cut at depth L., that is all nodes with depth > L are removed.
+	integer. If specified the the tree is cut at depth L., that is all nodes with depth > L are removed.
 }
   \item{gain}{
 	character. Function for measuring information gain. If gain="G1", the gain function is the one described in Ron et al. (1996) and later in Bejerano et al. (2001). A node is pruned if for any symbol 
@@ -70,11 +70,11 @@ c=c(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 	a PST, i.e. an object of class \code{PSTf}.
 }
 \references{
-M\"{a}chler, M. & B\"{u}hlmann, P. Variable Length Markov Chains: Methodology, Computing, and Software \emph{Journal of Computational and Graphical Statistics}, 2004, 13, pp. 435-455
-
 Ron, D.; Singer, Y. & Tishby, N. The power of amnesia: Learning probabilistic automata with variable memory length \emph{Machine Learning}, 1996, 25, 117-149
 
 Bejerano, G. & Yona, G. Variations on probabilistic suffix trees: statistical modeling and prediction of protein families. \emph{Bioinformatics}, 2001, 17, 23-43
+
+M\"{a}chler, M. & B\"{u}hlmann, P. Variable Length Markov Chains: Methodology, Computing, and Software \emph{Journal of Computational and Graphical Statistics}, 2004, 13, pp. 435-455
 }
 \author{
 Alexis Gabadinho
@@ -86,7 +86,7 @@ Alexis Gabadinho
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{tune}}
 }
 \examples{
 data(s1)
@@ -94,13 +94,13 @@ s1.seq <- seqdef(s1)
 S1 <- pstree(s1.seq, L=3, nmin=2, ymin=0.001)
 
 ## --
-S1.p1 <- prune(S1, r=1.20, delete=FALSE)
+S1.p1 <- prune(S1, gain="G1", cutoff=1.20, delete=FALSE)
 summary(S1.p1)
 plot(S1.p1)
 
 ## --
 C95 <- qchisq(0.95,1)/2
-S1.p2 <- prune(S1, C=C95, delete=FALSE)
+S1.p2 <- prune(S1, gain="G2", cutoff=C95, delete=FALSE)
 plot(S1.p2)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
