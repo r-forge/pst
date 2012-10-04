@@ -5,7 +5,7 @@
 setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state, delete=TRUE) {
 	
 	data <- object@data
-	cdata <- object@cdata
+	## cdata <- object@cdata
 	A <- alphabet(object)
 	cpal <- cpal(object)
 	labels <- stlab(object)
@@ -13,11 +13,11 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 	group <- object@group
 
 	if (!missing(keep)) {
-		if (has.cdata(object)) {
-			c.A <- alphabet(object@cdata)
-		} else {
-			c.A <- object@alphabet
-		}
+		## if (has.cdata(object)) {
+		##	c.A <- alphabet(object@cdata)
+		## } else {
+		c.A <- object@alphabet
+		## }
 
 		if (!inherits(keep,"stslist")) {
 			keep <- seqdef(keep, alphabet=c.A, nr="#")
@@ -29,7 +29,12 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 	cnodes <- NULL
 
 	message(" [>] pruning results: ")
-	message("   ", format("[L]", width=5, justify="right"), format("[nodes]",width=9, justify="right"), format("[pruned]", width=10, justify="right"))
+	message("   ", format("[L]", width=5, justify="right"), format("[nodes]",width=9, justify="right"), 
+		format("[pruned]", width=10, justify="right"))
+
+	if (!missing(gain) && is.character(gain)) {
+			if (gain=="G1") { gain <- G1 } else if (gain=="G2") { gain <- G2 }
+	}
 
 	for (i in length(object):2) {
 		nodes <- object[[i]]
@@ -57,8 +62,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 			if (!missing(nmin)) {
 				nodes <- lapply(nodes, node.nmin, nmin)
 			}
-			if (!missing(function)) {
-				nodes <- lapply(nodes, node.gain, plist=parents, function=function, C=C, clist=cnodes)
+			if (!missing(gain)) {
+				nodes <- lapply(nodes, node.gain, plist=parents, gain=gain, C=C, clist=cnodes)
 			}
 		}
 
@@ -104,7 +109,8 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 		object[[i-1]] <- parents
 	}
 
-	object <- new("PSTf", object, data=data, cdata=cdata, alphabet=A, cpal=cpal, labels=labels, segmented=segmented, group=group, call=match.call())
+	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, 
+		segmented=segmented, group=group, call=match.call())
 
 	return(object)
 }

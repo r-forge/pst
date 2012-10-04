@@ -29,8 +29,10 @@ node.parent <- function(x, segmented=FALSE) {
 	return(parent)
 }
 
-## gain function
-node.gain <- function(x, plist, gain, cutoff, clist) {
+## ================
+## pruning decision
+## ================
+node.gain <- function(x, plist, gain, C, clist) {
 	parent <- plist[[node.parent(x)]]
 
 	## 
@@ -48,17 +50,13 @@ node.gain <- function(x, plist, gain, cutoff, clist) {
 
 	for (n in 1:nrow(x@prob)) {
 		if (!x@pruned[n] & (x@leaf[n] || (!is.null(clist) & !glist[n] %in% children))) {
-			if (gain=="G1") {
-				x@pruned[n] <- !pdiv(x@prob[n,], parent@prob[glist[n],], r=cutoff)
-			} else if (gain=="G2") {
-				x@pruned[n] <- !pdiv(x@prob[n,], parent@prob[glist[n],], C=cutoff, N=x@n[n])
-			}
+			## Calling the gain function
+			x@pruned[n] <- !do.call(gain, args=list(p1=x@prob[n,], p2=parent@prob[glist[n],], N=x@n[n], C=C))
 		}
 	}
 
 	return(x)
 }
-
 
 
 node.prune <- function(x) { 
