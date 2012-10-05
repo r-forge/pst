@@ -5,7 +5,7 @@
 setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), 
 	axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
-	xaxt = "n", yaxt = "n", horiz = FALSE,  
+	horiz = FALSE,  
 	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
 	cpal <- x@cpal
@@ -17,6 +17,10 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	## Global setting for cex
 	oolist <- list(...)
 	cex <- if ("cex" %in% names(oolist)) { oolist[["cex"]] } else { 1 }
+
+	## Axis are not plotted
+	xaxt <- if ("xaxt" %in% names(oolist)) { oolist[["xaxt"]] } else { "n" }
+	yaxt <- if ("yaxt" %in% names(oolist)) { oolist[["yaxt"]] } else { "n" }
 
 	if (use.layout) {
 		## Saving graphical parameters
