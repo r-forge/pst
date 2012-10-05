@@ -43,7 +43,7 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 		c.cpal <- cpal(cdata)
 
 		if (any(cdata==attr(cdata, "nr"))) {
-			c.A <- c(A, attr(cdata, "nr"))
+			c.A <- c(c.A, attr(cdata, "nr"))
 			c.cpal <- c(c.cpal, attr(cdata, "missing.color"))
 		}
 
