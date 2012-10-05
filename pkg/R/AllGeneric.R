@@ -33,6 +33,12 @@ setGeneric(
 )
 
 setGeneric(
+      name="nodenames",
+	def=function(object, ...)
+	standardGeneric("nodenames")
+)
+
+setGeneric(
       name="pmine",
 	def=function(object, data, ...)
 	standardGeneric("pmine")

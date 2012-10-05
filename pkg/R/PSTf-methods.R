@@ -68,6 +68,22 @@ setMethod("print", "PSTf", function (x, max.level = NULL, ...) {
 	print(x, max.level = max.level, ...)
 }
 )
+
+## node names
+setMethod("nodenames", "PSTf", function (object, L) {
+	
+	if (missing(L)) {
+		res <- NULL
+		for (L in 1:length(object))  {
+			res <- c(res, names(object[[L]]))
+		}
+	} else {
+		res <- names(object[[L+1]])
+	}
+	
+	return(res)
+}
+)
 	
 
 
