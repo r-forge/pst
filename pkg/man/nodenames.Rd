@@ -18,7 +18,7 @@
 	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{L}{
-	integer. Th depth of the tree for which the node names are retrieved. If missing the names of all the nodes in the tree are returned.
+	integer. Depth of the tree for which the node names are retrieved. If missing the names of all the nodes in the tree are returned.
 }
 
 }
@@ -28,9 +28,7 @@
 \value{
 	A vector containing the node labels (i.e. contexts).
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Alexis Gabadinho
 }
