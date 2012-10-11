@@ -1,8 +1,7 @@
-## Probability distribution of a node and its parents
-## and illustration of the pruning process 
+## Probability distribution of a node
 
 setMethod("cplot", signature="PSTf", 
-	def=function(object, context, state, all=FALSE, x.by=1, y.by=0.2, ...) {
+	def=function(object, context, state, all=FALSE, x.by=1, y.by=0.2, by.state=FALSE, ...) {
 
 		A <- object@alphabet
 		cpal <- c(object@cpal)
@@ -17,19 +16,20 @@ setMethod("cplot", signature="PSTf",
 		pruned <- node@pruned
 
 		if (all) {
-			seg <- rownames(object[[1]][[1]]@prob)
+			seglist <- object[[1]][[1]]@index
 		} else {
-			seg <- rownames(prob)
+			seglist <- node@index
 		}
 
-		plot(NULL, axes=FALSE, ylab="Prob", xlim=c(1,(length(seg)+1)), ylim=c(1,0), ...)
+		plot(NULL, axes=FALSE, ylab="Prob", xlim=c(1,(nrow(seglist)+1)), ylim=c(1,0), ...)
 
 		## prob matrix is reversed because we are using the function for plotting the tree nodes (yaxis is reversed) 
-		plotNodeProb(1, 1, length(seg)+1, 0, prob=prob, cpal=cpal, group=seg, pruned=pruned)
+		plotNodeProb(1, 1, nrow(seglist)+1, 0, prob=prob, seglist=seglist, cpal=cpal, pruned=pruned, 
+			by.state=by.state, index=node@index)
 
-		if (length(seg)>1) { 
-			slab.pos <- seq(1, length(seg), by=x.by)
-			axis(1, at=slab.pos+0.5, labels=seg[slab.pos]) 
+		if (length(seglist)>1) { 
+			slab.pos <- seq(1, nrow(seglist), by=x.by)
+			axis(1, at=slab.pos+0.5, labels=seglist[slab.pos]) 
 		}
 		axis(2, at=seq(0,1, by=y.by), labels=rev(seq(0,1, by=y.by)))
 	}

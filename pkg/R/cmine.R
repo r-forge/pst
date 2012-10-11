@@ -1,7 +1,7 @@
 ## Mining for contexts
 
 setMethod("cmine", signature=c(object="PSTf"), 
-	def=function(object, l, pmin, pmax, state, as.tree=FALSE) {
+	def=function(object, l, pmin, pmax, state, as.tree=FALSE, delete=TRUE) {
 
 	if (missing(l)) { 
 		l <- 1:length(object)
@@ -30,12 +30,20 @@ setMethod("cmine", signature=c(object="PSTf"),
 	}
 
 	if (as.tree) {
-		res <- prune(object, keep=names(res))
+		res <- prune(object, keep=names(res), delete=delete)
 	} else {
-		res <- new("cprobd.list", res, alphabet=if (class(object)=="PSTf.mc") { object@c.alphabet } else { object@alphabet }, 
-			cpal=if (class(object)=="PSTf.mc") { object@c.cpal } else { object@cpal }, 
-			labels=if (class(object)=="PSTf.mc") { object@c.labels } else { object@labels }
-			)
+		if (has.cdata(object)) {
+			cdata <- object@cdata
+
+			A <- alphabet(cdata)
+			cpal <- cpal(cdata)
+			stlab <- stlab(cdata)
+
+			res <- new("cprobd.list", res, alphabet=A, cpal=cpal, labels=stlab)
+		} else {
+			res <- new("cprobd.list", res, alphabet=object@alphabet, cpal=object@cpal, 
+				labels=object@labels)
+		}
 	}
 
 	return(res)

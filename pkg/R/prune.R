@@ -5,7 +5,7 @@
 setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state, delete=TRUE) {
 	
 	data <- object@data
-	## cdata <- object@cdata
+	cdata <- object@cdata
 	A <- alphabet(object)
 	cpal <- cpal(object)
 	labels <- stlab(object)
@@ -13,11 +13,11 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 	group <- object@group
 
 	if (!missing(keep)) {
-		## if (has.cdata(object)) {
-		##	c.A <- alphabet(object@cdata)
-		## } else {
-		c.A <- object@alphabet
-		## }
+		if (has.cdata(object)) {
+			c.A <- alphabet(object@cdata)
+		} else {
+			c.A <- object@alphabet
+		}
 
 		if (!inherits(keep,"stslist")) {
 			keep <- seqdef(keep, alphabet=c.A, nr="#")
@@ -109,7 +109,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 		object[[i-1]] <- parents
 	}
 
-	object <- new("PSTf", object, data=data, alphabet=A, cpal=cpal, labels=labels, 
+	object <- new("PSTf", object, data=data, cdata=cdata, alphabet=A, cpal=cpal, labels=labels, 
 		segmented=segmented, group=group, call=match.call())
 
 	return(object)

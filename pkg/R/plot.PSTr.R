@@ -4,9 +4,9 @@
 
 setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), 
-	axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
-	horiz = FALSE,  
-	xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
+	axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, horiz = FALSE,  
+	xlim, ylim, 
+	withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
 	cpal <- x@cpal
 
@@ -34,8 +34,8 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 		legpos <- NULL
 	}
 
-	## Groups
-	groups <- rownames(x@prob)
+	## List of segments
+	seglist <- x@index
 
 	## ORDER AT WHICH THE TREE STARTS
 	k <- x@order
@@ -49,8 +49,10 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	pin <- par("pin")
 	
 	node.type <- Xtract("node.type", nodePar, default = "prob")
-	node.size <- Xtract("node.size", nodePar, default = 0.6)
-	gratio <- Xtract("gratio", nodePar, default=(((hgt-k)+1)/mem.x))
+	node.size <- Xtract("node.size", nodePar, default = min(0.6, ((mem.x-1)/mem.x)-0.1))
+	if (!"node.size" %in% names(nodePar)) { nodePar[["node.size"]] <- node.size }
+
+	gratio <- Xtract("gratio", nodePar, default=min((((hgt-k)+1)/mem.x), 1))
 	leave.lh <- Xtract("leave.lh", edgePar, default=0.1)
 	leave.lw <- Xtract("leave.lw", edgePar, default=node.size)
 
@@ -101,8 +103,8 @@ setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 		}		
 	}
 
-	plotTree(x1, x2, x, nPar = nodePar, ePar = edgePar, 
-		horiz = horiz, gratio=gratio, max.level=max.level, group=groups, cex=cex, nc=nc, cpal=cpal)
+	plotTree(x1, x2, x, seglist, nPar = nodePar, ePar = edgePar, 
+		horiz = horiz, gratio=gratio, max.level=max.level, cex=cex, nc=nc, cpal=cpal)
 
 	## Plotting the legend
 	if (!is.null(legpos)) {

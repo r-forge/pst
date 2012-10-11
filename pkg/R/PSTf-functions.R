@@ -44,3 +44,12 @@ leaves <- function(x) {
 }
 
 
+is.stationary <- function(x) {
+	all(is.na(x[[1]][["e"]]@index[, "position"]))
+}
+
+has.cdata <- function(x) {
+	(nrow(x@cdata) > 0)
+}
+
+

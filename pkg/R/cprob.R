@@ -7,6 +7,10 @@ setMethod("cprob", signature=c(object="stslist"),
 
 	debut <- Sys.time()
 
+	if (!is.null(cdata) & !flist("cprob", "cdata")) {
+			stop(" [!] argument cdata not available", call.=FALSE)
+	}
+
 	statl <- alphabet(object)
 	nr <- attr(object,"nr")
 	if (with.missing) { statl <- c(statl, nr) }
@@ -41,7 +45,7 @@ setMethod("cprob", signature=c(object="stslist"),
 	if (L==0) {
 		contexts[] <- "e"
 	} else {
-		if (is.null(cdata)) { cdata <- object }
+		if (is.null(cdata)) { cdata <- object } else { cdata <- as.matrix(cdata) }
 
 		for (p in (L+1):sl.max) {
 			contexts[, p-L] <- cdata[, (p-L)]
@@ -51,7 +55,7 @@ setMethod("cprob", signature=c(object="stslist"),
 				}
 			}	
 		}
-
+		## This version using apply is slower 
 		## for (p in (L+1):sl.max) {
 		## 	contexts[, p-L] <-	apply(cdata[, (p-L):(p-1), drop=FALSE], 1, paste, collapse="-")
 		## }

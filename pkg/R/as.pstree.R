@@ -1,10 +1,18 @@
+## ===========================================
+## from "flat" to recursive PST representation
+## ===========================================
+
 as.pstree <- function(object, max.level=NULL) {
 
 	if (is.null(max.level)) { max.level <- length(object)-1 }
 
 	debut <- Sys.time()
 
-	message(" [>] building PST, depth=", max.level)
+	if ((length(object)-1)<max.level) { 
+		max.level <- length(object)-1
+	}
+
+	message(" [>] building 'PSTr' representation, max. depth=", max.level, "...", appendLF=FALSE)
 
 	N0 <- object[[1]][["e"]]
 	A <- alphabet(object)
@@ -33,12 +41,12 @@ as.pstree <- function(object, max.level=NULL) {
 	}
 
 	fin <- Sys.time()
-	message(" [>] total time: ", format(round(fin-debut, 3)))
+	message(" (", format(round(fin-debut, 3)), ")")
 
 	return(N0)
 }
 
-## setAs(from="PSTf.gr", to="PSTr.tv", def=function(from) as.pstree.gr(from))
+##
 setAs(from="PSTf", to="PSTr", def=function(from) as.pstree(from))
 
 

@@ -1,14 +1,24 @@
 ## Initialize method
 
-setMethod("initialize", "PSTr", function(.Object, path, counts, n, order, ymin, group=1, ...) {
+setMethod("initialize", "PSTr", function(.Object, path, counts, n, order, ymin, index, ...) {
 
+	idx <- NULL
+
+	if (all(is.na(index[,"group"])) & all(is.na(index[,"position"]))) { 
+		idx <- "S1" 
+	} else {
+		if (!all(is.na(index[,"group"]))) { idx <- paste("G", index[,"group"], sep="") }
+		if (!all(is.na(index[,"position"]))) { idx <- paste(idx, paste("P", index[,"position"], sep=""), sep="") }
+	} 
+	
+	rownames(index) <- idx
+	.Object@index <- index
+	
 	nd <- nrow(counts)
-	.Object@leaf <- rep(FALSE,nd)
-	names(.Object@leaf) <- group
-	.Object@pruned <- rep(FALSE, nd)
-	names(.Object@pruned) <- group
-	rownames(counts) <- group
-	names(n) <- group
+	.Object@leaf <- matrix(FALSE, nrow=nd, dimnames=list(idx, ""))
+	.Object@pruned <- matrix(FALSE, nrow=nd, dimnames=list(idx, ""))
+	rownames(counts) <- idx
+	rownames(n) <- idx
 
 	counts <- as.matrix(counts)
 	.Object@prob <- counts/rowSums(counts)
@@ -21,8 +31,6 @@ setMethod("initialize", "PSTr", function(.Object, path, counts, n, order, ymin, 
 	callNextMethod(.Object, path=path, counts=counts, n=n, order=order, ...)
 }
 )
-
-
 
 ## TAKEN FROM dengrogram method
 ## The ``generic'' method for "[["  (identical to e.g., "[[.POSIXct"):

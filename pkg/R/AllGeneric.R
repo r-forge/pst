@@ -77,7 +77,7 @@ setGeneric("query",
 
 setGeneric(
       name="subtree",
-	def=function(object, group)
+	def=function(object, ...)
 	standardGeneric("subtree")
 )
 

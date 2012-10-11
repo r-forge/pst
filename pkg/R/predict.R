@@ -1,9 +1,7 @@
-## ==============================
 ## Computing sequence probability
-## ==============================
 
 setMethod("predict", signature=c(object="PSTf"), 
-	def=function(object, data, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {
+	def=function(object, data, cdata, group, L=NULL, p1=NULL, output="prob", decomp=FALSE, base=2) {
 
 	mlist <- c("prob", "SIMn", "logloss", "SIMo")
 
@@ -36,24 +34,31 @@ setMethod("predict", signature=c(object="PSTf"),
 		}
 
 		for (g in 1:nbgroup) {
-			message(" [>] predicting states for group ", g)
 			pst <- subtree(object, group=g)
 
 			if (!missing(group)) {
+				message(" [>] group ", g, ": ",appendLF=FALSE)
 				group.idx <- which(group==levels(group)[g])
-				prob.tmp <- predict(pst, data[group.idx,], L=L, p1=p1, output=output, decomp=decomp, base=base)
-				prob[group.idx,] <- prob.tmp
-
+				prob[group.idx,] <- predict(pst, data[group.idx,], L=L, p1=p1, output=output, 
+					decomp=decomp, base=base)
 			} else {
+				message(" [>] model for group ", g, ": ",appendLF=TRUE)
+				cat(dim(prob))
 				prob[,g] <- predict(pst, data, L=L, p1=p1, output=output, decomp=decomp, base=base)
 			}
 		}
 	
 		return(prob)
 	} else {
+		A <- object@alphabet
+		n <- nrow(data)
+		sl <- seqlength(data)
+
+		message(" [>] ", n, " sequence(s) - min/max length: ", min(sl),"/",max(sl))
+
 		if (any(as.data.frame(data)==attr(data,"nr"))) {
 			message(" [>] found missing value in sequence data")
-			if (!attr(data, "nr") %in% object@alphabet) {
+			if (!attr(data, "nr") %in% A) {
 				message(" [>] PST built without missing value as additional state")
 				if (!decomp) {
 					message("    [>] sequence probabilities not calculated on the same number of values")
@@ -63,95 +68,159 @@ setMethod("predict", signature=c(object="PSTf"),
 
 		debut <- Sys.time()
 
-		A <- alphabet(object)
-		n <- nrow(data)
-		sl <- seqlength(data)
-
-		message(" [>] ", n, " sequence(s) - min/max length: ", min(sl),"/",max(sl))
 
 		if (min(sl)!=max(sl) & output=="prob" & !decomp) {
 			message(" [!] sequences have unequal lengths")
 		}
 
-		if (is.null(L)) {
-			L <- length(object)-1
-		} 
-		
-		if (output=="SIMo") {
-			P0 <- predict(object, data, L=0, output="prob", decomp=TRUE)
-		}
+		stationary <- if (is.stationary(object)) { TRUE } else { FALSE }
 
-		message( " [>] max. depth: L=", L)
+		if (is.null(L)) { L <- length(object)-1 } 
+		message( " [>] max. context length: L=", L)
 
-		message(" [>] extracting node labels from PST")
-		context.table <- unlist(lapply(object[1:(L+1)], names))
-		pruned.nodes <- unlist(lapply(object[1:(L+1)], pruned.nodes))
-		if (any(pruned.nodes)) { 
-			message(" [>] removing ", sum(pruned.nodes), " nodes tagged as pruned from node list")
-			context.table <- context.table[!pruned.nodes] 
-		}
+		if (output=="SIMo") { P0 <- predict(object, data, L=0, output="prob", decomp=TRUE) }
 
 		## getting contexts of max length L for each state
-		contexts <- as.vector(context(data, L=L))
-		states <- as.vector(as.matrix(data))
-		prob <- vector("numeric", length=length(states))
-		prob[] <- NA
-		unique.contexts <- unique(contexts)
+		contexts <- if (!missing(cdata) && nrow(cdata)>0) { context(object@cdata, L=L) } else { context(data, L=L) }
+		states <- as.matrix(data)
 
-		context.idx <- match(contexts, unique.contexts)
-
-		## taking longest suffix until context found in PST
-		message(" [>] searching for context(s) in PST")
-		unmatched <- !unique.contexts %in% context.table
-		while (sum(unmatched>0)) {
-			tmp <- seqdecomp(unique.contexts[unmatched])
-			if (ncol(tmp)>1) {
-				unique.contexts[unmatched] <- seqconc(tmp[,2:ncol(tmp), drop=FALSE])
-				unique.contexts[unique.contexts==""] <- "e"
-			} else { 
-				unique.contexts[unmatched] <- "e"
+		if (stationary) {
+			context.table <- unlist(lapply(object[1:(L+1)], names))
+			pruned.nodes <- unlist(lapply(object[1:(L+1)], pruned.nodes))
+			if (any(pruned.nodes)) { 
+				message(" [>] ", sum(pruned.nodes), "pruned nodes removed")
+				context.table <- context.table[!pruned.nodes] 
 			}
-	
-			## we may have reduced the number of distinct contexts
-			tmp <- unique(unique.contexts)
-			unique.match <- match(unique.contexts, tmp)
-			context.idx <- unique.match[context.idx]
 
-			##
-			unique.contexts <- tmp
+			## getting contexts of max length L for each state
+			contexts <- as.vector(contexts)
+			states <- as.vector(states)
+			prob <- vector("numeric", length=length(states))
+			prob[] <- NA
+			unique.contexts <- unique(contexts)
+
+			context.idx <- match(contexts, unique.contexts)
+
+			## taking longest suffix until context found in PST
 			unmatched <- !unique.contexts %in% context.table
-			## print(unique.contexts[unmatched])
-		}
-	
-		message(" [>] computing prob. - ", nrow(data), " sequence(s) - max. depth=", L, sep="")
-		message(" [>] ", length(unique.contexts), " distinct context(s)")
-  
-		for (p in 1:length(unique.contexts)) {
-			context <- unique.contexts[p]
-			context.eq <- which(context.idx==p)
-      
-			if (context=="e") {
-				if (!is.null(p1)) {
-					tmp <- p1
-				} else {
-					tmp <- object[[1]][["e"]]@prob
+			while (sum(unmatched>0)) {
+				tmp <- seqdecomp(unique.contexts[unmatched])
+				if (ncol(tmp)>1) {
+					unique.contexts[unmatched] <- seqconc(tmp[,2:ncol(tmp), drop=FALSE])
+					unique.contexts[unique.contexts==""] <- "e"
+				} else { 
+					unique.contexts[unmatched] <- "e"
 				}
-			} else {
-				sd <- unlist(strsplit(context, split="-"))
-				idxl <- length(sd)+1	
+	
+				## we may have reduced the number of distinct contexts
+				tmp <- unique(unique.contexts)
+				unique.match <- match(unique.contexts, tmp)
+				context.idx <- unique.match[context.idx]
 
-				tmp <- object[[idxl]][[context]]@prob
+				##
+				unique.contexts <- tmp
+				unmatched <- !unique.contexts %in% context.table
+				## print(unique.contexts[unmatched])
 			}
+	
+			message(" [>] found", length(unique.contexts), " distinct context(s)")
+  
+			for (p in 1:length(unique.contexts)) {
+				context <- unique.contexts[p]
+				context.eq <- which(context.idx==p)
+      
+				if (context=="e") {
+					if (!is.null(p1)) {
+						tmp <- p1
+					} else {
+						tmp <- object[[1]][["e"]]@prob
+					}
+				} else {
+					sd <- unlist(strsplit(context, split="-"))
+					idxl <- length(sd)+1	
 
-			tmp <- as.numeric(tmp)
+					tmp <- object[[idxl]][[context]]@prob
+				}
 
-			for (s in 1:length(tmp)) {
+				tmp <- as.numeric(tmp)
+
+				for (s in 1:length(tmp)) {
         			state.eq <- states[context.eq]==A[s]
-				prob[context.eq][state.eq] <- tmp[s]
+					prob[context.eq][state.eq] <- tmp[s]
+				}
+			}
+  			prob <- matrix(prob, ncol=max(sl))
+		} else {
+			prob <- matrix(nrow=nrow(data), ncol=max(sl))
+
+			for (p in 1:max(sl)) {
+				context.table <- NULL
+
+				message(" [>] position ", p, " ...", appendLF=FALSE)
+
+				for (i in 1:min(p,(L+1))) {
+					tmp.plist <- unlist(lapply(object[[i]], function(x) p %in% x@index[,"position"]))
+					tmp.pplist <- names(tmp.plist)[tmp.plist]
+					context.table <- c(context.table, tmp.pplist)
+				}
+
+				unique.contexts <- unique(contexts[,p])
+
+				contexts.idx <- match(contexts[,p], unique.contexts)
+
+				## taking longest suffix until prefix found in PST
+				unmatched <- !unique.contexts %in% context.table
+				while (sum(unmatched>0)) {
+					tmp <- seqdecomp(unique.contexts[unmatched])
+					if (ncol(tmp)>1) {
+						unique.contexts[unmatched] <- seqconc(tmp[,2:ncol(tmp), drop=FALSE])
+						unique.contexts[unique.contexts==""] <- "e"
+					} else { 
+						unique.contexts[unmatched] <- "e"
+					}
+
+					## we may have reduced the number of distinct contexts
+					tmp <- unique(unique.contexts)
+					unique.match <- match(unique.contexts, tmp)
+					contexts.idx <- unique.match[contexts.idx]
+
+					##
+					unique.contexts <- tmp
+					unmatched <- !unique.contexts %in% context.table
+				}
+	
+				message(" extracting ", length(unique.contexts), " context(s)")
+
+				for (j in 1:length(unique.contexts)) {
+					prefix <- unique.contexts[j]
+					prefix.eq <- which(contexts.idx==j)
+      
+					if (prefix=="e") {
+						if (!is.null(p1)) {
+							tmp <- p1
+						} else {
+							tmp <- object[[1]][["e"]]@prob[p,]
+						}
+					} else {
+						sd <- unlist(strsplit(prefix, split="-"))
+						idxl <- length(sd)+1
+						node <- object[[idxl]][[prefix]]
+						idxp <- which(node@index[,"position"]==p)
+
+						tmp <- node@prob[idxp,]
+					}
+
+					tmp <- as.numeric(tmp)
+
+					for (s in 1:length(tmp)) {
+        				state.eq <- states[prefix.eq, p]==A[s]
+						prob[prefix.eq, p][state.eq] <- tmp[s]
+					}
+				}
 			}
 		}
-  
-  		prob <- matrix(prob, ncol=ncol(data))
+
+		## Preparing final matrix
 		rownames(prob) <- rownames(data)
 		colnames(prob) <- colnames(data)
 
