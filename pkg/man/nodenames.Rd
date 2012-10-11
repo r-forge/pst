@@ -15,7 +15,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	A PST, that is an object of class \code{\link{PSTf}} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{L}{
 	integer. Th depth of the tree for which the node names are retrieved. If missing the names of all the nodes in the tree are returned.
@@ -26,7 +26,7 @@
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-	An object of class \code{cprobd}, with available \code{round} method.
+	A vector containing the node labels (i.e. contexts).
 }
 \references{
 %% ~put references to the literature/web site here ~
