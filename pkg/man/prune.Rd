@@ -59,7 +59,7 @@ c=c(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
 %%     ~~Describe \code{topdown} here~~
 }
   \item{delete}{
-	Logical. If FALSE, the pruned nodes are not really removed from the tree but tagged as pruned=FALSE, so that when plotting the pruned tree these nodes wil appear surrounded with red (can be set to another color) lines.
+	Logical. If FALSE, the pruned nodes are not removed from the tree but tagged as pruned=FALSE, so that when plotting the pruned tree these nodes wil appear surrounded with red (can be set to another color) lines.
 }
 }
 

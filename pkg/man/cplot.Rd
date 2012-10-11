@@ -14,7 +14,7 @@ Plot the next symbol probability distribution associated with a particular node 
 %% ============================================
 \arguments{
   \item{object}{ a PST as created by the \code{\link{pstree}} function. }
-  \item{context}{ the label of the node to plot, provided as a string where states are separated by '-', see examples.}
+  \item{context}{the label of the node to plot, provided as a string where states are separated by '-', see examples.}
   \item{state}{logical. Under development.}
   \item{all}{logical.}
   \item{x.by}{numeric. Interval for the ticks on the x axis (segments).}
@@ -26,11 +26,7 @@ Plot the next symbol probability distribution associated with a particular node 
 	The \code{cplot()} function displays a single node labelled with \code{context} of the tree where one or mode barplots (if \code{object} is a segmented PST) represent the probability distribution(s) stored in the node.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -45,7 +41,7 @@ Plot the next symbol probability distribution associated with a particular node 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{cplot}}
 }
 \examples{
 data(s1)

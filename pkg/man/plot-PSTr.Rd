@@ -12,7 +12,7 @@
 	\S4method{plot}{PSTr,ANY}(x, y=missing, max.level=NULL,
 		nodePar = list(), edgePar = list(),
 		axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
-		xaxt = "n", yaxt = "n", horiz = FALSE,
+		horiz = FALSE,
 		xlim, ylim, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...)
 }
 

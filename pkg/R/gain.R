@@ -1,6 +1,6 @@
 ## Gain
 
-setMethod("gain", signature=c(object="PSTf"), function(object, node, parent, gain.f=pdiv, par) {
+setMethod("gain", signature=c(object="PSTf"), function(object, node, f, C) {
 	node <- query(object, node, exact=TRUE, output="all")
 	parent <- query(object, node.parent(node), output="all")
 
@@ -10,10 +10,10 @@ setMethod("gain", signature=c(object="PSTf"), function(object, node, parent, gai
 	names(res) <- seglist
 
 	for (n in 1:length(seglist)) {
-		if ("C" %in% names(par)) {
-			res[n] <- gain.f(node@prob[n,], parent@prob[seqglist[n],], C=par[["C"]], N=node@n[n])
-		} else if ("r" %in% names(par)) {
-			res[n] <- gain.f(node@prob[n,], parent@prob[seglist[n],], r=par[["r"]])
+		if (f=="G2") {
+			res[n] <- G2(node@prob[n,], parent@prob[seqglist[n],], C=C, N=node@n[n])
+		} else if (f=="G1") {
+			res[n] <- G1(node@prob[n,], parent@prob[seglist[n],], C=C)
 		}
 	}
 

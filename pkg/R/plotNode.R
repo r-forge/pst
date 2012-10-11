@@ -119,12 +119,12 @@ plotNode <- function(x1, x2, subtree, seglist, nPar, horiz = FALSE, gratio, max.
 			## Middle of the edge stemming from children
 			## yMid <- (X-((node.size/2)*gratio)+X-0.5)/2
 			yMid <- (X-((node.size/2)*gratio)+X-(1-stem.height))/2
-			## segments(yMid, Y, X, Y, col=fg.col, lty=lty, lwd=lwd)
+			segments(yMid, Y, X, Y, col=fg.col, lty=lty, lwd=lwd)
 			symbols(yMid, Y, circles=c.size, bg=id.bg, fg=id.fg, inches=nc/4, add=TRUE)
 			text(yMid, Y, asTxt(node.id), cex=t.cex, font=t.font, col=t.col)
 		} else {
 			yMid <- (Y-((node.size/2)*gratio)+Y-(1-stem.height))/2
-			## segments(X, yMid, X, Y, col=fg.col, lty=lty, lwd=lwd)
+			segments(X, yMid, X, Y, col=fg.col, lty=lty, lwd=lwd)
 			symbols(X, yMid, circles=c.size, bg=id.bg , fg=id.fg, add=TRUE, inches=FALSE)
 			text(X, yMid, asTxt(node.id), cex=t.cex, font=t.font, col=t.col)
 		}

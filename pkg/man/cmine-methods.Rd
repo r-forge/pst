@@ -10,7 +10,7 @@
  Extracting contexts in a PST satisfying user defined criterion
 }
 \usage{
-	\S4method{cmine}{PSTf}(object, l, pmin, pmax, state, as.tree=FALSE)
+	\S4method{cmine}{PSTf}(object, l, pmin, pmax, state, as.tree=FALSE, delete=TRUE)
 }
 
 \arguments{
@@ -33,7 +33,11 @@
 }
 	\item{as.tree}{
 		logical. If \code{TRUE} the \code{cmine} method returns a subtree of the PST given as input with selected contexts (including their parent nodes, even if these don't statistify the defined criterion). If \code{FALSE} the output is the list of selected contexts. See value.
-} 
+}
+  \item{delete}{
+	Logical. If \code{as.tree=TRUE} and \code{delete=FALSE}, the pruned nodes are not removed from the tree but tagged as pruned=FALSE, so that when plotting the pruned tree these nodes wil appear surrounded with red (can be set to another color) lines.
+}
+
 }
 
 \section{details}{
