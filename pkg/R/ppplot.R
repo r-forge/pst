@@ -2,18 +2,20 @@
 ## and illustration of the pruning process 
 
 setMethod("ppplot", signature="PSTf", 
-	def=function(object, path, state, r, C,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
+	def=function(object, path, state, gain, C,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
 		pruned.col="red", div.col="green", ...) {
 
 		A <- object@alphabet
-		c.A <- if (class(object)=="PSTf.mc") { object@c.alphabet }  else { A }
 		cpal <- c(object@cpal)
-		c.cpal <- if (class(object)=="PSTf.mc") { object@c.cpal }  else { cpal }
 
-		if (!missing(state) && is.character(state)) { 
-			state <- which(state==A)
+		if (has.cdata(object)) {
+			c.A <-  alphabet(object@cdata)
+			c.cpal <- cpal(object@cdata)
+		} else { 
+			c.A <- A 
+			c.cpal <- cpal
 		}
-
+	
 		nbstate <- length(A)
 		oolist <- list(...)
 
@@ -45,33 +47,30 @@ setMethod("ppplot", signature="PSTf",
 		ppsep <- pscale/4
 		poff <- 0
 
-		nr <- if (!missing(r)) { length(r) } else { 0 }
 		nC <- if (!missing(C)) { length(C) } else { 0 }
 
 		plot(NULL, 
 			xlim=c(1-seqscale, sl+2),
-			ylim=c(0,(seqscale+gsep+1+((nr+nC)*(pscale+ppsep))+ (((nr+nC)>0) * gsep))),
+			ylim=c(0,(seqscale+gsep+1+(nC*(pscale+ppsep))+ ((nC>0)*gsep))),
 			axes=FALSE,
 			xlab="L (memory)", ylab="",
 			...)
 
 		## Tag as div 
-		if (!missing(r) | !missing(C)) {
-			div <- matrix(nrow=nr+nC, ncol=sl)
-			pruned <- matrix(nrow=nr+nC, ncol=sl)
+		if (!missing(C)) {
+			div <- matrix(nrow=nC, ncol=sl)
+			pruned <- matrix(nrow=nC, ncol=sl)
 
 			for (j in lsp:sl) {
 				idpar <- 1
-				if (nr>0) {
-					for (i in 1:nr) { 
-						div[idpar, j] <- pdiv(prob[,j], prob[,(j+1)], r=r[i])
+				if (gain=="G1") {
+					for (i in 1:nC) { 
+						div[idpar, j] <- G1(prob[,j], prob[,(j+1)], C=r[i])
 						idpar <- idpar+1
 					}
-				}
-	
-				if (nC>0) {
+				} else if (gain=="G2") {
 					for (i in 1:nC) { 
-						div[idpar, j] <- pdiv(prob[,j], prob[,(j+1)], C=C[i], N=N[,j])
+						div[idpar, j] <- G2(prob[,j], prob[,(j+1)], C=C[i], N=N[,j])
 						idpar <- idpar+1
 					}
 				}
@@ -79,7 +78,7 @@ setMethod("ppplot", signature="PSTf",
 
 			pruned[,lsp] <- !div[,lsp]
 			for (j in (lsp+1):sl) {
-				for (pp in 1:(nr+nC)) {		
+				for (pp in 1:nC) {		
 					pruned[pp, j] <- !div[pp, j] & pruned[pp, j-1]
 				}
 			}
@@ -87,7 +86,7 @@ setMethod("ppplot", signature="PSTf",
 			ppar.lab.pos <- NULL
 			poff <- poff+(pscale/2)
 
-			for (pp in 1:(nr+nC)) {
+			for (pp in 1:nC) {
 				segments(1, poff, sl+1, poff, col="grey", lwd=3)
 	
 				for (i in 1:sl) {
@@ -106,9 +105,7 @@ setMethod("ppplot", signature="PSTf",
 				poff <- poff+pscale+ppsep
 			}
 
-			ppar.lab <- NULL
-			if (nr>0) { ppar.lab <- c(ppar.lab, paste("r", 1:nr, sep="")) }
-			if (nC>0) { ppar.lab <- c(ppar.lab, paste("C", 1:nC, sep="")) }
+			ppar.lab <- paste("C", 1:nC, sep="")
 
 			axis(2, at=ppar.lab.pos, 
 				labels=ppar.lab, 

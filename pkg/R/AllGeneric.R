@@ -46,8 +46,7 @@ setGeneric(
 
 setGeneric(
       name="ppplot",
-	def=function(object, path, state, r, C,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
-		pruned.col="red", div.col="green", ...)
+	def=function(object, path, ...)
 	standardGeneric("ppplot")
 )
 
