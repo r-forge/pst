@@ -1,3 +1,8 @@
+[0.71]
+- changes in the print method for objects of class PSTr and PSTf
+- changes in the pstree method
+- cprob method: added 'to.list' option used by pstree
+
 [0.68]
 - changed arugments for the prune function: "gain" defines the information gain function used for pruning decisions and "cutoff" is the cutoff value
 - changed arugments for the tune function: "gain" and "cutoff" see modification for the prune function
