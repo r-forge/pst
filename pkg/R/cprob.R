@@ -3,7 +3,8 @@
 ## =============================================
 
 setMethod("cprob", signature=c(object="stslist"), 
- 	def=function(object, L, cdata=NULL, context, stationary=TRUE, nmin=1, prob=TRUE, weighted=TRUE, with.missing=FALSE) {
+ 	def=function(object, L, cdata=NULL, context, stationary=TRUE, nmin=1, prob=TRUE, weighted=TRUE, 
+		with.missing=FALSE, to.list=FALSE) {
 
 	debut <- Sys.time()
 
@@ -150,6 +151,13 @@ setMethod("cprob", signature=c(object="stslist"),
 
 	fin <- Sys.time()
 	message(" [>] total time: ", format(round(fin-debut, 3)))
+
+	if (stationary & to.list) {
+		res <- lapply(1:nrow(res), function(i) res[i,,drop=FALSE])
+		nodes.names <- unlist(lapply(res, rownames))
+		names(res) <- nodes.names
+		res <- lapply(res, function(x) {rownames(x) <- NA; x} )
+	}
 
 	return(res)
 }

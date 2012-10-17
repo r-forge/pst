@@ -6,11 +6,11 @@ setMethod("pstree", signature="stslist",
 	debut <- Sys.time()
 
 	if (!stationary & !flist("pstree", "stationary")) {
-			stop(" [!] argument stationary=FALSE not available", call.=FALSE)
+			stop(" [!] argument stationary=FALSE not allowed", call.=FALSE)
 	}
 
 	if (!is.null(cdata) & !flist("pstree", "cdata")) {
-			stop(" [!] argument cdata not available", call.=FALSE)
+			stop(" [!] argument cdata not allowed", call.=FALSE)
 	}
 
 	if (missing(L)) { L <- max(seqlength(x))-1 }
@@ -49,7 +49,6 @@ setMethod("pstree", signature="stslist",
 	
 	message(" [>] ", nrow(x), " sequence(s) - min/max length: ", min(sl),"/",max(sl))
 	message(" [>] max. depth L=", L, ", nmin=", nmin, if (!is.null(ymin)) { paste(", ymin=", ymin, sep="") })
-
 	message("   ", format("[L]", width=5, justify="right"), format("[nodes]",width=9, justify="right"))
 
 	for (i in 0:L) {
@@ -60,44 +59,23 @@ setMethod("pstree", signature="stslist",
 				data <- x[group==levels(group)[g],]
 				tmp.cdata <- if (!is.null(cdata)) { cdata[group==levels(group)[1],] } else { NULL }
 				ccounts <- suppressMessages(cprob(data, L=i, cdata=tmp.cdata, stationary=stationary,
-					nmin=nmin, prob=FALSE, weighted=weighted, with.missing=with.missing))
+					nmin=nmin, prob=FALSE, weighted=weighted, with.missing=with.missing, to.list=TRUE))
 
-				if (stationary) {
-					idx <- rbind(idx, cbind(context=rownames(ccounts), group=g, position=NA))
-					tmp <- rbind(tmp, ccounts)
-				} else {
-					ccounts <- lapply(ccounts, function(x) cbind(x, group=g, position=as.integer(rownames(x))))
-					tmp <- merge.cprob(tmp, ccounts)
-				}
+				ccounts <- lapply(ccounts, function(x) cbind(x, group=g, position=as.integer(rownames(x))))
+				tmp <- merge.cprob(tmp, ccounts)
 			}
 		} else {
 			tmp <- suppressMessages(cprob(x, L=i, cdata=cdata, stationary=stationary,
-				nmin=nmin, prob=FALSE, weighted=weighted, with.missing=with.missing))
-			if (stationary) {
-				idx <- cbind(context=rownames(tmp), group=NA, position=NA)
-			} else {
-				tmp <- lapply(tmp, function(x) { cbind(x, group=NA, position=as.integer(rownames(x))) } )
-			} 
+				nmin=nmin, prob=FALSE, weighted=weighted, with.missing=with.missing, to.list=TRUE))
+			tmp <- lapply(tmp, function(x) { cbind(x, group=NA, position=as.integer(rownames(x))) } )
 		}
 
-
-		if (stationary) {
-
-			nodes.names <- unique(idx[, "context"])
-			tmp.list <- lapply(seq_len(length(nodes.names)), 
-				function(n) {
-					node.inf <- which(idx[,"context"]==nodes.names[n])
-				new("PSTr", path=nodes.names[n], counts=tmp[node.inf,A, drop=FALSE], n=tmp[node.inf,"n", drop=FALSE], 
-					order=i, ymin=ymin, index=idx[node.inf,c("group","position"),drop=FALSE])
-			}
-			)
-		} else {
-			nodes.names <- names(tmp)
-			tmp.list <- lapply(seq_len(length(tmp)), function(n) 
-				new("PSTr", path=nodes.names[n], counts=tmp[[n]][,A, drop=FALSE], n=tmp[[n]][,"n", drop=FALSE], 
-					order=i, ymin=ymin, index=tmp[[n]][,c("group","position"),drop=FALSE])
-			)
-		}
+		## 
+		nodes.names <- names(tmp)
+		tmp.list <- lapply(seq_len(length(tmp)), function(n) 
+			new("PSTr", path=nodes.names[n], counts=tmp[[n]][,A, drop=FALSE], n=tmp[[n]][,"n", drop=FALSE], 
+				order=i, ymin=ymin, index=tmp[[n]][,c("group","position"),drop=FALSE])
+		)
 
 		nbnodes <- length(tmp.list)
 		names(tmp.list) <- nodes.names
@@ -112,7 +90,7 @@ setMethod("pstree", signature="stslist",
 			nodes.list[[i]] <- lapply(parents, set.leaves, child.list, rplist)
 		}
 			
-		message("   ", format(i, width=5), format(nbnodes,width=9))
+		message("   ", format(i, width=5), format(nbnodes, width=9))
 		nodes.list[[i+1]] <- tmp.list
 	}
 	
@@ -139,7 +117,7 @@ setMethod("pstree", signature="stslist",
 }
 )
 
-
+## 
 merge.cprob <- function(x,y) {
 		if (is.null(x)) {
 			res <- y

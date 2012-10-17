@@ -77,25 +77,31 @@ setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.att
 	le <- length(which.child(x))
 	leaf <- x@leaf
 
+	istr <- sub(" $", "`", indent.str)
+
 	for (g in 1:length(leaf)) {
-		istr <- sub(" $", "`", indent.str)
 		cat(istr, stem, sep = "")
 
-		left <- if (leaf[g]) {"("} else {"["}
-		right <- if (leaf[g]) {")"} else {"]"}
+		## left <- if (leaf[g]) {"("} else {"["}
+		left <- "("
+		## right <- if (leaf[g]) {")"} else {"]"}
+		right <- ")"
         
-        	if (give.attr) {
-            		if (nzchar(at <- pasteLis(at, c("prob", "order", "path")))) { at <- paste(",", at) }
-        	}
-        	cat(left, path, ", ", sep="")
+        if (give.attr) {
+           		if (nzchar(at <- pasteLis(at, c("prob", "order", "path")))) { at <- paste(",", at) }
+        }
+        cat(left, path, right, "-[ ", sep="")
 		## " (k=", format(hgt, digits = digits.d), "), ", 
-		if (leaf[g]) cat("leaf,") else cat(le, " child.,", sep="")
-		cat(" p=(", sep="")
-		cat(format(prob[g,], digits = digits.d, scientific=FALSE), sep=",")
-		cat("), n=",n[g], if (give.attr) 
-                at, right, if (!is.null(max.level) && nest.lev == 
-                max.level) 
-                " ..", "\n", sep = "")
+		cat("p=(", sep="")
+		cat(format(prob[g,], digits = digits.d, scientific=FALSE, nsmall=digits.d), sep=",")
+		cat(") - n=",n[g], if (give.attr) at, " ]", 
+				## if (!is.null(max.level) && nest.lev == max.level) " ..", "\n", 
+				sep = "")
+
+		if (leaf[g]) cat("--| \n") else cat("--() \n", sep="")
+
+		istr <- sub(" $", " ", indent.str)
+		stem <- "  "
 	}
 
 	if (!all(leaf)) {
@@ -108,24 +114,6 @@ setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.att
 			}
 		}
 	}
-    ## else {
-    ##    cat("(", path, ", leaf)", sep="")
-    ##    any.at <- hgt != 0
-        ## if (any.at) 
-        ## cat("(k =", format(hgt, digits = digits.d))
-        ## if (memb != 1) 
-        ##    cat(if (any.at) 
-        ##        ", "
-        ##    else {
-        ##        any.at <- TRUE
-        ##        "("
-        ##    }, "memb= ", memb, sep = "")
-        ## at <- pasteLis(at, c("class", "order", "path", "leaf"))
-        ## if (any.at || nzchar(at)) 
-        ##    cat(if (!any.at) 
-        ##        "(", at, ")")
-   ##     cat("\n")
-   ## }
 }
 )
 

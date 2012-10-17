@@ -60,14 +60,17 @@ setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL, ...) {
 }
 )
 
+## Print method builds a recursive version of x (PSTr)
+## and call the print method for class PSTr
 setMethod("print", "PSTf", function (x, max.level = NULL, ...) {
 
-	x <- as.pstree(x, max.level=max.level)
-	call
+	if (!is.null(max.level)) { max.level <- max.level+1 }
 
+	x <- as.pstree(x, max.level=max.level)
 	print(x, max.level = max.level, ...)
 }
 )
+
 
 ## node names
 setMethod("nodenames", "PSTf", function (object, L) {
