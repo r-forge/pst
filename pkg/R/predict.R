@@ -42,7 +42,7 @@ setMethod("predict", signature=c(object="PSTf"),
 				prob[group.idx,] <- predict(pst, data[group.idx,], L=L, p1=p1, output=output, 
 					decomp=decomp, base=base)
 			} else {
-				message(" [>] model for group ", g, ": ",appendLF=TRUE)
+				message(" [>] model ", g, ": ",appendLF=TRUE)
 				cat(dim(prob))
 				prob[,g] <- predict(pst, data, L=L, p1=p1, output=output, decomp=decomp, base=base)
 			}
@@ -123,7 +123,7 @@ setMethod("predict", signature=c(object="PSTf"),
 				## print(unique.contexts[unmatched])
 			}
 	
-			message(" [>] found", length(unique.contexts), " distinct context(s)")
+			message(" [>] found ", length(unique.contexts), " distinct context(s)")
   
 			for (p in 1:length(unique.contexts)) {
 				context <- unique.contexts[p]
