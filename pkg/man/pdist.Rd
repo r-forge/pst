@@ -9,8 +9,7 @@
 Compute probabilistic distance between two PST
 }
 \usage{
-\S4method{pdist}{PSTf,PSTf}(
-pdist(x,y, method="cp", l, ns=5000, symetric=FALSE, ...)
+\S4method{pdist}{PSTf}(x,y, method="cp", l, ns=5000, symetric=FALSE, output="values", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,25 +31,27 @@ pdist(x,y, method="cp", l, ns=5000, symetric=FALSE, ...)
   \item{symetric}{
 	logical. If \code{TRUE}, the symetric version of the measure is returned, see details.
 }
+  \item{output}{
+	character. See \code{value}.
+}
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
 }
 }
 \details{
-The function computes a probabilistic distance measure 
+The function computes a probabilistic distance measure between PST $S_{1}$ and $S_{2}$ based on the measure originally proposed in \cite{Juang-1985, Rabiner-1989}.
 }
 \value{
-A state sequence object (an object of class \code{stslist}) containing \code{n} sequences. This object can be passed as argument to all the functions for visualization and analysis provided by the \code{\link{TraMineR}} package. 
+If \code{ouput='values'}, a vector containing the distance value of the for each generated sequence, if \code{output="mean"}, the mean, i.e. expected value which is the distance between models.
 }
 \references{
-
-
+Juang, B. H. and Rabiner, L. R. (1985). A probabilistic distance measure for hidden Markov models. \emph{ATT Technical Journal} \bold{64}(2), 391-408.
+Rabiner, L. R. (1989). A tutorial on hidden Markov models and selected applications in speech recognition. \emph{Proceedings of the IEEE} \bold{77}(2), 257-286.
 }
 \author{
-%%  ~~who you are~~
+Alexis gabadinho
 }
 \note{
-Alexis Gabadinho
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -59,12 +60,6 @@ Alexis Gabadinho
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-data(s1)
-s1.seq <- seqdef(s1)
-S1 <- pstree(s1.seq, L=3)
-generate(S1, n=10, l=10, method="prob")
-## First state is generated with p(a)=0.9 and p(b)=0.1
-generate(S1, n=10, l=10, method="prob", p1=c(0.9, 0.1))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

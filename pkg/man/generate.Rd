@@ -1,6 +1,6 @@
-\name{pdist}
-\alias{pdist}
-\alias{pdist,PSTf-method}
+\name{generate}
+\alias{generate}
+\alias{generate,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 	Compute probabilistic distance between two PST

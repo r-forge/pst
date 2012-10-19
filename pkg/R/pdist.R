@@ -6,14 +6,14 @@ setMethod("pdist", signature=c("PSTf", "PSTf"), function (x, y, method="cp", l, 
 		gsx <- generate(x, l=l, n=ns, method="prob")
 		gsx.px <- predict(x, gsx)
 		gsx.py <- predict(y, gsx)
-		dxy <- log(gsx.py/gsx.px)/l
+		dxy <- log(gsx.px/gsx.py)/l
 	
 		if (symetric) {
 			gsy <- generate(y, l=l, n=ns, method="prob")
 			gsy.py <- predict(y, gsy)
 			gsy.px <- predict(x, gsy)
-			dyx <- log(x/y)/l
-			res <- (gsy.px+gsy.py) / 2
+			dyx <- log(gsy.py/gsy.px)/l
+			res <- (dxy+dyx) / 2
 		} else {
 			res <- dxy
 		}
