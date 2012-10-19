@@ -3,10 +3,10 @@
 \alias{generate,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Compute probabilistic distance between two PST
+	Generate sequences using a Probabilistic Suffix Tree (PST)
 }
 \description{
-Generate sequences with a Probabilistic Suffix Tree (PST)
+Generate sequences using a Probabilistic Suffix Tree (PST)
 }
 \usage{
 generate(object, l, n, s1, p1, method, L, ...)
@@ -17,13 +17,13 @@ generate(object, l, n, s1, p1, method, L, ...)
 	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{l}{
-	Integer: Length of the sequence(s) to generate
+	integer. Length of the sequence(s) to generate
 }
   \item{n}{
-	Integer: Number of the sequence(s) to generate
+	integer. Number of the sequence(s) to generate
 }
   \item{s1}{
-	Character vector: The first state in the sequences. The length of the vector should equal \code{n}. If specified, the first state in the sequence(s) is not randomly generated but taken from \code{s1}. 
+	character. The first state in the sequences. The length of the vector should equal \code{n}. If specified, the first state in the sequence(s) is not randomly generated but taken from \code{s1}. 
 }
   \item{p1}{
 	Numeric vector: An optional probability vector for generating the first position state in the sequence(s). If specified, the first state in the sequence(s) is randomly generated using the probability distribution in \code{p1} instead of the probability distribution taken fron the root node of \code{object}. 
@@ -48,10 +48,9 @@ A state sequence object (an object of class \code{stslist}) containing \code{n} 
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Alexis Gabadinho
 }
 \note{
-Alexis Gabadinho
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
