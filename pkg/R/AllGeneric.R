@@ -39,6 +39,12 @@ setGeneric(
 )
 
 setGeneric(
+      name="pdist",
+	def=function(x, y, ...)
+	standardGeneric("pdist")
+)
+
+setGeneric(
       name="pmine",
 	def=function(object, data, ...)
 	standardGeneric("pmine")

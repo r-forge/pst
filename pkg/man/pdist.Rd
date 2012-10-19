@@ -6,46 +6,45 @@
 	Compute probabilistic distance between two PST
 }
 \description{
-Generate sequences with a Probabilistic Suffix Tree (PST)
+Compute probabilistic distance between two PST
 }
 \usage{
-generate(object, l, n, s1, p1, method, L, ...)
+\S4method{pdist}{PSTf,PSTf}(
+pdist(x,y, method="cp", l, ns=5000, symetric=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{
+  \item{x}{
 	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
-  \item{l}{
-	Integer: Length of the sequence(s) to generate
-}
-  \item{n}{
-	Integer: Number of the sequence(s) to generate
-}
-  \item{s1}{
-	Character vector: The first state in the sequences. The length of the vector should equal \code{n}. If specified, the first state in the sequence(s) is not randomly generated but taken from \code{s1}. 
-}
-  \item{p1}{
-	Numeric vector: An optional probability vector for generating the first position state in the sequence(s). If specified, the first state in the sequence(s) is randomly generated using the probability distribution in \code{p1} instead of the probability distribution taken fron the root node of \code{object}. 
-}
+  \item{y}{
+	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+} 
   \item{method}{
-	Character: if \code{method=pmax}, at each position the state having the highest probability is chosen. If \code{method=prob}, at each position the state is generated using the corresponding probability distribution taken from \code{object}.
+	character. Method for computing distances. So far only one method is available.
 }
-  \item{L}{
-	Integer: Maximal depth used to extract the probability distributions from the PST object.  
+ \item{l}{
+	integer. Length of the sequence(s) to generate.
+}
+  \item{ns}{
+	integer. Number sequences to generate.
+}
+  \item{symetric}{
+	logical. If \code{TRUE}, the symetric version of the measure is returned, see details.
 }
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+The function computes a probabilistic distance measure 
 }
 \value{
 A state sequence object (an object of class \code{stslist}) containing \code{n} sequences. This object can be passed as argument to all the functions for visualization and analysis provided by the \code{\link{TraMineR}} package. 
 }
 \references{
-%% ~put references to the literature/web site here ~
+
+
 }
 \author{
 %%  ~~who you are~~

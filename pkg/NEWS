@@ -1,3 +1,6 @@
+[0.72]
+- added the pdist method to compute probabilistic distance measure between models
+
 [0.71]
 - changes in the print method for objects of class PSTr and PSTf
 - changes in the pstree method
