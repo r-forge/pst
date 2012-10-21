@@ -12,7 +12,7 @@
 }
 \usage{
 \S4method{cprob}{stslist}(object, L, cdata=NULL, context, stationary=TRUE, nmin=1, prob=TRUE, 
-weighted=TRUE, with.missing=FALSE)
+weighted=TRUE, with.missing=FALSE, to.list=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -42,6 +42,9 @@ under development
 }
 \item{with.missing}{
 	logical. If \code{FALSE} only contexts contining no missing status are considered. 
+}
+\item{to.list}{
+	logical. If \code{TRUE} and \code{stationary=TRUE}, a list instead of a matrix is returned. See \code{value}.
 }
 }
 \details{

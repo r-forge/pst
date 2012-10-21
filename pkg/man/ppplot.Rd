@@ -10,13 +10,13 @@
  The \code{ppplot} function displays the probability distributions of a context all its parent nodes (suffixes) in the tree. One can give a vector of pruning cutoffs as optional argument to this function, either for \eqn{r} or \eqn{C} or both, and the graphic will display the outcome of the gain function. 
 }
 \usage{
-ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "circle", 
+\S4method{ppplot}{PSTf}(object, path, state, gain, C, cex.plot = 1, seqscale = 0.3, node.type = "circle", 
 	pscale = seqscale/2, pruned.col = "red", div.col = "green", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST
+	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
   \item{path}{
 %%     ~~Describe \code{path} here~~
@@ -24,11 +24,11 @@ ppplot(object, path, state, r, C, cex.plot = 1, seqscale = 0.3, node.type = "cir
   \item{state}{
 %%     ~~Describe \code{state} here~~
 }
-  \item{r}{
-%%     ~~Describe \code{r} here~~
+  \item{gain}{
+	character or function. Gain function, see \code{\link{prune}}.
 }
   \item{C}{
-%%     ~~Describe \code{C} here~~
+	numeric. Value of the cutoff used by the gain function, see \code{\link{prune}}.
 }
   \item{cex.plot}{
 %%     ~~Describe \code{cex.plot} here~~
@@ -75,7 +75,7 @@ Alexis Gabadinho
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{prune}}
+\code{\link{cplot}}, \code{\link{prune}}
 }
 \examples{
 data(s1)

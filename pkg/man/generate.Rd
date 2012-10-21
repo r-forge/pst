@@ -9,7 +9,7 @@
 Generate sequences using a Probabilistic Suffix Tree (PST)
 }
 \usage{
-generate(object, l, n, s1, p1, method, L, ...)
+\S4method{generate}{PSTf}(object, l, n, s1, p1, method, L, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
