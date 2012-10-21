@@ -22,7 +22,7 @@ setGeneric("gain",
 )
 
 setGeneric("generate", 
-	def=function(object, l, n, s1, p1, method, L, ...) 
+	def=function(object, ...) 
 	standardGeneric("generate")
 )
 

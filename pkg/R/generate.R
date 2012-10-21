@@ -1,7 +1,7 @@
 ## Generating artifical sequences
 
 setMethod("generate", signature=c(object="PSTf"), 
-	def=function(object, l, n=1, s1, p1, method="pmax", L, ...) {
+	def=function(object, l, n=1, s1, p1, method="prob", L, ...) {
 
 	A <- alphabet(object)
 	if (missing(L)) {
@@ -20,42 +20,84 @@ setMethod("generate", signature=c(object="PSTf"),
 		}
 	}
 
+	debut <- Sys.time()
+
 	seq <- matrix(nrow=n, ncol=l)
-	
-	
-	for (i in 1:n) {
-		s <- 1
 
-		if (!missing(s1)) {
-			if (s1[i] %in% A) {
-				seq[i, 1] <- s1[i]
-				s <- 2
-			} else {
-				stop("s1 must be a state of the alphabet")
-			}
+	## position 1
+	if (!missing(s1)) {
+		if (all(s1) %in% A) {
+			seq[, 1] <- rep(s1, n/length(s1))
+		} else {
+			stop("s1 must be a state of the alphabet")
 		}
+	} else {
+		if (missing(p1)) {
+			p1 <- suppressMessages(query(object, "e"))
+		} 
 		
-		for (j in s:l) {
-			if (j==1) {
-				if (missing(p1)) {
-					p <- suppressMessages(query(object, "e"))
-				} else {
-					p <- p1
-				}
-			} else {
-				prefix <- paste(seq[i, max(1, j-L):(j-1)], collapse="-")
-				p <- suppressMessages(query(object, prefix))
-			}
-
-			if (method=="pmax") {
-				seq[i,j] <- A[which.max(p)]
-			} else if (method=="prob") {
-				seq[i,j] <- sample(A, 1, p, replace=TRUE)
-			}
+		if (method=="pmax") {
+			seq[,1] <- A[which.max(p1)]
+		} else {
+			seq[,1] <- sample(A, n, p1, replace=TRUE)
 		}
 	}
 
-	seq <- seqdef(seq, alphabet=A, cpal=cpal(object), nr="#")
+	context.table <- unlist(lapply(object[1:(L+1)], names))
+
+	## position 2:l
+	for (j in 2:l) {
+		contexts <- apply(seq[,max(1, j-L):(j-1), drop=FALSE],1, paste, collapse="-")
+		unique.contexts <- unique(contexts)
+		context.idx <- match(contexts, unique.contexts)
+		unmatched <- !unique.contexts %in% context.table
+		
+		while (sum(unmatched>0)) {
+			tmp <- seqdecomp(unique.contexts[unmatched])
+			if (ncol(tmp)>1) {
+				unique.contexts[unmatched] <- seqconc(tmp[,2:ncol(tmp), drop=FALSE])
+				unique.contexts[unique.contexts==""] <- "e"
+			} else { 
+				unique.contexts[unmatched] <- "e"
+			}
+	
+			## we may have reduced the number of distinct contexts
+			tmp <- unique(unique.contexts)
+			unique.match <- match(unique.contexts, tmp)
+			context.idx <- unique.match[context.idx]
+
+			##
+			unique.contexts <- tmp
+			unmatched <- !unique.contexts %in% context.table
+		}
+
+		for (p in 1:length(unique.contexts)) {
+			context <- unique.contexts[p]
+			context.eq <- which(context.idx==p)
+     
+				if (context=="e") {
+					if (!is.null(p1)) {
+						tmp <- p1
+					} else {
+						tmp <- object[[1]][["e"]]@prob
+					}
+				} else {
+					sd <- unlist(strsplit(context, split="-"))
+					idxl <- length(sd)+1	
+
+					tmp <- object[[idxl]][[context]]@prob
+				}
+
+				tmp <- as.numeric(tmp)
+
+				seq[context.eq,j] <- sample(A, length(context.eq), tmp, replace=TRUE)
+		}
+  	}
+
+	seq <- seqdef(seq, alphabet=A, cpal=cpal(object), nr="#", stlab=object@labels)
+
+	fin <- Sys.time()
+	message(" [>] total time: ", format(round(fin-debut, 3)))
 
 	return(seq)
 }
