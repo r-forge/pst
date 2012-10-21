@@ -25,12 +25,7 @@ Plot the next symbol probability distribution associated with a particular node 
 \details{
 	The \code{cplot()} function displays a single node labelled with \code{context} of the tree where one or mode barplots (if \code{object} is a segmented PST) represent the probability distribution(s) stored in the node.
 }
-\value{
 
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 	Alexis Gabadinho
 }
