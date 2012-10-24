@@ -43,7 +43,6 @@ setMethod("predict", signature=c(object="PSTf"),
 					decomp=decomp, base=base)
 			} else {
 				message(" [>] model ", g, ": ",appendLF=TRUE)
-				cat(dim(prob))
 				prob[,g] <- predict(pst, data, L=L, p1=p1, output=output, decomp=decomp, base=base)
 			}
 		}
