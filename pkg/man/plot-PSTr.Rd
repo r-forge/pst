@@ -27,10 +27,16 @@
 	integer. The maximal depth for the display of the tree.
 }
   \item{nodePar}{ 
-	list. A list of parameters for tuning the node representation.
+	list. A list of parameters for tuning the node representation. Possible parameters are
+	\itemize{
+	\item node.size. numeric. The size of the node, in fraction of a unit of the x axis (or y axis if horiz=TRUE).
+	\item gratio. The ratio between horizontal and vertical dimensions of the node. usefull if the horizontal and vertical dimensions of the plot are not equal. If not provided, it is estimated as a function of the number of leaves represented in the plot and the depth of the tree.
+	}
 }
   \item{edgePar}{ 
-	list. A list of parameters for tuning the edges representation.
+	list. A list of parameters for tuning the edges representation. Possible paramters are
+		
+
 }
   \item{axis}{ 
 	logical. If TRUE the axes are displayed on the plot.
