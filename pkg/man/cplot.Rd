@@ -9,7 +9,7 @@
 Plot the next symbol probability distribution associated with a particular node in a PST
 }
 \usage{
-	\S4method{cplot}{PSTf}(object, context, state, all=FALSE, x.by=1, y.by=0.2, ...)
+	\S4method{cplot}{PSTf}(object, context, state, all=FALSE, x.by=1, y.by=0.2, by.state=FALSE, ...)
 }
 %% ============================================
 \arguments{
@@ -19,6 +19,7 @@ Plot the next symbol probability distribution associated with a particular node 
   \item{all}{logical.}
   \item{x.by}{numeric. Interval for the ticks on the x axis (segments).}
   \item{y.by}{numeric. Interval for the ticks on the y axis (probability).}
+  \item{by.state}{logical. If \code{TRUE}, the representation of the probability distribution is done separately for each state of the alphabet.}
   \item{\dots}{ arguments to be passed to the plot function or other graphical parameters. }
 }
 %%  ============================================
