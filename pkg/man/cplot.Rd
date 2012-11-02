@@ -9,13 +9,14 @@
 Plot the next symbol probability distribution associated with a particular node in a PST
 }
 \usage{
-	\S4method{cplot}{PSTf}(object, context, state, all=FALSE, x.by=1, y.by=0.2, by.state=FALSE, ...)
+	\S4method{cplot}{PSTf}(object, context, state, main=NULL, all=FALSE, x.by=1, y.by=0.2, by.state=FALSE, ...)
 }
 %% ============================================
 \arguments{
   \item{object}{ a PST as created by the \code{\link{pstree}} function. }
   \item{context}{the label of the node to plot, provided as a string where states are separated by '-', see examples.}
   \item{state}{logical. Under development.}
+  \item{main}{character. Main title for the plot. By default, the title is the node label.}
   \item{all}{logical.}
   \item{x.by}{numeric. Interval for the ticks on the x axis (segments).}
   \item{y.by}{numeric. Interval for the ticks on the y axis (probability).}
