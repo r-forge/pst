@@ -2,7 +2,7 @@ Package: PST
 Version: 0.73
 Date: 2012-10-21
 Title: Probabilistic Suffix Trees 
-Author: Alexis Gabadinho <alexis.gabadinho@unige.ch>, Gilbert Ritschard <gilbert.ritschard@unige.ch>.
+Author: Alexis Gabadinho <alexis.gabadinho@unige.ch>
 Maintainer: Alexis Gabadinho <alexis.gabadinho@unige.ch>
 Imports: stats, stats4
 Depends: R (>= 2.8.1), methods, RColorBrewer, TraMineR
