@@ -42,7 +42,7 @@ setMethod("predict", signature=c(object="PSTf"),
 				prob[group.idx,] <- predict(pst, data[group.idx,], L=L, p1=p1, output=output, 
 					decomp=decomp, base=base)
 			} else {
-				message(" [>] model ", g, ": ",appendLF=TRUE)
+				message(" [>] predicting with submodel ", g, ": ",appendLF=TRUE)
 				prob[,g] <- predict(pst, data, L=L, p1=p1, output=output, decomp=decomp, base=base)
 			}
 		}

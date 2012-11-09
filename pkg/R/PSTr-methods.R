@@ -98,7 +98,11 @@ setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.att
 				## if (!is.null(max.level) && nest.lev == max.level) " ..", "\n", 
 				sep = "")
 
-		if (leaf[g]) cat("--| \n") else cat("--() \n", sep="")
+		if (is.null(which.child(x))) {
+			if (leaf[g]) cat("--| \n") else cat("--() \n", sep="")
+		} else {
+			cat("\n")
+		}
 
 		istr <- sub(" $", " ", indent.str)
 		stem <- "  "
@@ -116,6 +120,7 @@ setMethod("print", "PSTr", function (x, max.level = NULL, digits.d = 1, give.att
 	}
 }
 )
+
 
 setMethod("summary", "PSTr", function(object, max.level=NULL, segmented=TRUE) {
 
