@@ -96,15 +96,30 @@ delete.pruned <- function(x) {
 }
 
 
+## Used by subtree
 select.segment <- function(x, group, position) {
+	select <- matrix(FALSE, nrow=nrow(x@index), ncol=ncol(x@index), dimnames=dimnames(x@index))
 
+	## group selection
 	if (!is.null(group)) {
-		idx <- which(x@index[,"group"]==group)
-	} else if (!is.null(position)) {
-		idx <- which(x@index[, "position"]==position)
+		idx.group <- which(x@index[,"group"]==group)
+		select[idx.group,"group"] <- TRUE
+	} else {
+		select[,"group"] <- TRUE
 	}
 
-	if (length(idx)==1) {
+	## position selection
+	if (!is.null(position)) {
+		idx.pos <- which(x@index[, "position"]==position)
+		select[idx.pos,"position"] <- TRUE
+	} else {
+		select[,"position"] <- TRUE
+	}
+
+	## final selection
+	idx <- which(rowSums(select)==2)
+
+	if (length(idx)>0) {
 		x@index <- x@index[idx,,drop=FALSE]
 		x@prob <- x@prob[idx,, drop=FALSE]
 		x@counts <- x@counts[idx,, drop=FALSE]

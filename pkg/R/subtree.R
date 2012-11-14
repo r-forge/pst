@@ -1,4 +1,7 @@
-## Extracts a given group
+## ======================================================
+## subtree: extracts a given group or position from a PST
+## ======================================================
+
 setMethod("subtree", "PSTf", function(object, group=NULL, position=NULL) {
 
 	if (!is.null(group) & !object@segmented) {
@@ -25,7 +28,7 @@ setMethod("subtree", "PSTf", function(object, group=NULL, position=NULL) {
 	object <- as(object, "list")
 
 	for (i in length(object):1) {
-		object[[i]] <- lapply(object[[i]], select.segment, group, position=position)
+		object[[i]] <- lapply(object[[i]], select.segment, group=group, position=position)
 		remove <- unlist(lapply(object[[i]], is.null))
 		object[[i]] <- object[[i]][!remove]
 		if (length(object[[i]])==0) {
