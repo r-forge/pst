@@ -1,12 +1,13 @@
 \name{pdist}
+\docType{methods}
 \alias{pdist}
-\alias{pdist,PSTf-method}
+\alias{pdist,PSTf,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Compute probabilistic distance between two PST
+	Compute probabilistic divergence between two PST
 }
 \description{
-Compute probabilistic distance between two PST
+Compute probabilistic divergence between two PST
 }
 \usage{
 \S4method{pdist}{PSTf}(x,y, method="cp", l, ns=5000, symetric=FALSE, output="values", ...)

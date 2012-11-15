@@ -1,7 +1,7 @@
 ## Probability distribution of a node
 
 setMethod("cplot", signature="PSTf", 
-	def=function(object, context, state, all=FALSE, x.by=1, y.by=0.2, by.state=FALSE, ...) {
+	def=function(object, context, state, main=NULL, all=FALSE, x.by=1, y.by=0.2, by.state=FALSE, ...) {
 
 		A <- object@alphabet
 		cpal <- c(object@cpal)
@@ -21,7 +21,11 @@ setMethod("cplot", signature="PSTf",
 			seglist <- node@index
 		}
 
-		plot(NULL, axes=FALSE, ylab="Prob", xlim=c(1,(nrow(seglist)+1)), ylim=c(1,0), ...)
+		if (is.null(main)) {
+			main <- paste("Node ", node@path)
+		}
+
+		plot(NULL, axes=FALSE, ylab="Prob", xlim=c(1,(nrow(seglist)+1)), ylim=c(1,0), main=main, ...)
 
 		## prob matrix is reversed because we are using the function for plotting the tree nodes (yaxis is reversed) 
 		plotNodeProb(1, 1, nrow(seglist)+1, 0, prob=prob, seglist=seglist, cpal=cpal, pruned=pruned, 
