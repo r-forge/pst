@@ -1,14 +1,9 @@
-importFrom(graphics, plot)
-importFrom(stats, predict)
-importFrom(stats, logLik)
-## importMethodsFrom(stats4, logLik)
-importMethodsFrom(stats4, AIC)
+importFrom(stats4, logLik)
 
 exportMethods(
 	"cmine",
 	"cplot",
 	"cprob",
-	## "gain",
 	"generate",
 	"impute",
 	"logLik",
@@ -29,9 +24,6 @@ exportMethods(
 	"tune"
 )
 
-export(
-	"AIC"
-)
 
 
 
