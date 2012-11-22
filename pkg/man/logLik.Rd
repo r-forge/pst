@@ -10,7 +10,7 @@
 	Compute the log likelihood of a fitted VLMC stored in a probabilistic suffix tree. This the generic \code{\link{logLik}} method for objects of class \code{PSTf} returned by the \code{\link{pstree}} and \code{\link{prune}} methods.  
 }
 \usage{
-\S4method{logLik}{PSTf}
+\S4method{logLik}{PSTf}(object)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -4,8 +4,7 @@ Date: 2012-11-22
 Title: Probabilistic Suffix Trees 
 Author: Alexis Gabadinho <alexis.gabadinho@unige.ch>
 Maintainer: Alexis Gabadinho <alexis.gabadinho@unige.ch>
-Imports: stats, stats4
-Depends: R (>= 2.8.1), methods, RColorBrewer, TraMineR
+Depends: R (>= 2.8.1), methods, stats4, RColorBrewer, TraMineR
 Description: This packages extends TraMineR with functions to analyse state sequences with Probabilistic Suffix Trees (PST), the construction that stores Variable Length Markov Chains (VLMC)
 License: GPL (>= 2)
 URL: http://mephisto.unige.ch/traminer
