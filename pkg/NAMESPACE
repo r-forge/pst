@@ -8,6 +8,7 @@ exportMethods(
 	"impute",
 	"logLik",
 	"merge",
+	"nobs",
 	"nodenames",
 	"pdist",
 	"plot",

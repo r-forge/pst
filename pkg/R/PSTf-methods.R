@@ -1,7 +1,14 @@
-## TAKEN FROM dengrogram method
-## The ``generic'' method for "[["  (identical to e.g., "[[.POSIXct"):
-## --> subbranches are pstrees as well!
+## ======================
+## number of observations
+## ======================
+setMethod("nobs", "PSTf", function(object) {
+	
+	res <- sum(object[[1]][["e"]]@n)
+	
+	return(res)
+})
 
+## summary
 setMethod("summary", "PSTf", function(object, max.level) {
 
 	if (missing(max.level)) { max.level <- length(object)-1 }
@@ -18,7 +25,7 @@ setMethod("summary", "PSTf", function(object, max.level) {
 		freepar=as.integer((stats$nodes+stats$leaves)*(length(object@alphabet)-1))
 	)
 
-	res
+	return(res)
 }
 )
 
@@ -26,7 +33,7 @@ setMethod("summary", "PSTf", function(object, max.level) {
 PSTf.stats <- function(PST, max.level) {
 	stats <- list(ns=as.integer(0), leaves=as.integer(0), nodes=as.integer(0), depth=as.integer(0))
 
-	stats$ns <- PST[[1]][["e"]]@n
+	stats$ns <- sum(PST[[1]][["e"]]@n)
 	for (i in (max.level+1):1) {
 		pruned.nodes <- pruned.nodes(PST[[i]])
 		if (any(pruned.nodes)) {
@@ -50,18 +57,42 @@ PSTf.stats <- function(PST, max.level) {
 }
 
 
-## Plot method
-setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL, ...) {
+## ============================================================
+## plot and print method builds a recursive version of x (PSTr)
+## and call the corresponding method for class PSTr
+
+## plot method
+setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
+	nodePar = list(), edgePar = list(), 
+	axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
+	xaxt = "n", yaxt = "n", horiz = FALSE,  
+	xlim=NULL, ylim=NULL, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
+
+	if (nrow(x@cdata)>0) {
+		ccol <- cpal(x@cdata)
+		cnames <- alphabet(x@cdata)
+
+		if (attr(x@cdata,"nr") %in% names(x[[2]])) {
+			ccol <- c(ccol, attr(x@cdata,"missing.color"))
+			cnames <- c(cnames, attr(x@cdata,"nr"))
+		}
+		names(ccol) <- cnames
+
+		if (!"stcol" %in% names(edgePar)) { edgePar[["stcol"]] <- ccol }
+		if (!"c.cpal" %in% names(nodePar)) { nodePar[["c.cpal"]] <- ccol }
+	}
 
 	x <- as.pstree(x, max.level=max.level)
 
-	plot(x, y=missing, max.level=max.level, ...)
+	plot(x, y=missing, max.level=max.level, nodePar=nodePar, edgePar=edgePar, axis=axis, 
+		xlab=xlab, ylab=ylab, xaxt=xaxt, yaxt=yaxt, horiz=horiz, 
+		xlim=xlim, ylim=ylim, 
+		withlegend=withlegend, ltext=ltext, cex.legend=cex.legend, ...)
 
 }
 )
 
-## Print method builds a recursive version of x (PSTr)
-## and call the print method for class PSTr
+## print method
 setMethod("print", "PSTf", function (x, max.level = NULL, ...) {
 
 	if (!is.null(max.level)) { max.level <- max.level+1 }
@@ -70,7 +101,6 @@ setMethod("print", "PSTf", function (x, max.level = NULL, ...) {
 	print(x, max.level = max.level, ...)
 }
 )
-
 
 ## node names
 setMethod("nodenames", "PSTf", function (object, L) {
@@ -87,6 +117,7 @@ setMethod("nodenames", "PSTf", function (object, L) {
 	return(res)
 }
 )
-	
+
+
 
 

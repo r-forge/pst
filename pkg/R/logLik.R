@@ -5,7 +5,7 @@ setMethod("logLik", "PSTf", function(object) {
 	n <- nrow(object@data)
 	sl <- seqlength(object@data)
 
-	message(" [>] model fitted to ", n, " sequence(s) - min/max length: ", min(sl),"/",max(sl))
+	message(" [>] model fitted to ", n, " sequence(s) - ", nobs(object), " symbols")
 	message(" [>] computing sequence(s) likelihood ...", appendLF=FALSE)
 
 	pstsum <- summary(object)
@@ -19,7 +19,6 @@ setMethod("logLik", "PSTf", function(object) {
 
 	class(res) <- "logLik"
 	attr(res, "df") <- pstsum@freepar
-	attr(res, "nobs") <- pstsum@ns
 
 	return(res)
 }

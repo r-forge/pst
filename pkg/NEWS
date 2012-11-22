@@ -1,3 +1,7 @@
+[0.74]
+- BIC generic function now works on PST (added the 'nobs' method to get the number of observations, i.e. number of 
+  symbols in the learning sample)
+
 [0.73]
 - new version of the generate method, much faster
 
