@@ -53,9 +53,25 @@ Alexis Gabadinho
 \code{\link{prune}}
 }
 \examples{
+## self rated health sequences
+data(SRH)
+state.list <- levels(SRH$p99c01)
 
+## A custom color palette from red to green: self rated health is 'ordinal'
+mycol5 <- rev(brewer.pal(5, "RdYlGn"))
+
+SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
+	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
+names(SRH.seq) <- 1999:2009
+
+## PST considering missing states
+SRH.pst <- pstree(SRH.seq, L=10, nmin=2, ymin=0.001, with.missing=TRUE)
+
+## cutoff list
+alpha <- c(0.05, 0.01)
+cutoffs <- qchisq(1-alpha, df=6-1)/2
+
+tune(SRH.pst, gain="G2", C=cutoffs, output="stats", criterion="AICc")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{models}
+

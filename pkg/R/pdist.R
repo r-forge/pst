@@ -1,6 +1,6 @@
 ## Probabilistic distance
 
-setMethod("pdist", signature=c("PSTf", "PSTf"), function (x, y, method="cp", l, symetric=FALSE, ns=5000, ...) {
+setMethod("pdist", signature=c("PSTf", "PSTf"), function (x, y, method="cp", l, ns=5000, symetric=FALSE, output="all", ...) {
 	
 	if (method=="cp") {
 		gsx <- generate(x, l=l, n=ns, method="prob")
@@ -18,6 +18,8 @@ setMethod("pdist", signature=c("PSTf", "PSTf"), function (x, y, method="cp", l, 
 			res <- dxy
 		}
 	}
+
+	if (output=="mean") { res <- mean(res) }
 
 	return(res)
 
