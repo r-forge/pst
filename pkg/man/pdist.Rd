@@ -10,7 +10,7 @@
 Compute probabilistic divergence between two PST
 }
 \usage{
-\S4method{pdist}{PSTf}(x,y, method="cp", l, ns=5000, symetric=FALSE, output="values", ...)
+\S4method{pdist}{PSTf, PSTf}(x,y, method="cp", l, ns=5000, symetric=FALSE, output="values", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
