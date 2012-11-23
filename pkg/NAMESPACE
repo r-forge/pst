@@ -10,7 +10,6 @@ exportMethods(
 	"generate",
 	"impute",
 	"logLik",
-	"merge",
 	"nobs",
 	"nodenames",
 	"pdist",
