@@ -17,7 +17,7 @@ weighted=TRUE, with.missing=FALSE, to.list=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	a sequence object, that is an object of class stslist as created by TraMineR \link{seqdef} function.
+	a sequence object, that is an object of class stslist as created by TraMineR \code{\link[=TraMineR]{seqdef}} function.
 }
 \item{L}{ 
 integer. Context length.
@@ -57,21 +57,11 @@ where \eqn{N(x\sigma)} is the observed frequency of the subsequence \eqn{x\sigma
 \value{
 	Either a matrix if \code{stationary=FALSE} with one row for each subsequence of length $L$ and minimal frequency $nmin$ appearing in \code{object}, or a list where each element corresponds to one subsequence and contains a matrix whith the probability distribution at each position \eqn{p} where a state is preceded by the subsequence.  
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 	data(s1)
 	s1 <- seqdef(s1)

@@ -39,25 +39,16 @@ Generate sequences using a Probabilistic Suffix Tree (PST)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+As a PST represents a model generating sequences, it can be used to generate artificial data sets. Sequences are built by generating the states at each successive position. The process is similar to sequence prediction (see \code{\link{predict}}), except that the retrieved conditional probability distributions provided by the PST are used to generate a symbol instead of computing the probability of an existing state.
 }
 \value{
 A state sequence object (an object of class \code{stslist}) containing \code{n} sequences. This object can be passed as argument to all the functions for visualization and analysis provided by the \code{\link{TraMineR}} package. 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Alexis Gabadinho
 }
-\note{
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 data(s1)
 s1.seq <- seqdef(s1)
@@ -70,4 +61,4 @@ generate(S1, n=10, l=10, method="prob", p1=c(0.9, 0.1))
 % R documentation directory.
 \keyword{ datagen }
 \keyword{ methods }% __ONLY ONE__ keyword per line
-\keyword{ State sequence }
+
