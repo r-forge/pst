@@ -1,3 +1,7 @@
+[0.75]
+- added a 'logLik' slot to 'PSTf' objects so that the log-likelihood is computed once, when the model is learned.
+The logLik method now extracts the 'logLik' slot of a 'PSTf' object, instead of computing the value by predicting the learning sample with the object.
+
 [0.74]
 - BIC generic function now works on PST (added the 'nobs' method to get the number of observations, i.e. number of 
   symbols in the learning sample)

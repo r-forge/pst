@@ -43,7 +43,8 @@ setClass("PSTf",
 		cpal="character",
 		segmented="logical",
 		group="factor",
-		call="call"),
+		call="call",
+		logLik="numeric"),
 	contains="list"
 )
 

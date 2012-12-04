@@ -108,7 +108,16 @@ setMethod("pstree", signature="stslist",
 	} 
 
 	res <- new("PSTf", nodes.list, data=x, cdata=cdata, alphabet=A, cpal=StCol, labels=StLab, 
-		segmented=segmented, group=group, call=match.call())
+		segmented=segmented, group=group, call=match.call(), logLik=as.numeric(NULL))
+
+	## likelihood
+	debut.lik <- Sys.time()
+	message(" [>] computing sequence(s) likelihood ...", appendLF=FALSE)
+	lik <- suppressMessages(predict(res, res@data, res@cdata, group=res@group))
+	lik <- sum(log(lik))
+	fin.lik <- Sys.time()
+	message(" (", format(round(fin.lik-debut.lik, 3)), ")")
+	res@logLik <- lik
 
 	fin <- Sys.time()
 	message(" [>] total time: ", format(round(fin-debut, 3)))

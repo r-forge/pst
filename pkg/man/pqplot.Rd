@@ -80,5 +80,5 @@ pqplot(S1, z)
 pqplot(S1, z, measure="logloss", plotseq=TRUE)
 }
 
-\keyword{methods}
-\keyword{ ~~ other possible keyword(s) ~~ }
+\keyword{ methods }
+\keyword{ hplot }

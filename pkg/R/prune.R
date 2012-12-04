@@ -12,6 +12,12 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 	segmented <- object@segmented
 	group <- object@group
 
+	if (!missing(gain) & missing(C)) {
+		stop(" [!] please provide a cutoff value")
+	} else if (missing(gain) & !missing(C)) {
+		stop(" [!] missing 'gain' argument")
+	}
+
 	if (!missing(keep)) {
 		if (has.cdata(object)) {
 			c.A <- alphabet(object@cdata)
@@ -33,7 +39,7 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 		format("[pruned]", width=10, justify="right"))
 
 	if (!missing(gain) && is.character(gain)) {
-			if (gain=="G1") { gain <- G1 } else if (gain=="G2") { gain <- G2 }
+		if (gain=="G1") { gain <- G1 } else if (gain=="G2") { gain <- G2 }
 	}
 
 	for (i in length(object):2) {
@@ -110,7 +116,17 @@ setMethod("prune", "PSTf", function(object, nmin, L, gain, C, keep, drop, state,
 	}
 
 	object <- new("PSTf", object, data=data, cdata=cdata, alphabet=A, cpal=cpal, labels=labels, 
-		segmented=segmented, group=group, call=match.call())
+		segmented=segmented, group=group, call=match.call(), logLik=as.numeric(NULL))
+
+	## Loglik
+	debut.lik <- Sys.time()
+	message(" [>] computing sequence(s) likelihood ...", appendLF=FALSE)
+	lik <- suppressMessages(predict(object, object@data, object@cdata, group=object@group))
+	lik <- sum(log(lik))
+	fin.lik <- Sys.time()
+	message(" (", format(round(fin.lik-debut.lik, 3)), ")")
+
+	object@logLik <- lik
 
 	return(object)
 }
