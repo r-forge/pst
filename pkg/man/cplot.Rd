@@ -3,7 +3,7 @@
 \alias{cplot,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Plot single nodes
+	Plot single nodes of a probabilistic suffix tree
 }
 \description{
 Plot the next symbol probability distribution associated with a particular node in a PST
@@ -31,14 +31,11 @@ Plot the next symbol probability distribution associated with a particular node 
 \author{
 	Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{cplot}}
+\code{\link{ppplot}}
 }
 \examples{
 data(s1)
@@ -49,5 +46,5 @@ cplot(S1, "a-b")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\keyword{ hplot }
+\keyword{ models }

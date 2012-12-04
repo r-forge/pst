@@ -70,3 +70,4 @@ generate(S1, n=10, l=10, method="prob", p1=c(0.9, 0.1))
 % R documentation directory.
 \keyword{ datagen }
 \keyword{ methods }% __ONLY ONE__ keyword per line
+\keyword{ State sequence }

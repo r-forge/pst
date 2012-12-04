@@ -11,10 +11,10 @@ Sequence data on self rated health from the Swiss household panel
 \format{
   A data frame with 2612 observations on the following 15 variables.
   \describe{
-    \item{\code{idpers}}{a numeric vector}
+    \item{\code{idpers}}{personal identification number}
     \item{\code{sex}}{a factor with levels \code{man} \code{woman}}
-    \item{\code{birthy}}{a numeric vector}
-    \item{\code{wp09lp1s}}{a numeric vector}
+    \item{\code{birthy}}{birth year of the respondent}
+    \item{\code{wp09lp1s}}{longitudinal weight}
     \item{\code{p99c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
     \item{\code{p00c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
     \item{\code{p01c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
@@ -34,9 +34,7 @@ A sequence object can be built by using the seqdef function of the TraMineR pack
 \source{
 Swiss Household Panel \url{www.swisspanel.ch}
 }
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
+
 \examples{
 data(SRH)
 state.list <- levels(SRH$p99c01)

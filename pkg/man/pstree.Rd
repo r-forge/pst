@@ -67,14 +67,9 @@ Bejerano, G. & Yona, G. Variations on probabilistic suffix trees: statistical mo
 \author{
 	Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+	\code{\link{prune}}
 }
 \examples{
 ## Builds a PST on one single sequence
@@ -87,5 +82,5 @@ S1
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ models }
+

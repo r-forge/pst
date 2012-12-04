@@ -2,7 +2,7 @@
 \docType{methods}
 \alias{cmine}
 \alias{cmine,PSTf-method}
-\alias{'[',cprobd.list-method}
+\alias{[,cprobd.list-method}
 \alias{plot,cprobd.list,ANY-method}
 
 \title{ Mining contexts }
@@ -40,11 +40,38 @@
 
 }
 
+
 \section{details}{
+The \code{cmine} function searches in the tree for nodes fulfilling certain characteristics, for example contexts that are highly likely to be followed by a given state (see example 1). One can also mine for contexts corresponding to a minimum or maximum probability for several states together (see example 2).
+}
+
+
+\examples{
+## Preparing a sequence object with the SRH data set
+data(SRH)
+state.list <- levels(SRH$p99c01)
+## sequential color palette
+mycol5 <- rev(brewer.pal(5, "RdYlGn"))
+SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
+	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
+names(SRH.seq) <- 1999:2009
+
+## Learning the model
+SRH.pst <- pstree(SRH.seq, nmin=30, ymin=0.001)
+
+## Example 1: searching for all contexts yielding a probability of the 
+## state G1 (very good health) of at least pmin=0.5
+cm1 <- cmine(SRH.pst, pmin=0.5, state="G1")
+cm1[1:10]
+
+## Example 2: contexts associated with a high probability of 
+## medium or lower self rated health 
+cm2 <- cmine(SRH.pst, pmin=0.5, state=c("B1", "B2", "M"))
+plot(cm2, tlim=0, main="(a) p(B1,B2,M)>0.5")
 }
 
 \value{
-	If \code{as.tree=TRUE} a PST, that is an object of class \code{PSTf} than can be printed and plotted; if \code{as.tree=FALSE} a list of contexts with their associated next symbol probability distribution, that is an object of class \code{cprobd.list} for which a \code{plot} method is available. Subscripts can be used to select subsets of the contexts, see examples. 
+	If \code{as.tree=TRUE} a PST, that is an object of class \code{PSTf} which can be printed and plotted; if \code{as.tree=FALSE} a list of contexts with their associated next symbol probability distribution, that is an object of class \code{cprobd.list} for which a \code{plot} method is available. Subscripts can be used to select subsets of the contexts, see examples. 
 }
 
 \author{
@@ -52,4 +79,5 @@ Alexis Gabadinho
 }
 
 \keyword{methods}
-\keyword{ ~~ other possible keyword(s) ~~ }
+%\keyword{data mining}
+
