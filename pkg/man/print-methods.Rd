@@ -11,7 +11,7 @@ Display a probabilistic suffix tree
 }
 
 \usage{
-\S4method{print}{PSTf}(x, max.level = NULL, digits = 1, give.attr = FALSE, 
+\S4method{print}{PSTr}(x, max.level = NULL, digits = 1, give.attr = FALSE, 
     nest.lev = 0, indent.str = "", stem = "--")
 }
 
