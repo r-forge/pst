@@ -16,6 +16,19 @@ Display a probabilistic suffix tree
     stem = "--")
 }
 
+\arguments{
+  \item{x}{
+	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+}
+  \item{max.level}{ 
+	integer. The maximal depth for the display of the tree.
+}
+
+  \item{max.level}{ 
+	integer. The maximal depth for the display of the tree.
+}
+
+}
 
 \section{Methods}{
 \describe{
