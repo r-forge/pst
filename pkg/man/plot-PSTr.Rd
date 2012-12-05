@@ -84,10 +84,6 @@
 	Alexis Gabadinho, based on code from \code{plot.dendrogram} 
 }
 
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 data(s1)
 s1 <- seqdef(s1)

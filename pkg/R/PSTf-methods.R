@@ -95,8 +95,6 @@ setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
 ## print method
 setMethod("print", "PSTf", function (x, max.level = NULL, ...) {
 
-	if (!is.null(max.level)) { max.level <- max.level+1 }
-
 	x <- as.pstree(x, max.level=max.level)
 	print(x, max.level = max.level, ...)
 }

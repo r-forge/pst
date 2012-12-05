@@ -6,11 +6,12 @@
 \title{
 	Compute probabilistic divergence between two PST
 }
+%
 \description{
 Compute probabilistic divergence between two PST
 }
 \usage{
-\S4method{pdist}{PSTf,PSTf}(x,y, method="cp", l, ns=5000, symetric=FALSE, output="all", ...)
+\S4method{pdist}{PSTf,PSTf}(x,y, method="cp", l, ns=5000, symetric=FALSE, output="all")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,7 +37,7 @@ Compute probabilistic divergence between two PST
 	character. See \code{value}.
 }
 }
-}
+
 \details{
 The function computes a probabilistic divergence measure between PST \eqn{S_{A}} and \eqn{S_{B}} based on the measure originally proposed in \cite{Juang-1985} and \cite{Rabiner-1989} for the comparison of two (hidden) Markov models \eqn{S_{A}} and \eqn{S_{B}}
 \deqn{

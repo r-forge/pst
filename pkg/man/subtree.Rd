@@ -2,9 +2,9 @@
 \docType{methods}
 \alias{subtree}
 \alias{subtree,PSTf-method}
-\title{ ~~ Methods for Function \code{subtree} in Package \pkg{PST} ~~}
+\title{ Extract a subtree from a segmented PST }
 \description{
- ~~ Methods for function \code{subtree} in package \pkg{PST} ~~
+ Extract a subtree from a segmented PST
 }
 \section{Methods}{
 \describe{
@@ -14,4 +14,4 @@
 }
 }}
 \keyword{methods}
-\keyword{ ~~ other possible keyword(s) ~~ }
+\keyword{models}

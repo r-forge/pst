@@ -7,7 +7,7 @@
 	Extract the number of observations to which a VLMC model is fitted
 }
 \description{
-	The number of observations to which a VLMC model is fitted is used in computing \code{BIC}.
+	The number of observations to which a VLMC model is fitted is notably used for computing the Bayesian Information Criterion \code{BIC}.
 }
 \usage{
 \S4method{nobs}{PSTf}(object)
@@ -61,4 +61,3 @@ nobs(m2)
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{models}
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

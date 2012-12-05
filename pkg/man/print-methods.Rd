@@ -4,10 +4,19 @@
 \alias{print,ANY-method}
 \alias{print,PSTf-method}
 \alias{print,PSTr-method}
-\title{ ~~ Methods for Function \code{print} in Package \pkg{base} ~~}
+\title{ Print method for objects of class \code{PSTf} and \code{PSTr} }
+
 \description{
- ~~ Methods for function \code{print} in package \pkg{base} ~~
+Display a probabilistic suffix tree
 }
+
+\usage{
+\S4method{print}{stslist}(x, max.level = NULL, digits.d = 1, give.attr = FALSE, 
+    wid = getOption("width"), nest.lev = 0, indent.str = "", 
+    stem = "--")
+}
+
+
 \section{Methods}{
 \describe{
 
@@ -24,4 +33,6 @@
 }
 }}
 \keyword{methods}
-\keyword{ ~~ other possible keyword(s) ~~ }
+\keyword{print}
+
+
