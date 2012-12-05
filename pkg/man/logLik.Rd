@@ -4,10 +4,10 @@
 \alias{logLik,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Log-Likelihood of a VLMC model
+	Log-Likelihood of a variable length Markov chain model
 }
 \description{
-	Compute the log-likelihood of a fitted VLMC stored in a probabilistic suffix tree. This the \code{\link{logLik}} method for objects of class \code{PSTf} returned by the \code{\link{pstree}} and \code{\link{prune}} methods.  
+	Compute the log-likelihood of a fitted VLMC stored in a probabilistic suffix tree. This is the \code{\link{logLik}} method for objects of class \code{PSTf} returned by the \code{\link{pstree}} and \code{\link{prune}} functions.  
 }
 \usage{
 \S4method{logLik}{PSTf}(object)
@@ -19,30 +19,48 @@
 }
 }
 \details{
-	To compute the log lokelihood the method calls the \code{\link{predict}} method to compute the probability of the sequences stored in the \code{\link{data}} slot of \code{object}, i.e. the learning sample to which the PST was fittted.
-	 The \code{AIC} and \code{BIC} generic functions can also be used as they call \code{logLik} and use its result.
+
+The likelihood of a learning sample containing \eqn{n} sequences, given a model \eqn{S} fitted on it, is
+\deqn{
+L(S)=\prod_{i=1}^{n} P^{S}(x^{i})
+}
+where \eqn{P^{S}(x^{i})} is the probability of the \eqn{i}th observed sequence predicted by \eqn{S}.
+The log-likelihood of a VLMC model is computed during the learning process. Note that the log-likelihood of a VLMC model is not used in the estimation of the model's parameters. It is obtained once the model is estimated by calling the \code{\link{predict}} function. The value is stored in the \code{logLik} slot of the probabilistic suffix tree representing the model (a \code{PSTf} object returned by the \code{pstree} or \code{prune} function). 
+	 The \code{AIC} and \code{BIC} values can also be obtained with the corresponding generic functions, which call \code{logLik} and use its result.
 }
 \value{
-	An object of class \code{logLik}, a negative numeric value with the \code{df} (degrees of freedom) attribute containing the number of free parameters in the PST and a \code{nobs} attribute containing the number of symbols in the learning sample.
+	An object of class \code{logLik}, a negative numeric value with the \code{df} (degrees of freedom) attribute containing the number of free parameters in the PST.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 	Alexis Gabadinho
 }
 
-
 \seealso{
 	\code{\link[=stats4]{AIC}}, \code{\link[=stats4]{BIC}}
 }
+
 \examples{
-data(s1)
-s1.seq <- seqdef(s1)
-S1 <- pstree(s1.seq, L=3)
-logLik(S1)	
+## Preparing a sequence object with the SRH data set
+data(SRH)
+state.list <- levels(SRH$p99c01)
+## sequential color palette
+mycol5 <- rev(brewer.pal(5, "RdYlGn"))
+SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
+	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
+names(SRH.seq) <- 1999:2009
+
+## Learning the model (the model includes missing states)
+SRH.pst.L10m <- pstree(SRH.seq, nmin=2, ymin=0.001, with.missing=TRUE)
+logLik(SRH.pst.L10m)
+
+## Pruning the PST
+C99m <- qchisq(0.99,6-1)/2
+SRH.pst.L10m.C99 <- prune(SRH.pst.L10m, gain="G2", C=C99m)
+
+## Comparing AIC
+AIC(SRH.pst.L10m, SRH.pst.L10m.C99)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+
 \keyword{models}
 

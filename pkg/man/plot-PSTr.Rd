@@ -6,10 +6,10 @@
 	Plot a PST
 }
 \description{
-	Plot a PST either under a flat representation or nested representation
+	Plot a PST
 }
 \usage{
-	\S4method{plot}{PSTr,ANY}(x, y=missing, max.level=NULL,
+	\S4method{plot}{PSTf,ANY}(x, y=missing, max.level=NULL,
 		nodePar = list(), edgePar = list(),
 		axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
 		horiz = FALSE,
@@ -77,22 +77,13 @@
 }
 
 \details{
-	The graphical representation of a PST uses a recursive function. Hence the main argument of the function is a tree represented as a nested list (an object of class \code{PSTr}.
-}
-\value{
-	Either a vector of sequence probabilities (decomp=FALSE) or a matrix (if decomp=FALSE) containing for each sequence (row) the probability of each state in columns.   
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-	Alexis Gabadinho, code from ....
-}
-\note{
-%%  ~~further notes~~
+	The function for graphical representation of a PST uses is recursive. The main argument of the function is a tree represented as a nested list (an object of class \code{PSTr}).
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\author{
+	Alexis Gabadinho, based on code from \code{plot.dendrogram} 
+}
+
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
@@ -108,4 +99,4 @@ plot(S1, nodePar=list(node.type="path", lab.type="prob", lab.pos=1, lab.offset=2
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ methods }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ hplot }

@@ -5,7 +5,7 @@
 setMethod("plot", "PSTr", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), 
 	axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, horiz = FALSE,  
-	xlim, ylim, 
+	xlim=NULL, ylim=NULL, 
 	withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
 	cpal <- x@cpal

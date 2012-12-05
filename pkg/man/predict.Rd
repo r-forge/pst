@@ -55,21 +55,11 @@ P(abaab) = P(a) \times P(b|a) \times P(a|ab) \times P(a|aba) \times P(b|abaa)
 	Either a vector of sequence probabilities (decomp=FALSE) or a matrix (if decomp=FALSE) containing for each sequence (row) the probability of each state in columns.   
 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 data(s1)
 s1 <- seqdef(s1)
@@ -79,5 +69,5 @@ predict(S1, s1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ models }
+

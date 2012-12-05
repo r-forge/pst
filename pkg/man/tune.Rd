@@ -4,7 +4,7 @@
 \alias{tune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	AIC/AICc based model selection 
+	AIC/AICc and BIC based model selection 
 }
 \description{
 	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value is selected.
@@ -43,11 +43,6 @@ Burnham, K. P. & Anderson, D. R. (2004) Multimodel Inference \emph{Sociological 
 \author{
 Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
 \code{\link{prune}}

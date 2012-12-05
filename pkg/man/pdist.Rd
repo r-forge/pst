@@ -35,8 +35,6 @@ Compute probabilistic divergence between two PST
   \item{output}{
 	character. See \code{value}.
 }
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
 }
 }
 \details{
@@ -79,12 +77,8 @@ Rabiner, L. R. (1989). A tutorial on hidden Markov models and selected applicati
 Alexis gabadinho
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 }
+
 \keyword{models}
 

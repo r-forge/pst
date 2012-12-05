@@ -65,8 +65,8 @@ PSTf.stats <- function(PST, max.level) {
 setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
 	nodePar = list(), edgePar = list(), 
 	axis=FALSE, xlab = NA, ylab = if (axis) { "L" } else {NA}, 
-	xaxt = "n", yaxt = "n", horiz = FALSE,  
-	xlim=NULL, ylim=NULL, withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
+	horiz = FALSE,  xlim=NULL, ylim=NULL, 
+	withlegend=TRUE, ltext=NULL, cex.legend=1, use.layout=withlegend!=FALSE, legend.prop=NA, ...) {
 
 	if (nrow(x@cdata)>0) {
 		ccol <- cpal(x@cdata)
@@ -85,7 +85,7 @@ setMethod("plot", "PSTf", function (x, y=missing, max.level=NULL,
 	x <- as.pstree(x, max.level=max.level)
 
 	plot(x, y=missing, max.level=max.level, nodePar=nodePar, edgePar=edgePar, axis=axis, 
-		xlab=xlab, ylab=ylab, xaxt=xaxt, yaxt=yaxt, horiz=horiz, 
+		xlab=xlab, ylab=ylab, horiz=horiz, 
 		xlim=xlim, ylim=ylim, 
 		withlegend=withlegend, ltext=ltext, cex.legend=cex.legend, ...)
 

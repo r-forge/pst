@@ -29,31 +29,37 @@
 A PST can be used to impute missing states in sequences built on the same alphabet. When a missing state occurs in a sequence the procedure searches in the PST for the context preceding the missing state and impute the state according to the conditional distribution associated with the context. The imputation can be done either randomly (method="prob") or with the state having the highest probability. However, more sophisticated modelling taking account of the non response mechanism could be required for imputing missing states.
 }
 \value{
-	A sequence object (of class \code{stslist}) containing original sequences contained in \code{data} with missing states imputed.  
+	A sequence object (of class \code{stslist}) containing original sequences in \code{data} with missing states imputed.  
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
  Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
-data(s1)
-s1 <- seqdef(s1)
-S1 <- pstree(s1, L=3)
-predict(S1, s1, decomp=TRUE)
-predict(S1, s1)
+## Preparing a sequence object with the SRH data set
+data(SRH)
+state.list <- levels(SRH$p99c01)
+## sequential color palette
+mycol5 <- rev(brewer.pal(5, "RdYlGn"))
+SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
+	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
+names(SRH.seq) <- 1999:2009
+
+## Learning the model
+SRH.pst.L10 <- pstree(SRH.seq, nmin=2, ymin=0.001)
+
+## Pruning
+C99 <- qchisq(0.99,5-1)/2
+SRH.pst.L10.C99 <- prune(SRH.pst.L10, gain="G2", C=C99)
+
+## Imputing missing values in the SRH sequences
+SRH.iseq <- impute(SRH.pst.L10, SRH.seq, method="prob")
+
+## Non imputed and imputed sequence
+SRH.seq[3,]
+SRH.iseq[3,]
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ models }
+\keyword{ datagen }

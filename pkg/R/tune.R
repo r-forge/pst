@@ -10,45 +10,49 @@ setMethod("tune", signature=c(object="PSTf"),
 	debut <- Sys.time()
 	nbmod <- length(C)
 
-	nodes.comp <- vector(mode="integer", length=nbmod) 
-	leaves.comp <- vector(mode="integer", length=nbmod) 
-	freepar.comp <- vector(mode="integer", length=nbmod) 
-	AIC.comp <- vector(mode="numeric", length=nbmod)
-	AIC.comp[] <- NA
+	nodes <- vector(mode="integer", length=nbmod) 
+	leaves <- vector(mode="integer", length=nbmod) 
+	k <- vector(mode="integer", length=nbmod) 
+	IC <- vector(mode="numeric", length=nbmod)
+	IC[] <- NA
 
 	C <- sort(C)
+	IC.function <- if (criterion=="AICc") { "AIC" } else { criterion }
 
 	for (i in 1:nbmod) {
 		suppressMessages(pst <- prune(object, gain=gain, C=C[i]))
 		pst.sum <- summary(pst)
-		nodes.comp[i] <- pst.sum@nodes
-		leaves.comp[i] <- pst.sum@leaves
-		freepar.comp[i] <- pst.sum@freepar
+		nodes[i] <- pst.sum@nodes
+		leaves[i] <- pst.sum@leaves
+		k[i] <- pst.sum@freepar
 		n <- pst.sum@ns
 
-		suppressMessages(pst.AIC <- AIC(pst))
+		IC.args <- list(object=pst)
+
+		suppressMessages(pst.IC <- do.call(IC.function, args=IC.args))
 
 		if (criterion=="AICc") {
-			pst.AIC <- pst.AIC + ((2*pst.sum@freepar*(pst.sum@freepar+1))/(pst.sum@ns-pst.sum@freepar-1))
+			pst.IC <- pst.IC+((2*k[i]*(k[i]+1))/(n-k[i]-1))
 		}
 
-		AIC.comp[i] <- pst.AIC
+		IC[i] <- pst.IC
 		
-		message(" [>] model ",i, ": ", criterion,"=", round(pst.AIC,2), " (C=", round(C[i],2),")")
-	
-		if (pst.AIC==min(AIC.comp, na.rm=TRUE)) {
+		message(" [>] model ",i, ": ", criterion,"=", round(pst.IC,2), " (C=", round(C[i],2),")")
+
+		## 
+		if (pst.IC==min(IC, na.rm=TRUE)) {
 			id.best <- i
 			pst.best <- pst
 		}
 	}
 
-	if (criterion=="AIC" & min(n/freepar.comp)<=40) {
+	if (criterion=="AIC" & min(n/k)<=40) {
 		message( " [!] n/K<=40 for at least one model, consider using AICc criterion")
 	}
 
 	best.sum <- summary(pst.best)
 	
-	message(" [>] model ", id.best, " selected : ", criterion, "=", round(AIC.comp[id.best],2) , 
+	message(" [>] model ", id.best, " selected : ", criterion, "=", round(IC[id.best],2) , 
 		" (C=", round(C[id.best],2), ")")
 	message(" [>] ", best.sum@nodes, " nodes, ", best.sum@leaves, " leaves, ", 
 		best.sum@freepar, " free parameters")
@@ -58,11 +62,12 @@ setMethod("tune", signature=c(object="PSTf"),
 	} else if (output=="stats") {
 		support <- rep(" ", nbmod)
 		support[id.best] <- "***"
-		tmp.comp <- AIC.comp-AIC.comp[id.best]
-		support[tmp.comp>0 & tmp.comp<=2] <- "**"
-		support[tmp.comp>2 & tmp.comp<10] <- "*"
+		tmp <- IC-IC[id.best]
+		support[tmp>0 & tmp<=2] <- "**"
+		support[tmp>2 & tmp<10] <- "*"
 
-		res <- data.frame(Model=1:length(C), C=C, Nodes=nodes.comp, Leaves=leaves.comp, Freepar=freepar.comp, AIC.comp, 			Support=support)
+		res <- data.frame(Model=1:length(C), C=C, Nodes=nodes, Leaves=leaves, 
+			Freepar=k, IC, Support=support)
 		names(res)[6] <- criterion
 		
 		return(res)

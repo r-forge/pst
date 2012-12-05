@@ -31,26 +31,21 @@
 	logical. If TRUE, the information is returned only if the node labelled with context is present in the tree. That is, the longest suffix of context is not searched for if context is not in the tree.
 }
 }
+
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+The PST is searched for the node labelled with \code{context}. If \code{exact=FALSE}, when the node does not exist the PST is searched for the longest suffix of \code{context}, and so on until a node corresponding to a suffix of \code{context} is found or the root node is reached.
 }
+
 \value{
 	An object of class \code{cprobd}, with available \code{round} method.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{cplot}}, \code{\link{ppplot}}
 }
 \examples{
 data(s1)
@@ -66,5 +61,4 @@ query(S1, "a-b-b-a")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ models }

@@ -62,12 +62,8 @@
 	The \code{pqplot()} function displays either the predicted probabilities or the log-loss for each position of a single sequence as a series of barplots.
 }
 
-
 \author{
 	Alexis Gabadinho
-}
-
-\seealso{
 }
 
 \examples{

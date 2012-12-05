@@ -20,11 +20,8 @@
   \item{L}{
 	integer. Depth of the tree for which the node names are retrieved. If missing the names of all the nodes in the tree are returned.
 }
+}
 
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 	A vector containing the node labels (i.e. contexts).
 }
@@ -32,15 +29,7 @@
 \author{
 Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 data(s1)
 s1 <- seqdef(s1)
@@ -51,5 +40,5 @@ nodenames(S1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ models }
+\keyword{ misc }% __ONLY ONE__ keyword per line

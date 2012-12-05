@@ -3,7 +3,7 @@
 setMethod("query", signature=c(object="PSTf"), 
 	def=function(object, context, state, output="prob", exact=FALSE) {
 		A <- attr(object, "alphabet")
-		cA <- if (class(object)=="PSTf.mc") { object@c.alphabet } else { A }
+		cA <- if (nrow(object@cdata)>0) { alphabet(object@cdata) } else { A }
 
 		if (missing(context) || context=="e") {
 			context <- "e"
@@ -45,7 +45,7 @@ setMethod("query", signature=c(object="PSTf"),
 			message(" [>] retrieving from node: ", paste(context, collapse="-"))
 		}
 
-		if (output %in% c("prob", "counts")) {
+		if (output %in% c("prob", "counts") & !is.null(res)) {
 			if (!missing(state)) {
 				res <- res[, which(A==state), drop=FALSE]
 			}
