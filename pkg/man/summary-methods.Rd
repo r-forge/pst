@@ -4,7 +4,6 @@
 \alias{summary,ANY-method}
 \alias{summary,mle-method}
 \alias{summary,PSTf-method}
-\alias{summary,PSTf.gr-method}
 \alias{summary,PSTr-method}
 \title{ ~~ Methods for Function \code{summary} in Package \pkg{base} ~~}
 \description{
@@ -34,4 +33,4 @@
 }
 }}
 \keyword{methods}
-\keyword{ ~~ other possible keyword(s) ~~ }
+

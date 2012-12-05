@@ -19,19 +19,19 @@ Display a probabilistic suffix tree
   \item{x}{
 	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
-  \item{max.level}{ 
-	integer. The maximal depth for the display of the tree.
+  \item{max.level}{ integer. The maximal depth for the display of the tree.
 }
 
-  \item{digits}{ integer specifying the precision for printing, see
-          ‘print.default’.
+  \item{digits}{ integer specifying the precision for printing.
 }
 
   \item{give.attr}{ logical. If \code{TRUE} the attributes of each node (an object of class \code{PSTr}) are displayed.
 }
-  \item{nest.lev}{ integer. Parameter used internally by the function. }
+  \item{nest.lev}{ integer. Parameter used internally by the function. 
+}
 
-  \item{indent.str}{ character. String used to indent each line when displaying the tree. Default to ''.}
+  \item{indent.str}{ character. String used to indent each line when displaying the tree. Default to ''.
+}
 
   \item{stem}{ character. String used to display the stems. Default to '--'.}
 }
