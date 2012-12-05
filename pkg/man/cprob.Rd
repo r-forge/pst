@@ -29,7 +29,7 @@ under development
 	character. An optional subsequence (a character string where symbols are separated by '-') for which the conditional probability distribution is to be computed.
 }
 \item{stationary}{
-   logical. If \code{FALSE} probability distributions are computed for each sequence position L+1 ... l where l is the maximal sequence length. If \code{TRUE} the probability distributions are  stationary that is time homogenous. 
+   logical. If \code{FALSE} probability distributions are computed for each sequence position L+1 ... l where l is the maximum sequence length. If \code{TRUE} the probability distributions are  stationary that is time homogenous. 
 }
 \item{nmin}{
 	integer. Minimal frequency of a context. See details.
