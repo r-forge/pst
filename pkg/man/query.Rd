@@ -16,7 +16,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	A probabilistic suffix tree, i.e an object of class \code{"\linkS4class{PSTf}"}) as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{context}{
 	Character. The string labelling the node to retrieve. States must be separated by '-' as for example in 'a-a-b'. If the node labelled with this string does not exist in the tree, the node labelled with the longest suffix is searched for, and so on until an existing node is  found.

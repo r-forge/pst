@@ -35,7 +35,7 @@ under development
 	integer. Minimal frequency of a context. See details.
 }
 \item{prob}{
-	logical. If \code{TRUE} the probability are returned. If \code{FALSE} the counts are returned.
+	logical. If \code{TRUE} the probability distributions are returned. If \code{FALSE} the function returns the empirical counts on which the probability distributions are computed.
 }
 \item{weighted}{
 	logical. If \code{TRUE} case weights attached to the sequence object are used in the computation of the probabilities. 
@@ -48,14 +48,24 @@ under development
 }
 }
 \details{
-	The \code{cprob()} function returns either the empiral probability distributions of order \code{L} or the counts on which the probabilities are computed. The empirical conditional probability \eqn{\hat{P}(\sigma | x)} of observing a symbol \eqn{\sigma \in A} after the subsequence \eqn{x} of length \eqn{l=L} is computed as 
+The empirical conditional probability \eqn{\hat{P}(\sigma | c)} of observing a symbol \eqn{\sigma \in A} after the subsequence \eqn{c=c_{1}, \ldots, c_{k}} of length \eqn{k=L} is computed as 
 \deqn{
-\hat{P}(\sigma | x) = \frac{N(x\sigma)}{\sum_{\sigma \in A} N(x\sigma)}
+\hat{P}(\sigma | c) = \frac{N(c\sigma)}{\sum_{\alpha \in A} N(c\alpha)}
 }
-where \eqn{N(x\sigma)} is the observed frequency of the subsequence \eqn{x\sigma}, that is the concatenation of the subsequence \eqn{x} and the symbol \eqn{\sigma}. The empirical probability \eqn{\hat{P}(\sigma | x)} is the maximal likelihood estimator of the probability \eqn{P(\sigma | x)}.
+where
+\deqn{
+N(c)=\sum_{i=1}^{\ell} 1 \left[x_{i}, \ldots, x_{i+|c|-1}=c \right], \; x=x_{1}, \ldots, x_{\ell}, \; c=c_{1}, \ldots, c_{k}
+}
+is the number of occurrences of the subsequence \eqn{c} in the sequence \eqn{x} and \eqn{c\sigma} is the concatenation of the subsequence \eqn{c} and the symbol \eqn{\sigma}.  
+
+Considering a - possibly weighted - sample of \eqn{m} sequences having weights \eqn{w^{j}, \; j=1 \ldots m}, the function \eqn{N(c)} is replaced by
+\deqn{
+N(c)=\sum_{j=1}^{m} w^{j} \sum_{i=1}^{\ell} 1 \left[x_{i}^{j}, \ldots, x_{i+|c|-1}^{j}=c \right], \; c=c_{1}, \ldots, c_{k}
+}
+where \eqn{x^{j}=x_{1}^{j}, \ldots, x_{\ell}^{j}} is the \eqn{j}th sequence in the sample.
 }
 \value{
-	Either a matrix if \code{stationary=FALSE} with one row for each subsequence of length $L$ and minimal frequency $nmin$ appearing in \code{object}, or a list where each element corresponds to one subsequence and contains a matrix whith the probability distribution at each position \eqn{p} where a state is preceded by the subsequence.  
+	If \code{stationary=TRUE} a matrix  with one row for each subsequence of length \eqn{L} and minimal frequency \eqn{nmin} appearing in \code{object}.  If \code{stationary=FALSE} a list where each element corresponds to one subsequence and contains a matrix whith the probability distribution at each position \eqn{p} where a state is preceded by the subsequence.  
 }
 
 \author{
@@ -82,11 +92,11 @@ names(SRH.seq) <- 1999:2009
 cprob(SRH.seq, L=0, prob=FALSE, weighted=FALSE)
 cprob(SRH.seq, L=0, prob=FALSE, weighted=TRUE)
 
-## Example 1: 2th order: weighted and unweigthed probability distrib.
+## Example 2: 2th order: weighted and unweigthed probability distrib.
 cprob(SRH.seq, L=2, prob=TRUE, weighted=FALSE)
 cprob(SRH.seq, L=2, prob=TRUE, weighted=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ models }
+\keyword{ distribution }
 

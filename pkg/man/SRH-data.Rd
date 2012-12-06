@@ -1,5 +1,6 @@
 \name{SRH}
 \alias{SRH}
+\alias{SRH.seq}
 \docType{data}
 \title{
 Sequence data on self rated health from the Swiss household panel
@@ -7,37 +8,44 @@ Sequence data on self rated health from the Swiss household panel
 \description{
 Sequence data on self rated health from the Swiss household panel
 }
-\usage{data(SRH)}
+\usage{data(SRH)
+}
 \format{
-  A data frame with 2612 observations on the following 15 variables.
+  \code{SRH} is a data frame with 2612 observations on the following 15 variables.
   \describe{
     \item{\code{idpers}}{personal identification number}
     \item{\code{sex}}{a factor with levels \code{man} \code{woman}}
     \item{\code{birthy}}{birth year of the respondent}
     \item{\code{wp09lp1s}}{longitudinal weight}
-    \item{\code{p99c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p00c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p01c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p02c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p03c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p04c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p05c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p06c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p07c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p08c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-    \item{\code{p09c01}}{a factor with levels \code{other error} \code{filter error} \code{inapplicable} \code{no answer} \code{does not know} \code{very well} \code{well} \code{so, so (average)} \code{not very well} \code{not well at all}}
-  }
+    \item{\code{p99c01} to p09c01}{factors with levels \code{very well}, \code{well}, \code{so, so (average)}, \code{not very well}, \code{not well at all}
+}
+}
+  \code{SRH.seq} is a \code{TraMineR} sequence object created from the \code{SRH} data frame using the code in \code{example}. States are coded as follows:\cr
+
+\tabular{ll}{
+\code{G1} \tab (very well) \cr
+\code{G2} \tab (well)\cr
+\code{M}  \tab (so, so (average)) \cr
+\code{B2} \tab (not very well) \cr
+\code{B1} \tab (not well at all) \cr
+}
+
 }
 \details{
-A sequence object can be built by using the seqdef function of the TraMineR package. Respondant's self rated health is collected at each yearly wave of the SHP with the following question: \emph{How do you feel right now?}. Possible answers are: very well; well; so, so (average), not very well and not well at all. The sequences are made of an individual's responses over 11 yearly waves of the SHP, starting with wave 1 in 1999. Variable p99c01 contains the self rated health at wave 1, p00c01 contains the self rated health at wave 2, etc... Note that sequences may contain missing values due to wave or item non response. 
+Respondant's self rated health is collected at each yearly wave of the SHP with the following question: \emph{How do you feel right now?}. Possible answers are: very well; well; so, so (average), not very well and not well at all. The sequences are made of an individual's responses over 11 yearly waves of the SHP, starting with wave 1 in 1999. Variable p99c01 contains the self rated health at wave 1, p00c01 contains the self rated health at wave 2, etc... Note that sequences may contain missing values due to wave or item non response. 
 }
 \source{
 Swiss Household Panel \url{www.swisspanel.ch}
 }
 
 \examples{
+## Preparing a sequence object with the SRH data set
 data(SRH)
 state.list <- levels(SRH$p99c01)
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), weights=SRH$wp09lp1s)
+## sequential color palette
+mycol5 <- rev(brewer.pal(5, "RdYlGn"))
+SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
+	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
+names(SRH.seq) <- 1999:2009
 }
 \keyword{datasets}

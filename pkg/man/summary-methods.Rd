@@ -7,9 +7,8 @@
 Summary of a variable length Markov chain model stored in a probabilistic suffix tree.
 }
 
-
 \usage{
-\S4method{summary}{PSTf}(object, max.level, segmented=TRUE)
+\S4method{summary}{PSTf}(object, max.level)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,7 +16,6 @@ Summary of a variable length Markov chain model stored in a probabilistic suffix
 	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
 \item{max.level}{ integer. If specified, the summary is computed for the \code{max.level} levels of the tree only. }
-\item{segmented}{ logical. If \code{object} is a segmented PST, } 
 }
 
 \value{
@@ -35,7 +33,6 @@ Summary of a variable length Markov chain model stored in a probabilistic suffix
 A \code{show} method is available for displaying objects of class \code{PST.summary}.
 }
 
-}
 \author{
 	Alexis Gabadinho
 }
@@ -47,7 +44,6 @@ S1 <- pstree(s1.seq, L=3)
 summary(S1)
 summary(S1, max.level=2)
 }
-
 
 \keyword{methods}
 

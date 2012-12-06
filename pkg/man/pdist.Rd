@@ -79,6 +79,41 @@ Alexis gabadinho
 }
 
 \examples{
+## Loading the 'SRH' data frame and 'SRH.seq' sequence object
+data(SRH)
+
+## a factor with age group
+gage10 <- cut(1999-SRH$birthy, c(20, 40, 60, 80), right=FALSE,
+	labels=c("20-39", "40-59", "60-79"))
+agemiss <- which(is.na(gage10))
+
+## Removing cases where age is missing
+SRH.anm.seq <- SRH.seq[-agemiss,]
+gage10 <- gage10[-agemiss]
+
+## segmented PST (including missing value)
+SRH.psts <- pstree(SRH.anm.seq, group=gage10, with.missing=TRUE, nmin=2, ymin=0.001)
+C99 <- qchisq(0.99,6-1)/2
+SRH.psts.C99 <- prune(SRH.psts, gain="G2", C=C99)
+
+## extracting the model for age groups 1, 2 and 3
+g1.pst <- subtree(SRH.psts.C99, group=1)
+g2.pst <- subtree(SRH.psts.C99, group=2)
+g3.pst <- subtree(SRH.psts.C99, group=3)
+
+## computing the probabilistic divergence
+## 5000 sequences are generated and 5000 distances
+## are computed. The between models distance is the mean
+## of the 5000 distances
+d1_2 <- pdist(g1.pst, g3.pst, l=11, method="cp")
+mean(d1_2)
+d1_3 <- pdist(g1.pst, g3.pst, l=11, method="cp")
+mean(d1_3)
+
+d2_1 <- pdist(g2.pst, g1.pst, l=11, method="cp")
+mean(d2_1)
+d2_3 <- pdist(g2.pst, g3.pst, l=11, method="cp")
+mean(d2_3)
 }
 
 \keyword{models}

@@ -19,7 +19,7 @@
 % \alias{prune,PSTf-method}
 %\alias{query,PSTf-method}
 %\alias{subtree,PSTf-method}
-\alias{summary,PSTf-method}
+%\alias{summary,PSTf-method}
 % \alias{tune,PSTf-method}
 
 \title{Class \code{"PSTf"}}
@@ -31,10 +31,10 @@ Objects of class \code{"PSTf"} are returned by the \code{\link{pstree}}, \code{\
 }
 \section{Slots}{
   \describe{
-    \item{\code{.Data}:}{Object of class \code{"list"} ~~ }
+    \item{\code{.Data}:}{Object of class \code{"list"}, a list where each element corresponds to one level of the tree and is itself a list of nodes, i.e., objects of class \code{"\linkS4class{PSTr}"}.}
     \item{\code{data}:}{Object of class \code{"stslist"}. The learning sample to which the PST is fitted, i.e., a sequence object created with the \code{\link[=TraMineR]{seqdef}} function.}
     \item{\code{cdata}:}{Object of class \code{"stslist"}  }
-    \item{\code{alphabet}:}{Object of class \code{"character"} Alphabet on which the sequences, and the PST are built.}
+    \item{\code{alphabet}:}{Object of class \code{"character"}. Alphabet on which the sequences, and the PST are built.}
     \item{\code{labels}:}{Object of class \code{"character"} containing the long state labels.}
     \item{\code{cpal}:}{Object of class \code{"character"}, containing the color palette used to represent each state of the alphabet.}
     \item{\code{segmented}:}{Object of class \code{"logical"} indicating whether the tree is segmented. See \code{\link{pstree}}.}
@@ -59,15 +59,16 @@ Class \code{"\linkS4class{vector}"}, by class "list", distance 2.
     \item{pdist}{\code{signature(x = "PSTf", y = "PSTf")}: compute probabilistic divergence between two PSTs, see \code{\link{pdist,PSTf,PSTf-method}}. }
     \item{plot}{\code{signature(x = "PSTf", y = "ANY")}: plot a PST, see \code{\link{plot,PSTf,ANY-method}}.}
     \item{pmine}{\code{signature(object = "PSTf", data = "stslist")}: pattern mining, see see \code{\link{pmine,PSTf,stslist-method}}.}
-    \item{ppplot}{\code{signature(object = "PSTf")}: plotting a branch of a PST, see \code{\link{ppplot,PSTf-method}.}
-    \item{pqplot}{\code{signature(object = "PSTf", data = "stslist")}: plot the predicted probability of each state in a sequence, see \code{\link{pqplot,PSTf,stslist-method}. }
+    \item{ppplot}{\code{signature(object = "PSTf")}: plotting a branch of a PST, see \code{\link{ppplot,PSTf-method}}.}
+    \item{pqplot}{\code{signature(object = "PSTf", data = "stslist")}: plot the predicted probability of each state in a sequence, see \code{\link{pqplot,PSTf,stslist-method}}. }
     \item{predict}{\code{signature(object = "PSTf")}: predict the likelihood of sequences, see \code{\link{predict,PSTf-method}}. }
     \item{print}{\code{signature(x = "PSTf")}: print a PST, see \code{\link{print,PSTf-method}}.}
     \item{prune}{\code{signature(object = "PSTf")}: prune a PST, see \code{\link{prune,PSTf-method}}. }
     \item{query}{\code{signature(object = "PSTf")}: retrieve counts or next symbol probability distribution from a node in a Probabilistic Suffix Tree, see \code{\link{query,PSTf-method}}. }
     \item{subtree}{\code{signature(object = "PSTf")}: extract a subtree from a segmented PST, see \code{\link{subtree,PSTf-method}}. }
-    \item{summary}{\code{signature(object = "PSTf")}: ... }
+    \item{summary}{\code{signature(object = "PSTf")}: see \code{\link{summary,PSTf-method}}. }
     \item{tune}{\code{signature(object = "PSTf")}: AIC, AICc and BIC based model selection, see \code{\link{tune,PSTf-method}}. }
+}
 }
 
 \author{
