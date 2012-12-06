@@ -8,7 +8,7 @@
 Prune a PST
 }
 \description{
-Prune an existing PST, using one or several pruning parameters.
+Prune a PST, using either a gain function, a maximal depth or a list of nodes to keep or remove. Optionally nodes are not removed from the tree but tagged as deleted, helping to visualize the pruning process.
 }
 \usage{
 \S4method{prune}{PSTf}(object, nmin, L, gain, C, keep, drop, state, delete = TRUE)
@@ -87,7 +87,7 @@ C=C(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=|A|-1
 where \eqn{qchisq(p=1-\alpha,v)} is the quantile function of a \deqn{\chi^{2}} distribution with \eqn{v} degrees of freedom. The cutoff \eqn{C} is a threshold for the difference of deviances between a tree \eqn{S^{1}} and its subtree \eqn{S^{2}} obtained by pruning the terminal node \eqn{c}. Typical values for \eqn{\alpha} are \eqn{5\%} and \eqn{1\%}, yielding \eqn{p=0.95} and \eqn{p=0.99} respectively.
 }
 \value{
-	a PST, i.e. an object of class \code{PSTf}.
+	A PST, i.e. an object of class \code{PSTf}.
 }
 \references{
 Ron, D.; Singer, Y. & Tishby, N. The power of amnesia: Learning probabilistic automata with variable memory length \emph{Machine Learning}, 1996, 25, 117-149
@@ -103,7 +103,7 @@ Alexis Gabadinho
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{tune}}
+\code{\link{tune}}, \code{\link{ppplot}}
 }
 \examples{
 data(s1)

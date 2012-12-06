@@ -27,6 +27,11 @@ exportMethods(
 	"tune"
 )
 
+exportClasses(
+	"PSTr",
+	"PSTf"
+)
+
 
 
 

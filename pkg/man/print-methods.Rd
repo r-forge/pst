@@ -1,7 +1,7 @@
-\name{print-methods}
+\name{print}
 \docType{methods}
-\alias{print-methods}
-\alias{print,ANY-method}
+% \alias{print-methods}
+\alias{print}
 \alias{print,PSTf-method}
 \alias{print,PSTr-method}
 \title{ Print method for objects of class \code{PSTf} and \code{PSTr} }

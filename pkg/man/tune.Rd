@@ -4,7 +4,7 @@
 \alias{tune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	AIC/AICc and BIC based model selection 
+	AIC, AICc and BIC based model selection 
 }
 \description{
 	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value is selected.
@@ -25,10 +25,10 @@
 	numeric. A vector of cutoff values. See \code{\link{prune}} for details.
 }
   \item{criterion}{
-	The criterion used to select the model, either AIC or AICc. AICc should generally be used as with PST models the ratio between the number of observations and the number of estimated parameters is usually low. \cite{Burnham et al, 2004} suggests to use AICc instead of AIC when the ratio is lower than 40.
+	The criterion used to select the model, either AIC, AICc or BIC. AICc should be used when the ratio between the number of observations and the number of estimated parameters is usually low, which is often the case with VLMC models. \cite{Burnham et al, 2004} suggest to use AICc instead of AIC when the ratio is lower than 40.
 }
   \item{output}{
-	If \code{output='PST'} the PST (an object of class 'PSTf') having the lowest AIC or AICc value. If \code{output='stats'}, a table with the statistics for each model obtained by pruning \code{object} with each of the parameters in \code{K}. 
+	If \code{output='PST'} the PST (an object of class \code{"\linkS4class{PSTr}"}) having the lowest AIC, AICc or BIC value. If \code{output='stats'}, a table with the statistics for each model obtained by pruning \code{object} with the cut-offs in \code{C}. 
 }
 }
 \details{

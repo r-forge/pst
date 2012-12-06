@@ -7,7 +7,7 @@
 	Plotting a branch of a PST
 }
 \description{
- The \code{ppplot} function displays the probability distributions of a context all its parent nodes (suffixes) in the tree. One can give a vector of pruning cutoffs as optional argument to this function, either for \eqn{r} or \eqn{C} or both, and the graphic will display the outcome of the gain function. 
+ The \code{ppplot} function displays the probability distributions of a node and all its parent nodes (suffixes) in the tree. One can give a vector of pruning cutoffs as optional argument to this function, either for \eqn{r} or \eqn{C} or both, and the graphic will display the outcome of the gain function. 
 }
 \usage{
 \S4method{ppplot}{PSTf}(object, path, state, gain, C, cex.plot = 1, seqscale = 0.3, node.type = "circle", 
@@ -18,8 +18,7 @@
   \item{object}{
 	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
 }
-  \item{path}{
-%%     ~~Describe \code{path} here~~
+  \item{path}{ character. Either a character string representing the node label (i.e., the context) where symbols are separated by '-', or a vector where each element is a symbol. See example.
 }
   \item{state}{
 %%     ~~Describe \code{state} here~~
@@ -52,15 +51,9 @@
 %%     ~~Describe \code{\dots} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 
 \author{
 Alexis Gabadinho
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
