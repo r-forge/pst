@@ -5,10 +5,10 @@
 \alias{prune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Prune a PST
+Prune a probabilistic suffix tree
 }
 \description{
-Prune a PST, using either a gain function, a maximal depth or a list of nodes to keep or remove. Optionally nodes are not removed from the tree but tagged as deleted, helping to visualize the pruning process.
+Prune a PST, using either a gain function, a maximal depth or a list of nodes to keep or remove. Optionally, nodes are not removed from the tree but tagged as deleted, helping to visualize the pruning process.
 }
 \usage{
 \S4method{prune}{PSTf}(object, nmin, L, gain, C, keep, drop, state, delete = TRUE)
@@ -25,25 +25,7 @@ Prune a PST, using either a gain function, a maximal depth or a list of nodes to
 	integer. If specified the the tree is cut at depth L., that is all nodes with depth > L are removed.
 }
   \item{gain}{
-	character. Function for measuring information gain. If gain="G1", the gain function is the one described in Ron et al. (1996) and later in Bejerano et al. (2001). A node is pruned if for any symbol 
-\eqn{\sigma \in A}
-\deqn{
-\frac{\tilde{P}(\sigma |s)}{\tilde{P}(\sigma | suf(s))} \leq r
-}
-or
-\deqn{
-\frac{\tilde{P}(\sigma |s)}{\tilde{P}(\sigma | suf(s))} \geq \frac{1}{r}
-}
-If gain="G2" the gain function is the one described in M\"{a}chler et B\"{u}hlmann (2004). The node labelled \eqn{wu} is pruned if
-\deqn{
-\Delta_{wu}=\sum_{x \in A} \hat{P}(x|wu)\log \left( \frac{\hat{P}(x|wu)}{\hat{P}(x|u)} \right) N(wu) < K
-}
-
-where the C \eqn{K} is specified on the scale of \eqn{\chi^{2}}-quantiles (percentages) 
-
-\deqn{
-c=c(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=card(\chi)-1
-}
+	character. Function for measuring information gain. See \code{details}.
 }
  \item{C}{
 	numeric. Cutoff value to use with the gain function
@@ -87,7 +69,7 @@ C=C(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=|A|-1
 where \eqn{qchisq(p=1-\alpha,v)} is the quantile function of a \deqn{\chi^{2}} distribution with \eqn{v} degrees of freedom. The cutoff \eqn{C} is a threshold for the difference of deviances between a tree \eqn{S^{1}} and its subtree \eqn{S^{2}} obtained by pruning the terminal node \eqn{c}. Typical values for \eqn{\alpha} are \eqn{5\%} and \eqn{1\%}, yielding \eqn{p=0.95} and \eqn{p=0.99} respectively.
 }
 \value{
-	A PST, i.e. an object of class \code{PSTf}.
+	A probabilistic suffix tree, i.e., an object of class \code{\linkS4class{PSTf}}.
 }
 \references{
 Ron, D.; Singer, Y. & Tishby, N. The power of amnesia: Learning probabilistic automata with variable memory length \emph{Machine Learning}, 1996, 25, 117-149

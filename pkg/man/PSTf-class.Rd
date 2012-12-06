@@ -22,12 +22,12 @@
 %\alias{summary,PSTf-method}
 % \alias{tune,PSTf-method}
 
-\title{Class \code{"PSTf"}}
+\title{Flat representation of a probabilistic suffix tree}
 \description{
-This is the flat representation of a probabilistic suffix tree (PST) storing the parameters of a variable length Markov chain model. The flat representation is a list where each element corresponds to a given depth. It is the prefered representation and is used by all functions for model fitting and sequence analysis with PST. The nested representation \code{"\linkS4class{PSTr}"} is used only for printing and plotting PSTs. 
+The class \code{"PSTf"} is the flat representation of a probabilistic suffix tree (PST) storing a variable length Markov chain model. The flat representation is a list where each element corresponds to a given depth. It is the prefered representation and is used by all functions for model fitting and sequence analysis with PST. The nested representation \code{"\linkS4class{PSTr}"} is used only for printing and plotting PSTs. 
 }
 \section{Objects from the Class}{
-Objects of class \code{"PSTf"} are returned by the \code{\link{pstree}}, \code{\link{prune}} and \code{\link{tune}} functions.
+Objects of class \code{"PSTf"} are returned by the \code{\link{pstree}}, \code{\link{prune}} and \code{\link{tune}} function.
 }
 \section{Slots}{
   \describe{
@@ -36,7 +36,7 @@ Objects of class \code{"PSTf"} are returned by the \code{\link{pstree}}, \code{\
     \item{\code{cdata}:}{Object of class \code{"stslist"}  }
     \item{\code{alphabet}:}{Object of class \code{"character"}. Alphabet on which the sequences, and the PST are built.}
     \item{\code{labels}:}{Object of class \code{"character"} containing the long state labels.}
-    \item{\code{cpal}:}{Object of class \code{"character"}, containing the color palette used to represent each state of the alphabet.}
+    \item{\code{cpal}:}{Object of class \code{"character"}. Color palette used to represent each state of the alphabet.}
     \item{\code{segmented}:}{Object of class \code{"logical"} indicating whether the tree is segmented. See \code{\link{pstree}}.}
     \item{\code{group}:}{Object of class \code{"factor"} containing the group membership for each sequence in \code{data}.}
     \item{\code{call}:}{Object of class \code{"call"} ~~ }
