@@ -3,13 +3,13 @@
 \alias{generate,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Generate sequences using a Probabilistic Suffix Tree (PST)
+	Generate sequences using a probabilistic suffix tree
 }
 \description{
-Generate sequences using a Probabilistic Suffix Tree (PST)
+Generate sequences using a probabilistic suffix tree
 }
 \usage{
-\S4method{generate}{PSTf}(object, l, n, s1, p1, method, L, ...)
+\S4method{generate}{PSTf}(object, l, n, s1, p1, method, L)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,9 +33,6 @@ Generate sequences using a Probabilistic Suffix Tree (PST)
 }
   \item{L}{
 	Integer: Maximal depth used to extract the probability distributions from the PST object.  
-}
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
 }
 }
 \details{

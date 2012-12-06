@@ -1,13 +1,11 @@
 ## Generating artifical sequences
 
 setMethod("generate", signature=c(object="PSTf"), 
-	def=function(object, l, n=1, s1, p1, method="prob", L, ...) {
+	def=function(object, l, n=1, s1, p1, method="prob", L) {
 
 	A <- alphabet(object)
-	if (missing(L)) {
-		sum <- summary(object)
-		L <- sum@depth
-	}
+	if (missing(L)) { L <- length(object)-1 }
+	stationary <- is.stationary(object)
 
 	if (!missing(s1)) {
 		n <- length(s1)
@@ -33,7 +31,11 @@ setMethod("generate", signature=c(object="PSTf"),
 		}
 	} else {
 		if (missing(p1)) {
-			p1 <- suppressMessages(query(object, "e"))
+			if (stationary) {
+				p1 <- suppressMessages(query(object, "e"))
+			} else {
+				p1 <- suppressMessages(query(object, "e"))[1,]
+			}
 		} 
 		
 		if (method=="pmax") {
@@ -43,10 +45,20 @@ setMethod("generate", signature=c(object="PSTf"),
 		}
 	}
 
-	context.table <- unlist(lapply(object[1:(L+1)], names))
+	if (is.stationary(object)) {
+		context.table <- unlist(lapply(object[1:(L+1)], names))
+	} else {
+		message(" [>] model is non-stationary")
+	}
 
 	## position 2:l
 	for (j in 2:l) {
+		if (!stationary) {
+			pstpos <- subtree(object, position=j)
+			Lp <- min(length(pstpos)-1,L)
+			context.table <- unlist(lapply(pstpos[1:(Lp+1)], names))
+		}
+
 		contexts <- apply(seq[,max(1, j-L):(j-1), drop=FALSE],1, paste, collapse="-")
 		unique.contexts <- unique(contexts)
 		context.idx <- match(contexts, unique.contexts)
@@ -85,7 +97,11 @@ setMethod("generate", signature=c(object="PSTf"),
 					sd <- unlist(strsplit(context, split="-"))
 					idxl <- length(sd)+1	
 
-					tmp <- object[[idxl]][[context]]@prob
+					if (stationary) { 
+						tmp <- object[[idxl]][[context]]@prob 
+					} else {
+						tmp <- pstpos[[idxl]][[context]]@prob 
+					}
 				}
 
 				tmp <- as.numeric(tmp)
