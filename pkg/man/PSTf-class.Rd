@@ -8,17 +8,17 @@
 %\alias{impute,PSTf,stslist-method}
 %\alias{logLik,PSTf-method}
 %\alias{nobs,PSTf-method}
-\alias{nodenames,PSTf-method}
-\alias{pdist,PSTf,PSTf-method}
-\alias{plot,PSTf,ANY-method}
+%\alias{nodenames,PSTf-method}
+%\alias{pdist,PSTf,PSTf-method}
+%\alias{plot,PSTf,ANY-method}
 %\alias{pmine,PSTf,stslist-method}
-\alias{ppplot,PSTf-method}
-\alias{pqplot,PSTf,stslist-method}
+%\alias{ppplot,PSTf-method}
+%\alias{pqplot,PSTf,stslist-method}
 %\alias{predict,PSTf-method}
-\alias{print,PSTf-method}
+%\alias{print,PSTf-method}
 % \alias{prune,PSTf-method}
-\alias{query,PSTf-method}
-\alias{subtree,PSTf-method}
+%\alias{query,PSTf-method}
+%\alias{subtree,PSTf-method}
 \alias{summary,PSTf-method}
 % \alias{tune,PSTf-method}
 
@@ -56,19 +56,18 @@ Class \code{"\linkS4class{vector}"}, by class "list", distance 2.
     \item{logLik}{\code{signature(object = "PSTf")}: extract log-likelihood of the VLMC model represented by a PST, see \code{\link{logLik,PSTf-method}}.}
     \item{nobs}{\code{signature(object = "PSTf")}: number of observations (symbols) in the learning sample to which a VLMC model is fitted, see \code{\link{nobs,PSTf-method}}.}
     \item{nodenames}{\code{signature(object = "PSTf")}: retrieve the node labels of a PST, see see \code{\link{nodenames,PSTf-method}}. }
-    \item{pdist}{\code{signature(x = "PSTf", y = "PSTf")}: compute probabilistic divergence between two PSTs, see \code{\link{pdist,PSTf-method}}. }
+    \item{pdist}{\code{signature(x = "PSTf", y = "PSTf")}: compute probabilistic divergence between two PSTs, see \code{\link{pdist,PSTf,PSTf-method}}. }
     \item{plot}{\code{signature(x = "PSTf", y = "ANY")}: plot a PST, see \code{\link{plot,PSTf,ANY-method}}.}
-    \item{pmine}{\code{signature(object = "PSTf", data = "stslist")}: pattern mining, see see \code{\link{pmine,PSTf-method}}.}
-    \item{ppplot}{\code{signature(object = "PSTf")}: ... }
-    \item{pqplot}{\code{signature(object = "PSTf", data = "stslist")}: }
+    \item{pmine}{\code{signature(object = "PSTf", data = "stslist")}: pattern mining, see see \code{\link{pmine,PSTf,stslist-method}}.}
+    \item{ppplot}{\code{signature(object = "PSTf")}: plotting a branch of a PST, see \code{\link{ppplot,PSTf-method}.}
+    \item{pqplot}{\code{signature(object = "PSTf", data = "stslist")}: plot the predicted probability of each state in a sequence, see \code{\link{pqplot,PSTf,stslist-method}. }
     \item{predict}{\code{signature(object = "PSTf")}: predict the likelihood of sequences, see \code{\link{predict,PSTf-method}}. }
     \item{print}{\code{signature(x = "PSTf")}: print a PST, see \code{\link{print,PSTf-method}}.}
     \item{prune}{\code{signature(object = "PSTf")}: prune a PST, see \code{\link{prune,PSTf-method}}. }
-    \item{query}{\code{signature(object = "PSTf")}: ... }
-    \item{subtree}{\code{signature(object = "PSTf")}: ... }
+    \item{query}{\code{signature(object = "PSTf")}: retrieve counts or next symbol probability distribution from a node in a Probabilistic Suffix Tree, see \code{\link{query,PSTf-method}}. }
+    \item{subtree}{\code{signature(object = "PSTf")}: extract a subtree from a segmented PST, see \code{\link{subtree,PSTf-method}}. }
     \item{summary}{\code{signature(object = "PSTf")}: ... }
     \item{tune}{\code{signature(object = "PSTf")}: AIC, AICc and BIC based model selection, see \code{\link{tune,PSTf-method}}. }
-	 }
 }
 
 \author{

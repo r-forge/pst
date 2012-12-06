@@ -5,7 +5,7 @@
 	Prediction quality plot
 }
 \description{
-	Plot the prediction of each state in a sequence
+	Plot the predicted probability of each state in a sequence
 }
 
 \usage{

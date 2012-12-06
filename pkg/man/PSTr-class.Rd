@@ -3,8 +3,8 @@
 \docType{class}
 \alias{PSTr-class}
 \alias{[[,PSTr-method}
-\alias{plot,PSTr,ANY-method}
-\alias{print,PSTr-method}
+%\alias{plot,PSTr,ANY-method}
+%\alias{print,PSTr-method}
 \alias{summary,PSTr-method}
 
 \title{Class \code{"PSTr"}}
@@ -38,8 +38,8 @@ Class \code{"\linkS4class{vector}"}, by class "list", distance 2.
 \section{Methods}{
   \describe{
     \item{[[}{\code{signature(x = "PSTr")}: ... }
-    \item{plot}{\code{signature(x = "PSTr", y = "ANY")}: ... }
-    \item{print}{\code{signature(x = "PSTr")}: ... }
+    \item{plot}{\code{signature(x = "PSTr", y = "ANY")}: plot a PST, see \code{\link{plot,PSTr,ANY-method}}.}
+    \item{print}{\code{signature(x = "PSTr")}: print a PST, see \code{\link{print,PSTr-method}}.}
     \item{summary}{\code{signature(object = "PSTr")}: ... }
 	 }
 }
