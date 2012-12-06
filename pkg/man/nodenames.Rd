@@ -4,10 +4,10 @@
 %% \alias{nodenames-methods}
 \alias{nodenames,PSTf-method}
 \title{
-	Retrieve the node names of a PST
+	Retrieve the node labels of a PST
 }
 \description{
-	Retrieve the node names of a PST 
+	Retrieve the node labels of a PST 
 }
 \usage{
 \S4method{nodenames}{PSTf}(object, L)

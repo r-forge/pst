@@ -2,19 +2,19 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{PSTf-class}
-\alias{cmine,PSTf-method}
-\alias{cplot,PSTf-method}
-\alias{generate,PSTf-method}
-\alias{impute,PSTf,stslist-method}
-\alias{logLik,PSTf-method}
-\alias{nobs,PSTf-method}
+%\alias{cmine,PSTf-method}
+%\alias{cplot,PSTf-method}
+%\alias{generate,PSTf-method}
+%\alias{impute,PSTf,stslist-method}
+%\alias{logLik,PSTf-method}
+%\alias{nobs,PSTf-method}
 \alias{nodenames,PSTf-method}
 \alias{pdist,PSTf,PSTf-method}
 \alias{plot,PSTf,ANY-method}
-\alias{pmine,PSTf,stslist-method}
+%\alias{pmine,PSTf,stslist-method}
 \alias{ppplot,PSTf-method}
 \alias{pqplot,PSTf,stslist-method}
-\alias{predict,PSTf-method}
+%\alias{predict,PSTf-method}
 \alias{print,PSTf-method}
 % \alias{prune,PSTf-method}
 \alias{query,PSTf-method}
@@ -49,19 +49,19 @@ Class \code{"\linkS4class{vector}"}, by class "list", distance 2.
 }
 \section{Methods}{
   \describe{
-    \item{cmine}{\code{signature(object = "PSTf")}: ... }
-    \item{cplot}{\code{signature(object = "PSTf")}: ... }
-    \item{generate}{\code{signature(object = "PSTf")}: ... }
-    \item{impute}{\code{signature(object = "PSTf", data = "stslist")}: ... }
-    \item{logLik}{\code{signature(object = "PSTf")}: ... }
-    \item{nobs}{\code{signature(object = "PSTf")}: ... }
-    \item{nodenames}{\code{signature(object = "PSTf")}: ... }
-    \item{pdist}{\code{signature(x = "PSTf", y = "PSTf")}: ... }
-    \item{plot}{\code{signature(x = "PSTf", y = "ANY")}: ... }
-    \item{pmine}{\code{signature(object = "PSTf", data = "stslist")}: ... }
+    \item{cmine}{\code{signature(object = "PSTf")}: context mining, see \code{\link{cmine,PSTf-method}}.}
+    \item{cplot}{\code{signature(object = "PSTf")}: plot single nodes of a PST, see \code{\link{cplot,PSTf-method}}.}
+    \item{generate}{\code{signature(object = "PSTf")}: generate artificial sequences, see \code{\link{generate,PSTf-method}}. }
+    \item{impute}{\code{signature(object = "PSTf", data = "stslist")}: impute missing values in sequence data, see\code{\link{impute,PSTf,stslist-method}}.}
+    \item{logLik}{\code{signature(object = "PSTf")}: extract log-likelihood of the VLMC model represented by a PST, see \code{\link{logLik,PSTf-method}}.}
+    \item{nobs}{\code{signature(object = "PSTf")}: number of observations (symbols) in the learning sample to which a VLMC model is fitted, see \code{\link{nobs,PSTf-method}}.}
+    \item{nodenames}{\code{signature(object = "PSTf")}: retrieve the node labels of a PST, see see \code{\link{nodenames,PSTf-method}}. }
+    \item{pdist}{\code{signature(x = "PSTf", y = "PSTf")}: compute probabilistic divergence between two PSTs, see \code{\link{pdist,PSTf-method}}. }
+    \item{plot}{\code{signature(x = "PSTf", y = "ANY")}: plot a PST, see \code{\link{plot,PSTf,ANY-method}}.}
+    \item{pmine}{\code{signature(object = "PSTf", data = "stslist")}: pattern mining, see see \code{\link{pmine,PSTf-method}}.}
     \item{ppplot}{\code{signature(object = "PSTf")}: ... }
-    \item{pqplot}{\code{signature(object = "PSTf", data = "stslist")}: predict the likelihood of sequences, see \code{\link{predict,PSTf-method}}.}
-    \item{predict}{\code{signature(object = "PSTf")}: ... }
+    \item{pqplot}{\code{signature(object = "PSTf", data = "stslist")}: }
+    \item{predict}{\code{signature(object = "PSTf")}: predict the likelihood of sequences, see \code{\link{predict,PSTf-method}}. }
     \item{print}{\code{signature(x = "PSTf")}: print a PST, see \code{\link{print,PSTf-method}}.}
     \item{prune}{\code{signature(object = "PSTf")}: prune a PST, see \code{\link{prune,PSTf-method}}. }
     \item{query}{\code{signature(object = "PSTf")}: ... }
@@ -70,17 +70,10 @@ Class \code{"\linkS4class{vector}"}, by class "list", distance 2.
     \item{tune}{\code{signature(object = "PSTf")}: AIC, AICc and BIC based model selection, see \code{\link{tune,PSTf-method}}. }
 	 }
 }
-\references{
-%%  ~~put references to the literature/web site here~~
-}
+
 \author{
 Alexis Gabadinho
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
 \code{\linkS4class{PSTr}}
