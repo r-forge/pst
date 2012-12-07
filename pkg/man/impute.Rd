@@ -4,10 +4,10 @@
 \alias{impute,PSTf,stslist-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Impute missing states in sequences using a Probabilistic Suffix Tree
+	Impute missing values using a probabilistic suffix tree
 }
 \description{
-	Missing states in a sequecne object are imputed by using the Probabilistic Suffix Tree. The context preceding the missing status is used to predict it.
+	Missing states in a set of sequences are imputed by using the probability distributions stored in a probabilistic suffix tree.
 }
 \usage{
 \S4method{impute}{PSTf,stslist}(object, data, method="pmax")
@@ -15,7 +15,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{data}{
 	a sequence object, i.e., an object of class \code{'stslist'} as created by TraMineR \code{\link[TraMineR]{seqdef}} function, containing the sequences to impute. See details.
@@ -36,14 +36,8 @@ A probabilistic suffix tree (PST) can be used to impute missing states in sequen
  Alexis Gabadinho
 }
 \examples{
-## Preparing a sequence object with the SRH data set
+## Loading the SRH.seq sequence object
 data(SRH)
-state.list <- levels(SRH$p99c01)
-## sequential color palette
-mycol5 <- rev(brewer.pal(5, "RdYlGn"))
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
-	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
-names(SRH.seq) <- 1999:2009
 
 ## Learning the model
 SRH.pst.L10 <- pstree(SRH.seq, nmin=2, ymin=0.001)

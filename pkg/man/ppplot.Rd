@@ -4,24 +4,21 @@
 \alias{ppplot,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Plotting a branch of a PST
+	Plotting a branch of a probabilistic suffix tree
 }
 \description{
- The \code{ppplot} function displays the probability distributions of a node and all its parent nodes (suffixes) in the tree. One can give a vector of pruning cutoffs as optional argument to this function, either for \eqn{r} or \eqn{C} or both, and the graphic will display the outcome of the gain function. 
+ The \code{ppplot} function displays the probability distributions of a node and all its parent nodes (suffixes) in the tree. IF the name of a gain function and a vector of pruning cutoffs are provided, the graphic will display the outcomes of the gain function, i.e., whether a node represents an information gain relative to its parent.
 }
 \usage{
-\S4method{ppplot}{PSTf}(object, path, state, gain, C, cex.plot = 1, seqscale = 0.3, node.type = "circle", 
-	pscale = seqscale/2, pruned.col = "red", div.col = "green", ...)
+\S4method{ppplot}{PSTf}(object, path, gain, C, cex.plot = 1, nsize = 0.3,
+	psize = nsize/2, pruned.col = "red", div.col = "green", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{path}{ character. Either a character string representing the node label (i.e., the context) where symbols are separated by '-', or a vector where each element is a symbol. See example.
-}
-  \item{state}{
-%%     ~~Describe \code{state} here~~
 }
   \item{gain}{
 	character or function. Gain function, see \code{\link{prune}}.
@@ -29,26 +26,22 @@
   \item{C}{
 	numeric. Value of the cutoff used by the gain function, see \code{\link{prune}}.
 }
-  \item{cex.plot}{
-%%     ~~Describe \code{cex.plot} here~~
+  \item{cex.plot}{numeric. Expansion factor for setting the size of the font for the axis labels and names. The default value is 1. Values lesser than 1 will reduce the size of the font, values greater than 1 will increase the size.
 }
-  \item{seqscale}{
-%%     ~~Describe \code{seqscale} here~~
+  \item{nsize}{
+	numeric. Size of the circles representing the nodes.
 }
-  \item{node.type}{
-%%     ~~Describe \code{node.type} here~~
-}
-  \item{pscale}{
-%%     ~~Describe \code{pscale} here~~
+  \item{psize}{
+	numeric. Size of the circles representing the outcome of the gain function.
 }
   \item{pruned.col}{
-%%     ~~Describe \code{pruned.col} here~~
+character. Color used to represent a terminal node which provides no information gain relative to its parent.
 }
   \item{div.col}{
-%%     ~~Describe \code{div.col} here~~
+character. Color used to represent an internal node which provides information gain relative to its parent.
 }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+additional parameters to be passed to the \code{plot} function.
 }
 }
 
@@ -64,8 +57,8 @@ Alexis Gabadinho
 \examples{
 data(s1)
 s1.seq <- seqdef(s1)
-S1 <- pstree(s1.seq, L=5)
-ppplot(S1, "a-a-b-b-a")
+S1 <- pstree(s1.seq, L=5, ymin=0.001)
+ppplot(S1, "a-a-b-b-a", gain="G1", C=c(1.1, 1.2))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -15,12 +15,11 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
 }
 \details{
-
-The likelihood of a learning sample containing \eqn{n} sequences, given a model \eqn{S} fitted on it, is
+The likelihood of a learning sample containing \eqn{n} sequences, given a model \eqn{S} fitted to it, is
 \deqn{
 L(S)=\prod_{i=1}^{n} P^{S}(x^{i})
 }
@@ -41,14 +40,8 @@ Note that the log-likelihood of a VLMC model is not used in the estimation of th
 }
 
 \examples{
-## Preparing a sequence object with the SRH data set
+## Loading the SRH.seq sequence object
 data(SRH)
-state.list <- levels(SRH$p99c01)
-## sequential color palette
-mycol5 <- rev(brewer.pal(5, "RdYlGn"))
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
-	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
-names(SRH.seq) <- 1999:2009
 
 ## Learning the model (the model includes missing states)
 SRH.pst.L10m <- pstree(SRH.seq, nmin=2, ymin=0.001, with.missing=TRUE)

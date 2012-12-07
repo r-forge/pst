@@ -2,7 +2,7 @@
 ## and illustration of the pruning process 
 
 setMethod("ppplot", signature="PSTf", 
-	def=function(object, path, state, gain, C,  cex.plot=1, seqscale=0.3, node.type="circle", pscale=seqscale/2, 
+	def=function(object, path, gain, C,  cex.plot=1, nsize=0.3, psize=nsize/2, 
 		pruned.col="red", div.col="green", ...) {
 
 		A <- object@alphabet
@@ -44,14 +44,14 @@ setMethod("ppplot", signature="PSTf",
 		## Plotting path
 		barw <- 1
 		gsep <- 0.1
-		ppsep <- pscale/4
+		ppsep <- psize/4
 		poff <- 0
 
 		nC <- if (!missing(C)) { length(C) } else { 0 }
 
 		plot(NULL, 
-			xlim=c(1-seqscale, sl+2),
-			ylim=c(0,(seqscale+gsep+1+(nC*(pscale+ppsep))+ ((nC>0)*gsep))),
+			xlim=c(1-nsize, sl+2),
+			ylim=c(0,(nsize+gsep+1+(nC*(psize+ppsep))+ ((nC>0)*gsep))),
 			axes=FALSE,
 			xlab="L (memory)", ylab="",
 			...)
@@ -65,7 +65,7 @@ setMethod("ppplot", signature="PSTf",
 				idpar <- 1
 				if (gain=="G1") {
 					for (i in 1:nC) { 
-						div[idpar, j] <- G1(prob[,j], prob[,(j+1)], C=r[i])
+						div[idpar, j] <- G1(prob[,j], prob[,(j+1)], C=C[i])
 						idpar <- idpar+1
 					}
 				} else if (gain=="G2") {
@@ -84,25 +84,20 @@ setMethod("ppplot", signature="PSTf",
 			}
 
 			ppar.lab.pos <- NULL
-			poff <- poff+(pscale/2)
+			poff <- poff+(psize/2)
 
 			for (pp in 1:nC) {
 				segments(1, poff, sl+1, poff, col="grey", lwd=3)
 	
 				for (i in 1:sl) {
 					pcol <- if (pruned[pp, i]) {pruned.col} else if ( div[pp,i] ) {div.col} else {"grey"}
-					if (node.type=="rectangle") {
-						rect(i-seqscale, poff, i+seqscale, poff+pscale, 
-							col=pcol)
-					} else {
-						symbols(x=i, y=poff, circles=pscale, bg=pcol, add=TRUE, inches=FALSE)
-					}
+					symbols(x=i, y=poff, circles=psize, bg=pcol, add=TRUE, inches=FALSE)
 				}
 	
-				symbols(x=sl+1, y=poff,	circles=pscale, bg="grey", add=TRUE, inches=FALSE)
+				symbols(x=sl+1, y=poff,	circles=psize, bg="grey", add=TRUE, inches=FALSE)
 
 				ppar.lab.pos <- c(ppar.lab.pos, poff)
-				poff <- poff+pscale+ppsep
+				poff <- poff+psize+ppsep
 			}
 
 			ppar.lab <- paste("C", 1:nC, sep="")
@@ -114,29 +109,31 @@ setMethod("ppplot", signature="PSTf",
 		}
 
 		## Plotting path and next symbol probability distributions
-		poff <- poff+(seqscale/2)
-		prob.yBottom <- poff+(seqscale/2)+gsep
+		poff <- poff+(nsize/2)
+		prob.yBottom <- poff+(nsize/2)+gsep
 	
 		segments(1, poff, sl+1, poff, col="grey", lwd=3)
 
 		for (i in 1:sl) {
-			segments(i, poff, i, poff+(seqscale/2)+gsep, col="grey", lwd=3)
+			segments(i, poff, i, poff+(nsize/2)+gsep, col="grey", lwd=3)
 	
-			symbols(x=i, y=poff, circles=seqscale, bg=c.cpal[which(path[i]==c.A)], add=TRUE, inches=FALSE)
-			text(x=i, y=poff, labels=path[i])
-			plotProb(i-seqscale, prob.yBottom , i+seqscale, prob.yBottom+1, prob=t(prob[,i]), state, cpal=cpal)
+			symbols(x=i, y=poff, circles=nsize, bg=c.cpal[which(path[i]==c.A)], add=TRUE, inches=FALSE)
+			text(x=i, y=poff, labels=path[i], cex=cex.plot)
+			plotProb(i-nsize, prob.yBottom , i+nsize, prob.yBottom+1, prob=t(prob[,i]), 
+				cpal=cpal)
 		}
 
 		## ROOT NODE
-		segments(sl+1, poff, sl+1, poff+(seqscale/2)+gsep, col="grey", lwd=3)
+		segments(sl+1, poff, sl+1, poff+(nsize/2)+gsep, col="grey", lwd=3)
 
-		symbols(sl+1, y=poff, circles=seqscale, bg="grey", add=TRUE, inches=FALSE)
+		symbols(sl+1, y=poff, circles=nsize, bg="grey", add=TRUE, inches=FALSE)
 		text(x=sl+1, y=poff, labels="e")
 
 		## Plotting next symbol probability distributions
-		plotProb((sl+1)-seqscale, prob.yBottom, (sl+1)+seqscale, prob.yBottom+1, t(prob[,sl+1]), state, cpal)
+		plotProb((sl+1)-nsize, prob.yBottom, (sl+1)+nsize, prob.yBottom+1, 
+			prob=t(prob[,sl+1]), cpal=cpal)
 
-		axis(1, at=(1:(sl+1)), labels=sl:0, pos=-0.04)
+		axis(1, at=(1:(sl+1)), labels=sl:0, pos=-0.04, cex.axis=cex.plot)
 
 		plabpos <- seq(from=prob.yBottom, to=(prob.yBottom+1), by=0.2)
 		plab <- plabpos-prob.yBottom

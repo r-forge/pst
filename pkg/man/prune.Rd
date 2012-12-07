@@ -16,7 +16,7 @@ Prune a PST, using either a gain function, a maximal depth or a list of nodes to
 
 \arguments{
   \item{object}{
-	A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{nmin}{
 	integer. All strings having counts less than nmin are removed.
@@ -76,7 +76,7 @@ Ron, D.; Singer, Y. & Tishby, N. The power of amnesia: Learning probabilistic au
 
 Bejerano, G. & Yona, G. Variations on probabilistic suffix trees: statistical modeling and prediction of protein families. \emph{Bioinformatics}, 2001, 17, 23-43
 
-M\"{a}chler, M. & B\"{u}hlmann, P. Variable Length Markov Chains: Methodology, Computing, and Software \emph{Journal of Computational and Graphical Statistics}, 2004, 13, pp. 435-455
+Maechler, M. & Buehlmann, P. Variable Length Markov Chains: Methodology, Computing, and Software \emph{Journal of Computational and Graphical Statistics}, 2004, 13, pp. 435-455
 }
 \author{
 Alexis Gabadinho

@@ -14,22 +14,22 @@ Generate sequences using a probabilistic suffix tree
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{l}{
-	integer. Length of the sequence(s) to generate
+	integer. Length of the sequence(s) to generate.
 }
   \item{n}{
-	integer. Number of the sequence(s) to generate
+	integer. Number of the sequence(s) to generate.
 }
   \item{s1}{
 	character. The first state in the sequences. The length of the vector should equal \code{n}. If specified, the first state in the sequence(s) is not randomly generated but taken from \code{s1}. 
 }
   \item{p1}{
-	Numeric vector: An optional probability vector for generating the first position state in the sequence(s). If specified, the first state in the sequence(s) is randomly generated using the probability distribution in \code{p1} instead of the probability distribution taken fron the root node of \code{object}. 
+	numeric. An optional probability vector for generating the first position state in the sequence(s). If specified, the first state in the sequence(s) is randomly generated using the probability distribution in \code{p1} instead of the probability distribution taken fron the root node of \code{object}. 
 }
   \item{method}{
-	Character: if \code{method=pmax}, at each position the state having the highest probability is chosen. If \code{method=prob}, at each position the state is generated using the corresponding probability distribution taken from \code{object}.
+	character. If \code{method=pmax}, at each position the state having the highest probability is chosen. If \code{method=prob}, at each position the state is generated using the corresponding probability distribution taken from \code{object}.
 }
   \item{L}{
 	Integer: Maximal depth used to extract the probability distributions from the PST object.  
