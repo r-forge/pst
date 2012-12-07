@@ -51,7 +51,7 @@ The initial tree returned by the \code{\link{pstree}} function may yield an over
 The pruning procedure starts from the terminal nodes and is applied recursively until all terminal nodes remaining in the tree represent an information gain relative to their parent. % Indeed, starting the pruning from the root node and removing an internal node would lead to remove all its children as well even if one of the children at higher depth adds significant additional information.
 A gain function,  whose outcome will determine the pruning decision, is used to compare the two probability distributions. The gain function is driven by a cut-off, and different values of this parameter will yield more or less complex trees. A method for selecting the pruning cut-off is described in the \code{\link{tune}} help page.
 
-A first implemented gain function, which is used by the \emph{Learn-PSA} algorithm, is based on the ratio between \eqn{\hat{P}(\sigma|c)} and $\eqn{hat{P}(\sigma|suf(c))} for each \eqn{\sigma \in A}. A node represents an information gain if for any symbol \eqn{\sigma \in A} the ratio is greater than the cut-off \eqn{C} or lower than \eqn{1/C}, that is if
+A first implemented gain function, which is used by the \emph{Learn-PSA} algorithm, is based on the ratio between \eqn{\hat{P}(\sigma|c)} and \eqn{hat{P}(\sigma|suf(c))} for each \eqn{\sigma \in A}. A node represents an information gain if for any symbol \eqn{\sigma \in A} the ratio is greater than the cut-off \eqn{C} or lower than \eqn{1/C}, that is if
 \deqn{
 G_{1}(c)=\sum_{\sigma \in A} 1 \left[ \frac{\hat{P}(\sigma |c)}{\hat{P}(\sigma | suf(c))} \geq C \; \cup \; 
 \frac{\hat{P}(\sigma |c)}{\hat{P}(\sigma | suf(c))} \leq \frac{1}{C} \right] \geq 1
@@ -66,7 +66,7 @@ where \eqn{c} is the context labelling the terminal node, \eqn{N(c)} is the numb
 \deqn{
 C=C(\alpha)=\frac{1}{2}qchisq(1-\alpha,v), v=|A|-1
 }
-where \eqn{qchisq(p=1-\alpha,v)} is the quantile function of a \deqn{\chi^{2}} distribution with \eqn{v} degrees of freedom. The cutoff \eqn{C} is a threshold for the difference of deviances between a tree \eqn{S^{1}} and its subtree \eqn{S^{2}} obtained by pruning the terminal node \eqn{c}. Typical values for \eqn{\alpha} are \eqn{5\%} and \eqn{1\%}, yielding \eqn{p=0.95} and \eqn{p=0.99} respectively.
+where \eqn{qchisq(p=1-\alpha,v)} is the quantile function of a \eqn{\chi^{2}} distribution with \eqn{v} degrees of freedom. The cutoff \eqn{C} is a threshold for the difference of deviances between a tree \eqn{S^{1}} and its subtree \eqn{S^{2}} obtained by pruning the terminal node \eqn{c}. Typical values for \eqn{\alpha} are \eqn{5\%} and \eqn{1\%}, yielding \eqn{p=0.95} and \eqn{p=0.99} respectively.
 }
 \value{
 	A probabilistic suffix tree, i.e., an object of class \code{\linkS4class{PSTf}}.
