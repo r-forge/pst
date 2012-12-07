@@ -38,11 +38,6 @@ numeric. Expansion factor for setting the size of the font for the axis labels a
 }
 	\item{space}{numeric. Space separating each state in the plot.
 }
-	\item{grid}{
-	logical. If \code{TRUE} a grid is added to the plot.
-}	
-	\item{seqprob}{
-}
 	\item{measure}{
 	character. Measure used for prediction quality. Either \code{'prob'} or \code{'logloss'}.$
 }
