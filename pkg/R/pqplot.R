@@ -2,9 +2,8 @@
 ## and outcomes of the gain function 
 
 setMethod("pqplot", signature=c(object="PSTf", data="stslist"), 
-	def <- function(object, data, cdata, L, stcol, plotseq=FALSE, ptype="barplot", 
-	cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
-	measure="prob", pqmax, seqscale, ...) {
+	def <- function(object, data, cdata, L, stcol, plotseq=FALSE, ptype="b", 
+	cex.plot=1, space=0, measure="prob", pqmax, seqscale, ...) {
 
 	oolist <- list(...)
 
@@ -72,7 +71,7 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 	}
 
 	## Plotting probability distributions
-	if (ptype=="barplot") {
+	if (ptype=="b") {
 		if (missing(stcol)) {
 			A <- alphabet(data)
 			cpal <- cpal(data)
@@ -95,7 +94,7 @@ setMethod("pqplot", signature=c(object="PSTf", data="stslist"),
 			space=space, axes=FALSE, axisnames=FALSE, ylab=ylab, ...)
 		abline(h=pmean+poff, col="red")
 
-	} else {
+	} else if (ptype=="l") {
 		if (missing(stcol)) { stcol <- "blue" }
 
 		xt <- if (ptype=="s") { 0:(length(prob)-1) } else { 0.5:(length(prob)-0.5) }

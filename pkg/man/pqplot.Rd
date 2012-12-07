@@ -9,38 +9,37 @@
 }
 
 \usage{
-\S4method{pqplot}{PSTf,stslist}(object, data, cdata, L, stcol, plotseq=FALSE, ptype="barplot", cex.plot=1, space=0, grid=TRUE, seqprob=TRUE,
+\S4method{pqplot}{PSTf,stslist}(object, data, cdata, L, stcol, plotseq=FALSE, 
+	ptype="barplot", cex.plot=1, space=0,
 	measure="prob", pqmax, seqscale, ...)
 }
 
 \arguments{
 	\item{object}{
-		a fitted PST, that is an object of class PSTf as returned by the \code{\link{pstree}} or \code{\link{prune}} function.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
-	\item{data}{ 
-		a state sequence object created with the \code{\link{seqdef}} TraMineR function.
-}
+	\item{data}{
+	a sequence object, i.e., an object of class \code{'stslist'} as created by TraMineR \code{\link[TraMineR]{seqdef}} function, either subsetted with the index of the sequence to predict or containing one sequence. }
 	\item{cdata}{
-		Under development.
+		Not implemented yet.
 }
 	\item{L}{
 		integer. Maximal context length for sequence prediction. This is the same as pruning the PST by removing all nodes of depth<L before prediction. 
 }
 	\item{stcol}{
-		color to use to represent the states in the plot of the prediction qualities. 
+		character. Color to use to plot the prediction qualities. 
 	}
-
-	\item{plotseq}{ 
-		logical. If TRUE, the sequence is displayed separately, and the prediction plot is plotted above.
-}
 	\item{ptype}{
+		character. Type of plot, either \code{'b'} for barplot or \code{'l'} for line.
 }
 	\item{cex.plot}{
+numeric. Expansion factor for setting the size of the font for the axis labels and names. The default value is 1. Values lesser than 1 will reduce the size of the font, values greater than 1 will increase the size.
+
 }
-	\item{space}{
+	\item{space}{numeric. Space separating each state in the plot.
 }
 	\item{grid}{
-	logical
+	logical. If \code{TRUE} a grid is added to the plot.
 }	
 	\item{seqprob}{
 }
@@ -48,7 +47,7 @@
 	character. Measure used for prediction quality. Either \code{'prob'} or \code{'logloss'}.$
 }
 	\item{pqmax}{
-		max coordinate for the prediction quality plot, i.e. the max of the y axis.
+		numeric. Maximum coordinate for the prediction quality plot, i.e. the max of the y axis.
 	}
 	\item{seqscale}{
 		numeric. If \code{plotseq=TRUE}, width of the bar representing the sequence as a proportion of the y axis range.
