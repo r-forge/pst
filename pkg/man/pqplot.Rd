@@ -29,6 +29,9 @@
 	\item{stcol}{
 		character. Color to use to plot the prediction qualities. 
 	}
+	\item{plotseq}{ 
+		logical. If TRUE, the sequence is displayed separately, and the prediction plot is plotted above.
+}
 	\item{ptype}{
 		character. Type of plot, either \code{'b'} for barplot or \code{'l'} for line.
 }
