@@ -37,24 +37,16 @@ s1.seq <- seqdef(s1)
 S1 <- pstree(s1.seq, L=3)
 nobs(S1)
 
-
-## self rated health sequences
+## Self rated health sequences
+## Loading the 'SRH' data frame and 'SRH.seq' sequence object
 data(SRH)
-state.list <- levels(SRH$p99c01)
-
-## A custom color palette from red to green: self rated health is 'ordinal'
-mycol5 <- rev(brewer.pal(5, "RdYlGn"))
-
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
-	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
-names(SRH.seq) <- 1999:2009
 
 ## without considering missing states
-m1 <- pstree(SRH.seq, L=4, nmin=2, ymin=0.001)
+m1 <- pstree(SRH.seq, L=4, nmin=30, ymin=0.001)
 nobs(m1)
 
 ## considering missing states
-m2 <- pstree(SRH.seq, L=4, nmin=2, ymin=0.001, with.missing=TRUE)
+m2 <- pstree(SRH.seq, L=4, nmin=30, ymin=0.001, with.missing=TRUE)
 nobs(m2)
 }
 

@@ -43,8 +43,13 @@ Note that the log-likelihood of a VLMC model is not used in the estimation of th
 ## Loading the SRH.seq sequence object
 data(SRH)
 
+## Working with a random sample of 500 sequences to
+## reduce computing time of the example
+subs <- sample(1:nrow(SRH.seq), size=500)
+SRHsub.seq <- SRH.seq[subs,]
+
 ## Learning the model (the model includes missing states)
-SRH.pst.L10m <- pstree(SRH.seq, nmin=2, ymin=0.001, with.missing=TRUE)
+SRH.pst.L10m <- pstree(SRHsub.seq, nmin=2, ymin=0.001, with.missing=TRUE)
 logLik(SRH.pst.L10m)
 
 ## Pruning the PST

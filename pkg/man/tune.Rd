@@ -52,8 +52,13 @@ Alexis Gabadinho
 ## Loading the SRH.seq sequence object
 data(SRH)
 
+## Working with a random sample of 500 sequences to
+## reduce computing time of the example
+subs <- sample(1:nrow(SRH.seq), size=500)
+SRHsub.seq <- SRH.seq[subs,]
+
 ## Building a PST including missing state
-SRH.pst <- pstree(SRH.seq, L=10, nmin=2, ymin=0.001, with.missing=TRUE)
+SRH.pst <- pstree(SRHsub.seq, L=10, nmin=2, ymin=0.001, with.missing=TRUE)
 
 ## Cut-off list
 alpha <- c(0.05, 0.01)
