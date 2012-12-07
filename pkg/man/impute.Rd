@@ -15,10 +15,10 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{data}{
-	a sequence object of class 'stslist' as defined with the \code{seqdef} function of the \code{\link{TraMineR}} library. The sequence object contains the sequences to impute. See details.
+	a sequence object, i.e., an object of class \code{'stslist'} as created by TraMineR \code{\link[TraMineR]{seqdef}} function, containing the sequences to impute. See details.
 }
   \item{method}{
 	character. If \code{method='pmax'} the state having the highest probability according to the probability distribution associated with the context preceding the missing status is imputed. If \code{method='prob'} the imputation is done randomly by using this probability distribution.
@@ -26,7 +26,7 @@
 }
 }
 \details{
-A PST can be used to impute missing states in sequences built on the same alphabet. When a missing state occurs in a sequence the procedure searches in the PST for the context preceding the missing state and impute the state according to the conditional distribution associated with the context. The imputation can be done either randomly (method="prob") or with the state having the highest probability. However, more sophisticated modelling taking account of the non response mechanism could be required for imputing missing states.
+A probabilistic suffix tree (PST) can be used to impute missing states in sequences built on the same alphabet. When a missing state occurs in a sequence the procedure searches in the PST for the context preceding the missing state and impute the state according to the conditional distribution associated with the context. The imputation can be done either randomly (method="prob") or with the state having the highest probability. However, more sophisticated modelling taking account of the non response mechanism could be required for imputing missing states.
 }
 \value{
 	A sequence object (of class \code{stslist}) containing original sequences in \code{data} with missing states imputed.  

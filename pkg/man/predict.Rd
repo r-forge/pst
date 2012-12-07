@@ -4,7 +4,7 @@
 \alias{predict,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Compute the probability of categorical sequences using a Probabilistic Suffix Tree
+	Compute the probability of categorical sequences using a probabilistic suffix tree
 }
 \description{
 Compute the probability (likelihood) of categorical sequences using a Probabilistic Suffix Tree
@@ -15,13 +15,13 @@ Compute the probability (likelihood) of categorical sequences using a Probabilis
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{data}{
-	a sequence object, that is an object of class stslist as created by the \code{\link{seqdef}} TraMineR function. The sequence object contains the sequences to predict.
+	a sequence object, i.e., an object of class \code{'stslist'} as created by TraMineR \code{\link[TraMineR]{seqdef}} function, containing the sequences to predict.
 }
   \item{cdata}{
-	under development.
+	Not implemented yet.
 }
   \item{group}{
 	If \code{object} is a segmented PST, providing a vector of group membership so that each sequence probability will be predicted with the conditional probability distributions for the group it belongs to. If \code{object} is a segmented PST and \code{group} is not provided, each sequence will be predicted by each of the submodel, and the output will be a matrix with \code{nbgroup} columns, where \code{nbgroup} is the number of segments in the PST.
@@ -43,7 +43,7 @@ Compute the probability (likelihood) of categorical sequences using a Probabilis
     }
 }
 \details{
-A PST can be used to compute the probability of any sequence built on the same alphabet. For example 
+A probabilistic suffix tree (PST) can be used to compute the probability of any sequence built on the same alphabet as the learning sample to which it was fitted. For example 
 the probability of the sequence a-b-a-a-b is the product of each state probability
 
 \deqn{

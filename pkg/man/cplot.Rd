@@ -13,8 +13,8 @@ Plot the next symbol probability distribution associated with a particular node 
 }
 %% ============================================
 \arguments{
-  \item{object}{ a PST as created by the \code{\link{pstree}} function. }
-  \item{context}{the label of the node to plot, provided as a string where states are separated by '-', see examples.}
+  \item{object}{A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.}
+  \item{context}{character. Label of the node to plot, provided as a string where states are separated by '-', see examples.}
   \item{state}{logical. Under development.}
   \item{main}{character. Main title for the plot. By default, the title is the node label.}
   \item{all}{logical.}

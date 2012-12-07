@@ -16,7 +16,7 @@ Prune a PST, using either a gain function, a maximal depth or a list of nodes to
 
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{PSTf} as created with the \code{\link{pstree}} function.
+	A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{nmin}{
 	integer. All strings having counts less than nmin are removed.

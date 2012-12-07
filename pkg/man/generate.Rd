@@ -14,7 +14,7 @@ Generate sequences using a probabilistic suffix tree
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	A probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{l}{
 	integer. Length of the sequence(s) to generate
@@ -36,7 +36,7 @@ Generate sequences using a probabilistic suffix tree
 }
 }
 \details{
-As a PST represents a model generating sequences, it can be used to generate artificial data sets. Sequences are built by generating the states at each successive position. The process is similar to sequence prediction (see \code{\link{predict}}), except that the retrieved conditional probability distributions provided by the PST are used to generate a symbol instead of computing the probability of an existing state.
+As a probabilistic suffix tree (PST) represents a generating model, it can be used to generate artificial sequence data sets. Sequences are built by generating the states at each successive position. The process is similar to sequence prediction (see \code{\link{predict}}), except that the retrieved conditional probability distributions provided by the PST are used to generate a symbol instead of computing the probability of an existing state.
 }
 \value{
 A state sequence object (an object of class \code{stslist}) containing \code{n} sequences. This object can be passed as argument to all the functions for visualization and analysis provided by the \code{\link{TraMineR}} package. 
