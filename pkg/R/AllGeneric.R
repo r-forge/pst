@@ -71,7 +71,7 @@ setGeneric(
 
 setGeneric(
       name="pstree",
-	def=function(x, group, L, ...)
+	def=function(object, group, L, ...)
 	standardGeneric("pstree")
 )
 

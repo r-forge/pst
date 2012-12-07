@@ -5,10 +5,10 @@
 \alias{query,PSTf-method}
 \alias{round,cprobd-method}
 \title{
-	Retrieve counts or next symbol probability distribution from a node in a Probabilistic Suffix Tree
+	Retrieve counts or next symbol probability distribution
 }
 \description{
-	Retrieve counts or next symbol probability distribution from a Probabilistic Suffix Tree for a user provided context. 
+	Retrieve counts or next symbol probability distribution from a node of a probabilistic suffix tree
 }
 \usage{
 \S4method{query}{PSTf}(object, context, state, output = "prob", exact = FALSE)

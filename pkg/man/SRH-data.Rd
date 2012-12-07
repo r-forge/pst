@@ -3,10 +3,10 @@
 \alias{SRH.seq}
 \docType{data}
 \title{
-Sequence data on self rated health from the Swiss household panel
+Longitudinal data on self rated health
 }
 \description{
-Sequence data on self rated health from the Swiss household panel
+Longitudinal data on self rated health from waves 1-11 of the Swiss household panel
 }
 \usage{data(SRH)
 }
@@ -17,7 +17,8 @@ Sequence data on self rated health from the Swiss household panel
     \item{\code{sex}}{a factor with levels \code{man} \code{woman}}
     \item{\code{birthy}}{birth year of the respondent}
     \item{\code{wp09lp1s}}{longitudinal weight}
-    \item{\code{p99c01} to p09c01}{factors with levels \code{very well}, \code{well}, \code{so, so (average)}, \code{not very well}, \code{not well at all}
+    \item{\code{p99c01} ... \code{p09c01}}{factors with levels:\cr
+\code{ very well; well; so, so (average); not very well; not well at all}
 }
 }
   \code{SRH.seq} is a \code{TraMineR} sequence object created from the \code{SRH} data frame using the code in \code{example}. States are coded as follows:\cr
@@ -35,17 +36,23 @@ Sequence data on self rated health from the Swiss household panel
 Respondant's self rated health is collected at each yearly wave of the SHP with the following question: \emph{How do you feel right now?}. Possible answers are: very well; well; so, so (average), not very well and not well at all. The sequences are made of an individual's responses over 11 yearly waves of the SHP, starting with wave 1 in 1999. Variable p99c01 contains the self rated health at wave 1, p00c01 contains the self rated health at wave 2, etc... Note that sequences may contain missing values due to wave or item non response. 
 }
 \source{
-Swiss Household Panel \url{www.swisspanel.ch}
+Swiss Household Panel: \url{www.swisspanel.ch}
 }
 
 \examples{
 ## Preparing a sequence object with the SRH data set
 data(SRH)
+
+## Long state labels
 state.list <- levels(SRH$p99c01)
-## sequential color palette
+
+## Sequential color palette
 mycol5 <- rev(brewer.pal(5, "RdYlGn"))
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
-	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
+
+## Creating the sequence object
+SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, 
+	states=c("G1", "G2", "M", "B2", "B1"), labels=state.list, 
+	weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
 names(SRH.seq) <- 1999:2009
 }
 \keyword{datasets}

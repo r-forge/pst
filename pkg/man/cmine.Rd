@@ -47,14 +47,8 @@ The \code{cmine} function searches in the tree for nodes fulfilling certain char
 
 
 \examples{
-## Preparing a sequence object with the SRH data set
+## Loading the SRH.seq sequence object
 data(SRH)
-state.list <- levels(SRH$p99c01)
-## sequential color palette
-mycol5 <- rev(brewer.pal(5, "RdYlGn"))
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
-	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
-names(SRH.seq) <- 1999:2009
 
 ## Learning the model
 SRH.pst <- pstree(SRH.seq, nmin=30, ymin=0.001)

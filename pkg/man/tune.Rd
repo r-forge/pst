@@ -4,10 +4,10 @@
 \alias{tune,PSTf-method}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	AIC, AICc and BIC based model selection 
+	AIC, AICc or BIC based model selection 
 }
 \description{
-	A PST is pruned with a series of pruning parameter and the pruned PST having the lowest AIC or AICc value is selected.
+	Prune a probabilistic suffix tree with a series of cut-offs and select the model having the lowest value of the selected information criterion. Available information criterion are Akaike information criterion (AIC), AIC with a correction for finite sample sizes (AICc) and Bayesian information criterion (BIC).
 }
 \usage{
 \S4method{tune}{PSTf}(object, gain="G2", C, criterion = "AIC", output = "PST")
@@ -15,7 +15,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-	A PST, that is an object of class 'PSTf' as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{gain}{ 
 	character. The gain function used for pruning decisions. See \code{\link{prune}} for details.
@@ -35,7 +35,8 @@
 The \code{tune} function selects among a series of PST pruned with different values of the \eqn{C} cutoff the model having the lowest \eqn{AIC} or \eqn{AIC_{c}} value. The function can return either the selected PST or a data frame containing the statistics for each model.
 }
 \value{
-	If \code{output="PST"} a PST that is an object of class \code{PSTf}. If \code{output="stats"} a matrix with the results of the tuning procedure. The selected model is tagged with \code{*}, while models with \eqn{AIC < min(AIC)+2} or \eqn{AIC_{c} < min(AIC_{c})+2} are tagged with \code{**}, and models with \eqn{AIC < min(AIC)+10} or \eqn{AIC_{c} < min(AIC_{c})+10} are tagged with \code{***}.
+	If \code{output="PST"} a PST that is an object of class \code{PSTf}. If \code{output="stats"} a matrix with the results of the tuning procedure.\cr 
+The selected model is tagged with \code{***}, while models with \eqn{IC < min(IC)+2} are tagged with \code{**}, and models with \eqn{IC < min(IC)+10} are tagged with \code{**}.
 }
 \references{
 Burnham, K. P. & Anderson, D. R. (2004) Multimodel Inference \emph{Sociological Methods & Research}, 33, pp. 261-304
@@ -48,21 +49,13 @@ Alexis Gabadinho
 \code{\link{prune}}
 }
 \examples{
-## self rated health sequences
+## Loading the SRH.seq sequence object
 data(SRH)
-state.list <- levels(SRH$p99c01)
 
-## A custom color palette from red to green: self rated health is 'ordinal'
-mycol5 <- rev(brewer.pal(5, "RdYlGn"))
-
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
-	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
-names(SRH.seq) <- 1999:2009
-
-## PST considering missing states
+## Building a PST including missing state
 SRH.pst <- pstree(SRH.seq, L=10, nmin=2, ymin=0.001, with.missing=TRUE)
 
-## cutoff list
+## Cut-off list
 alpha <- c(0.05, 0.01)
 cutoffs <- qchisq(1-alpha, df=6-1)/2
 

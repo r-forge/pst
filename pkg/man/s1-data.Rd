@@ -14,7 +14,7 @@ Example data set containing one single sequence
 }
 
 \details{
-A sequence object can be created with the dedicated \code{TraMineR} \code{\link{seqdef}} function. State sequence objects are the main argument for the \code{\link{pstree}} method that creates Probabilistic Suffix Trees. See example below. 
+A sequence object can be created with the dedicated \code{TraMineR} \code{\link[TraMineR]{seqdef}} function. State sequence objects are the main argument for the \code{\link{pstree}} method that creates probabilistic suffix trees. See example below. 
 }
 
 \examples{

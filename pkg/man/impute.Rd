@@ -39,7 +39,7 @@ A probabilistic suffix tree (PST) can be used to impute missing states in sequen
 ## Loading the SRH.seq sequence object
 data(SRH)
 
-## Learning the model
+## Learning the model (missing state is not included)
 SRH.pst.L10 <- pstree(SRH.seq, nmin=2, ymin=0.001)
 
 ## Pruning
