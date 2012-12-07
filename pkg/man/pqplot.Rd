@@ -10,7 +10,7 @@
 
 \usage{
 \S4method{pqplot}{PSTf,stslist}(object, data, cdata, L, stcol, plotseq=FALSE, 
-	ptype="barplot", cex.plot=1, space=0,
+	ptype="b", cex.plot=1, space=0,
 	measure="prob", pqmax, seqscale, ...)
 }
 
