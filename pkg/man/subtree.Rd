@@ -24,26 +24,37 @@ Not implemented yet.
 }
 
 \examples{
-## Loading the 'SRH' data frame and 'SRH.seq' sequence object
-data(SRH)
+## activity calendar for year 2000
+## from the Swiss Household Panel
+## see ?actcal
+data(actcal)
 
-## a factor with age group
-gage10 <- cut(1999-SRH$birthy, c(20, 40, 60, 80), right=FALSE,
-	labels=c("20-39", "40-59", "60-79"))
-agemiss <- which(is.na(gage10))
+## selecting individuals aged 20 to 59
+actcal <- actcal[actcal$age00>=20 & actcal$age00 <60,]
 
-## Removing cases where age is missing
-SRH.anm.seq <- SRH.seq[-agemiss,]
-gage10 <- gage10[-agemiss]
+## defining a sequence object
+actcal.lab <- c("> 37 hours", "19-36 hours", "1-18 hours", "no work")
+actcal.seq <- seqdef(actcal,13:24,labels=actcal.lab)
 
-## segmented PST (including missing value)
-SRH.psts <- pstree(SRH.anm.seq, group=gage10, with.missing=TRUE, nmin=2, ymin=0.001)
-C99 <- qchisq(0.99,6-1)/2
-SRH.psts.C99 <- prune(SRH.psts, gain="G2", C=C99)
+## building a PST segmented by age group
+gage10 <- cut(actcal$age00, c(20,30,40,50,60), right=FALSE,
+	labels=c("20-29","30-39", "40-49", "50-59"))
 
-## extracting the model for age group 1
-g1.pst <- subtree(SRH.psts.C99, group=1)
-summary(g1.pst)
+actcal.pstg <- pstree(actcal.seq, nmin=2, ymin=0.001, group=gage10)
+
+## pruning
+C99 <- qchisq(0.99,4-1)/2
+actcal.pstg.opt <- prune(actcal.pstg, gain="G2", C=C99)
+
+## extracting PST for age group 20-39 and 30-39
+g1.pst <- subtree(actcal.pstg.opt, group=1)
+g2.pst <- subtree(actcal.pstg.opt, group=2)
+
+## plotting the two PST
+par(mfrow=c(1,2))
+plot(g1.pst, withlegend=FALSE, max.level=4, main="20-29")
+plot(g2.pst, withlegend=FALSE, max.level=4, main="30-39")
+
 }
 
 \keyword{methods}

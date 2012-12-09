@@ -49,22 +49,30 @@ Alexis Gabadinho
 \code{\link{prune}}
 }
 \examples{
-## Loading the SRH.seq sequence object
-data(SRH)
+## activity calendar for year 2000
+## from the Swiss Household Panel
+## see ?actcal
+data(actcal)
 
-## Working with a random sample of 500 sequences to
-## reduce computing time of the example
-subs <- sample(1:nrow(SRH.seq), size=500)
-SRHsub.seq <- SRH.seq[subs,]
+## selecting individuals aged 20 to 59
+actcal <- actcal[actcal$age00>=20 & actcal$age00 <60,]
 
-## Building a PST including missing state
-SRH.pst <- pstree(SRHsub.seq, L=10, nmin=2, ymin=0.001, with.missing=TRUE)
+## defining a sequence object
+actcal.lab <- c("> 37 hours", "19-36 hours", "1-18 hours", "no work")
+actcal.seq <- seqdef(actcal,13:24,labels=actcal.lab)
 
-## Cut-off list
-alpha <- c(0.05, 0.01)
-cutoffs <- qchisq(1-alpha, df=6-1)/2
+## building a PST
+actcal.pst <- pstree(actcal.seq, nmin=2, ymin=0.001)
 
-tune(SRH.pst, gain="G2", C=cutoffs, output="stats", criterion="AICc")
+## Cut-offs for 5% and 1% (see ?prune)
+C95 <- qchisq(0.95,4-1)/2
+C99 <- qchisq(0.99,4-1)/2
+
+## selecting the optimal PST using AIC criterion
+actcal.pst.opt <- tune(actcal.pst, gain="G2", C=c(C95,C99))
+
+## plotting the tree
+plot(actcal.pst.opt)
 }
 \keyword{models}
 
