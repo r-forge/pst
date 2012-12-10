@@ -41,12 +41,14 @@ nobs(S1)
 ## Loading the 'SRH' data frame and 'SRH.seq' sequence object
 data(SRH)
 
-## without considering missing states
-m1 <- pstree(SRH.seq, L=4, nmin=30, ymin=0.001)
+## model without considering missing states
+## model with max. order 2 to reduce computing time
+## nobs is the same whatever L and nmin
+m1 <- pstree(SRH.seq, L=2, nmin=30, ymin=0.001)
 nobs(m1)
 
-## considering missing states
-m2 <- pstree(SRH.seq, L=4, nmin=30, ymin=0.001, with.missing=TRUE)
+## considering missing states, hence nobs is higher
+m2 <- pstree(SRH.seq, L=2, nmin=30, ymin=0.001, with.missing=TRUE)
 nobs(m2)
 }
 

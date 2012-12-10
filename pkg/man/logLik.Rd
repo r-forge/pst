@@ -40,24 +40,30 @@ Note that the log-likelihood of a VLMC model is not used in the estimation of th
 }
 
 \examples{
-## Loading the SRH.seq sequence object
-data(SRH)
+## activity calendar for year 2000
+## from the Swiss Household Panel
+## see ?actcal
+data(actcal)
 
-## Working with a random sample of 500 sequences to
-## reduce computing time of the example
-subs <- sample(1:nrow(SRH.seq), size=500)
-SRHsub.seq <- SRH.seq[subs,]
+## selecting individuals aged 20 to 59
+actcal <- actcal[actcal$age00>=20 & actcal$age00 <60,]
 
-## Learning the model (the model includes missing states)
-SRH.pst.L10m <- pstree(SRHsub.seq, nmin=2, ymin=0.001, with.missing=TRUE)
-logLik(SRH.pst.L10m)
+## defining a sequence object
+actcal.lab <- c("> 37 hours", "19-36 hours", "1-18 hours", "no work")
+actcal.seq <- seqdef(actcal,13:24,labels=actcal.lab)
 
-## Pruning the PST
-C99m <- qchisq(0.99,6-1)/2
-SRH.pst.L10m.C99 <- prune(SRH.pst.L10m, gain="G2", C=C99m)
+## building a PST
+actcal.pst <- pstree(actcal.seq, nmin=2, ymin=0.001)
+logLik(actcal.pst)
+
+## Cut-offs for 5% and 1% (see ?prune)
+C99 <- qchisq(0.99,4-1)/2
+
+## pruning
+actcal.pst.C99 <- prune(actcal.pst, gain="G2", C=C99)
 
 ## Comparing AIC
-AIC(SRH.pst.L10m, SRH.pst.L10m.C99)
+AIC(actcal.pst, actcal.pst.C99)
 }
 
 \keyword{models}

@@ -79,30 +79,40 @@ Alexis gabadinho
 }
 
 \examples{
-## Loading the 'SRH' data frame and 'SRH.seq' sequence object
-data(SRH)
+## activity calendar for year 2000
+## from the Swiss Household Panel
+## see ?actcal
+data(actcal)
 
-## computing age at wave 1 
-age1999 <- 1999-SRH$birthy
+## selecting individuals aged 20 to 59
+actcal <- actcal[actcal$age00>=20 & actcal$age00 <60,]
 
-## selecting aged <30 and aged >=60
-g1.seq <- SRH.seq[which(age1999<30),]
-g2.seq <- SRH.seq[which(age1999>=60),]
+## defining a sequence object
+actcal.lab <- c("> 37 hours", "19-36 hours", "1-18 hours", "no work")
+actcal.seq <- seqdef(actcal,13:24,labels=actcal.lab)
 
-## fitting one model for each age group
-C99 <- qchisq(0.99,6-1)/2
-g1.pst <- pstree(g1.seq, with.missing=TRUE, nmin=2, ymin=0.001)
-g1.pst <- prune(g1.pst, gain="G2", C=C99)
+## building a PST segmented by age group
+gage10 <- cut(actcal$age00, c(20,30,40,50,60), right=FALSE,
+	labels=c("20-29","30-39", "40-49", "50-59"))
 
-g2.pst <- pstree(g2.seq, with.missing=TRUE, nmin=2, ymin=0.001)
-g2.pst <- prune(g2.pst, gain="G2", C=C99)
+actcal.pstg <- pstree(actcal.seq, nmin=2, ymin=0.001, group=gage10)
 
-## computing the probabilistic divergence
-## 500 sequences are generated and 500 distances
-## are computed. The between models distance is the mean
-## of the 500 distances
-d1_2 <- pdist(g1.pst, g2.pst, l=11, ns=500)
-mean(d1_2)
+## pruning
+C99 <- qchisq(0.99,4-1)/2
+actcal.pstg.opt <- prune(actcal.pstg, gain="G2", C=C99)
+
+## extracting PST for age group 20-39 and 30-39
+g1.pst <- subtree(actcal.pstg.opt, group=1)
+g2.pst <- subtree(actcal.pstg.opt, group=2)
+
+## generating 5000 sequences with g1.pst 
+## and computing 5000 distances
+dist.g1_g2 <- pdist(g1.pst, g2.pst, l=11)
+hist(dist.g1_g2)
+
+## the probabilistic distance is the mean
+## of the 5000 distances
+mean(dist.g1_g2)
 }
 
 \keyword{models}

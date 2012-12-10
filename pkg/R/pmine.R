@@ -28,7 +28,7 @@ setMethod("pmine", signature=c(object="PSTf", data="stslist"),
 			tmp <- exp(rowSums(prob.check[, p:(p+l-1)], na.rm=TRUE)/nbps)
 			fp <- if (!missing(pmin)) { tmp>=pmin } else if (!missing(pmax)) { tmp < pmax }
 		} else {
-			fp <- rowSums(prob.check[, p:(p+l-1)])==l
+			fp <- rowSums(prob.check[, p:(p+l-1), drop=FALSE])==l
 		}
 		select.seq[fp] <- TRUE
 		if (output=="patterns") {

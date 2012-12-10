@@ -62,26 +62,30 @@ Alexis Gabadinho
  \code{\link{cmine}} for context mining
 }
 \examples{
-## Preparing a sequence object with the SRH data set
-data(SRH)
-state.list <- levels(SRH$p99c01)
-## sequential color palette
-mycol5 <- rev(brewer.pal(5, "RdYlGn"))
-SRH.seq <- seqdef(SRH, 5:15, alphabet=state.list, states=c("G1", "G2", "M", "B2", "B1"), 
-	labels=state.list, weights=SRH$wp09lp1s, right=NA, cpal=mycol5)
-names(SRH.seq) <- 1999:2009
+## activity calendar for year 2000
+## from the Swiss Household Panel
+## see ?actcal
+data(actcal)
 
-## Learning the model (the model includes missing states)
-SRH.pst <- pstree(SRH.seq, nmin=2, ymin=0.001, with.missing=TRUE)
+## selecting individuals aged 20 to 59
+actcal <- actcal[actcal$age00>=20 & actcal$age00 <60,]
 
-## Pruning the PST
-C99m <- qchisq(0.99,6-1)/2
-SRH.pst.C99 <- prune(SRH.pst, gain="G2", C=C99m)
+## defining a sequence object
+actcal.lab <- c("> 37 hours", "19-36 hours", "1-18 hours", "no work")
+actcal.seq <- seqdef(actcal,13:24,labels=actcal.lab)
 
-## Example 1
-pmine.A <- pmine(SRH.pst.C99, SRH.seq, pmin=0.40, lag=2, average=FALSE)
+## building a PST
+actcal.pst <- pstree(actcal.seq, nmin=2, ymin=0.001)
 
-## Example 2: Extract all patterns of length l=6 with pmin=0.6
-pmine.B <- pmine(SRH.pst.C99, SRH.seq, l=6, pmin=0.6, output="patterns")
+## pruning
+## Cut-offs for 5% and 1% (see ?prune)
+C99 <- qchisq(0.99,4-1)/2
+actcal.pst.C99 <- prune(actcal.pst, gain="G2", C=C99)
+
+## example 1
+pmine(actcal.pst.C99, actcal.seq, pmin=0.4, lag=2)
+
+## example 2: patterns of length 6 having p>=0.6
+pmine(actcal.pst.C99, actcal.seq, pmin=0.6, l=6)
 }
 \keyword{ misc }
