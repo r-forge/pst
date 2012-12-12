@@ -16,10 +16,10 @@ Compute probabilistic divergence between two PST
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 }
   \item{y}{
-	A PST, that is an object of class \code{PSTf} as returned by the \code{\link{pstree}} or \code{\link{prune}} method.
+	a probabilistic suffix tree, i.e., an object of class \code{"\linkS4class{PSTf}"} as returned by the \code{\link{pstree}}, \code{\link{prune}} or \code{\link{tune}} function.
 } 
   \item{method}{
 	character. Method for computing distances. So far only one method is available.
