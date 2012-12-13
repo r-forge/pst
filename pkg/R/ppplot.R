@@ -101,11 +101,10 @@ setMethod("ppplot", signature="PSTf",
 			}
 
 			ppar.lab <- paste("C", 1:nC, sep="")
+			
+			mtext(paste("C=", round(C,2)), side=2, at=ppar.lab.pos, 
+				las=2, cex=cex.plot, adj=1)
 
-			axis(2, at=ppar.lab.pos, 
-				labels=ppar.lab, 
-				## las=2, 
-				cex.axis=cex.plot)
 		}
 
 		## Plotting path and next symbol probability distributions
@@ -142,6 +141,8 @@ setMethod("ppplot", signature="PSTf",
 			labels=plab, 
 			## las=2, 
 			cex.axis=cex.plot)
+
+		mtext("Prob", side=2, at=(max(plabpos)+min(plabpos))/2, line=3)
 	}
 )
 
