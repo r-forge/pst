@@ -32,7 +32,7 @@ setMethod("pmine", signature=c(object="PSTf", data="stslist"),
 	nbps <- rowSums(!is.na(prob))
 
 	if (!average) { 
-		prob.check <- prob>=pmin & prob<pmax
+		prob.check <- prob>=pmin & prob<=pmax
 	}
 	
 	select.seq <- vector(mode="logical", length=nrow(data))
@@ -48,7 +48,7 @@ setMethod("pmine", signature=c(object="PSTf", data="stslist"),
 	for (p in (1+lag):(max(sl)-max(l)+1)) {
 		score.tmp <- rowSums(prob[, p:(p+max(l)-1)])/sl
 		if (average) {
-			fp <- score.tmp>=pmin & score.tmp<pmax
+			fp <- score.tmp>=pmin & score.tmp<=pmax
 		} else {
 			fp <- rowSums(prob.check[, p:(p+max(l)-1), drop=FALSE])==l
 		}
