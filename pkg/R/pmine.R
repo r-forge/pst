@@ -2,7 +2,7 @@
 
 setMethod("pmine", signature=c(object="PSTf", data="stslist"), 
 	def=function(object, data, l, pmin=0, pmax=1, prefix, lag, 
-		average=FALSE, output="sequences", decreasing=TRUE, sorted=TRUE, score.norm=FALSE) {
+		average=FALSE, output="sequences", sorted=TRUE, decreasing=TRUE, score.norm=FALSE) {
 
 	A <- alphabet(object)
 
@@ -32,7 +32,7 @@ setMethod("pmine", signature=c(object="PSTf", data="stslist"),
 	nbps <- rowSums(!is.na(prob))
 
 	if (!average) { 
-		prob.check <- prob>=pmin & prob<=pmax
+		prob.check <- prob>=pmin & prob<pmax
 	}
 	
 	select.seq <- vector(mode="logical", length=nrow(data))
