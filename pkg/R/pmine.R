@@ -50,7 +50,7 @@ setMethod("pmine", signature=c(object="PSTf", data="stslist"),
 		if (average) {
 			fp <- score.tmp>=pmin & score.tmp<=pmax
 		} else {
-			fp <- rowSums(prob.check[, p:(p+max(l)-1), drop=FALSE])==l
+			fp <- rowSums(prob.check[, p:(p+max(l)-1), drop=FALSE], na.rm=TRUE)==l
 		}
 
 		## Tag as selected
