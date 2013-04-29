@@ -2,7 +2,7 @@
 
 setMethod("pmine", signature=c(object="PSTf", data="stslist"), 
 	def=function(object, data, l, pmin=0, pmax=1, prefix, lag, 
-		average=FALSE, output="sequences", sorted=TRUE, decreasing=TRUE, score.norm=FALSE) {
+		average=FALSE, output="sequences", with.prefix=TRUE, sorted=TRUE, decreasing=TRUE, score.norm=FALSE) {
 
 	A <- alphabet(object)
 
@@ -61,18 +61,21 @@ setMethod("pmine", signature=c(object="PSTf", data="stslist"),
 		score[score.update] <- score.tmp[score.update] 
 
 		if (output=="patterns" & sum(fp)>0) {
-			tmp <- seqconc(data[fp,  1:(p+max(l)-1)])
+			pstart <- if (with.prefix) { 1 } else { p } 
+			tmp <- seqconc(data[fp,  pstart:(p+max(l)-1)])
 			patterns.list <- c(patterns.list, unique(tmp[!tmp %in% patterns.list]))
 		}
 	}
 
 	if (sum(select.seq)>0) {
-		message(" [>] ", sum(select.seq), " pattern(s) found")
-
 		if (output=="patterns") {
+			message(" [>] ", length(patterns.list), " distinct pattern(s) found")
+
 			nr <- if ("*" %in% A) { "#" } else { "*" }
 			res <- seqdef(patterns.list, alphabet=A, labels=object@labels, cpal=cpal(object), nr=nr)
 		} else {
+			message(" [>] ", sum(select.seq), " sequence(s) selected")
+
 			score <- score[select.seq]
 			score <- 2^score
 			if (!score.norm) { 

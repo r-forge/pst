@@ -9,7 +9,7 @@ Mine for (sub)sequences satisfying user defined criteria in a state sequence obj
 }
 
 \usage{
-\S4method{pmine}{PSTf,stslist}(object, data, l, pmin=0, pmax=1, prefix, lag, average=FALSE, output="sequences", 
+\S4method{pmine}{PSTf,stslist}(object, data, l, pmin=0, pmax=1, prefix, lag, average=FALSE, output="sequences", with.prefix=TRUE,
 	sorted=TRUE, decreasing=TRUE, score.norm=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -41,6 +41,9 @@ Mine for (sub)sequences satisfying user defined criteria in a state sequence obj
 }
   \item{output}{
 	character. If \code{output='sequences'} the whole sequence(s) where the user defined criteria is satisfied are returned. If \code{output='patterns'} only the (sub)sequences satisfying the user defined criteria are returned.
+}
+  \item{with.prefix}{
+	logical. If \code{'output=patterns'}, should the patterns in the output be preceeded by their prefix, that is by the whole sub-sequence preceding the pattern. 
 }
   \item{sorted}{
 	logical. If \code{'sorted=TRUE'}, selected patterns or sequences are sorted according to their score, i.e., their average probability.
