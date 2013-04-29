@@ -1,3 +1,9 @@
+[0.83]
+- updated 'pmine' method: 
+  - unapproriate error message when no pattern satisfying criterion (reported by Aron Lindberg)
+  - now both pmin and pmax can be specified
+  - added 'prefix' option.
+
 [0.82]
 - displaying properly y axis label in pplot and pqplot
 
