@@ -1,3 +1,7 @@
+[0.84]
+- changed welcome message in zzz.R
+- added 'base' argument in predict function 
+
 [0.83]
 - updated 'pmine' method: 
   - unapproriate error message when no pattern satisfying criterion (reported by Aron Lindberg)
