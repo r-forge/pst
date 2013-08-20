@@ -1,7 +1,7 @@
 ## welcome message
 
 .onAttach <- function(libname, pkgname){
-	suppressWarnings(descr <- utils:::packageDescription("PST"))
+	suppressWarnings(descr <- utils::packageDescription("PST"))
 
 	builtDate <- strsplit(strsplit(descr$Built, ";")[[1]][3], " ")[[1]][2]
 
