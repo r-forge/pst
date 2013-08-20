@@ -9,8 +9,8 @@ Mine for (sub)sequences satisfying user defined criteria in a state sequence obj
 }
 
 \usage{
-\S4method{pmine}{PSTf,stslist}(object, data, l, pmin=0, pmax=1, prefix, lag, average=FALSE, output="sequences", with.prefix=TRUE,
-	sorted=TRUE, decreasing=TRUE, score.norm=FALSE)
+\S4method{pmine}{PSTf,stslist}(object, data, l, pmin=0, pmax=1, prefix, lag, average=FALSE, 
+	output="sequences", with.prefix=TRUE, sorted=TRUE, decreasing=TRUE, score.norm=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
