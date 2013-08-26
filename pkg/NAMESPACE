@@ -3,6 +3,7 @@ importFrom(stats4, nobs)
 importFrom(stats4, plot)
 importFrom(stats4, summary)
 
+
 exportMethods(
 	"cmine",
 	"cplot",
