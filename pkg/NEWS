@@ -1,6 +1,6 @@
 [0.84]
 - changed welcome message in zzz.R
-- added 'base' argument in predict function 
+- added 'base' argument in predict function
 
 [0.83]
 - updated 'pmine' method: 
