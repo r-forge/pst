@@ -1,4 +1,4 @@
-import(TraMineR)
+import(TraMineR, methods)
 importFrom(stats4, logLik)
 importFrom(stats4, nobs)
 importFrom(stats4, plot)
