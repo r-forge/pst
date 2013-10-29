@@ -117,7 +117,8 @@ setMethod("generate", signature=c(object="PSTf"),
 		}
   	}
 
-	seq <- seqdef(seq, alphabet=A, cpal=cpal(object), nr="#", stlab=object@labels)
+	seq <- seqdef(seq, alphabet=A, cpal=cpal(object), stlab=stlab(object@data), 
+		xtstep=attr(object@data, "xtstep"), cnames=colnames(object@data), nr="#", stlab=object@labels)
 
 	fin <- Sys.time()
 	message(" [>] total time: ", format(round(fin-debut, 3)))
