@@ -8,7 +8,7 @@ setMethod("generate", signature=c(object="PSTf"),
 	stationary <- is.stationary(object)
 
 	if (!missing(s1)) {
-		n <- length(s1)
+		## n <- length(s1)
 		message(" [>] user provided first position state(s)")
 	} else if (!missing(p1)) {
 		if (sum(p1)==1 & length(p1)==length(A)) {
