@@ -1,6 +1,6 @@
 Package: PST
-Version: 0.84
-Date: 2013-05-07
+Version: 0.85
+Date: 2013-10-29
 Title: Probabilistic Suffix Trees and Variable Length Markov Chains
 Author: Alexis Gabadinho <alexis.gabadinho@unige.ch>
 Maintainer: Alexis Gabadinho <alexis.gabadinho@unige.ch>
