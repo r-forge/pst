@@ -1,7 +1,7 @@
 ## Generating artifical sequences
 
 setMethod("generate", signature=c(object="PSTf"), 
-	def=function(object, l, n=1, s1, p1, method="prob", L=NULL) {
+	def=function(object, l, n=1, s1, p1, method="prob", L=NULL, cnames) {
 
 	A <- alphabet(object)
 	if (is.null(L)) { L <- length(object)-1 }
@@ -117,8 +117,10 @@ setMethod("generate", signature=c(object="PSTf"),
 		}
   	}
 
+	if (missing(cnames)) { cnames <- colnames(object@data)[1:l] }
+
 	seq <- seqdef(seq, alphabet=A, cpal=cpal(object), stlab=stlab(object@data), 
-		xtstep=attr(object@data, "xtstep"), cnames=colnames(object@data), nr="#", stlab=object@labels)
+		xtstep=attr(object@data, "xtstep"), cnames=cnames, nr="#", stlab=object@labels)
 
 	fin <- Sys.time()
 	message(" [>] total time: ", format(round(fin-debut, 3)))

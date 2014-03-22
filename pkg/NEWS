@@ -1,5 +1,7 @@
 [0.85]
 - fixed bug in generate() when providing the first state in a sequence (s1 argument)
+- generate(): added cnames argument to provide names for the state sequence object containing the generated sequences
+- Added RColorBrewer to depends field in DESCRIPTION, otherwise the example using brewer.pal() avoids the package to be build 
 
 [0.84]
 - changed NAMESPACE and DESCRIPTION to avoid NOTE in package check
