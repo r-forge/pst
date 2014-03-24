@@ -1,7 +1,7 @@
 ## BUILDING A PROBABILISTIC SUFFIX TREE
 
 setMethod("pstree", signature="stslist", 
-	function(object, group, L, cdata=NULL, stationary=TRUE, nmin=1, ymin=NULL, weighted=TRUE, with.missing=FALSE) {
+	function(object, group, L, cdata=NULL, stationary=TRUE, nmin=1, ymin=NULL, weighted=TRUE, with.missing=FALSE, lik=TRUE) {
 
 	debut <- Sys.time()
 
@@ -111,13 +111,7 @@ setMethod("pstree", signature="stslist",
 		segmented=segmented, group=group, call=match.call(), logLik=as.numeric(NULL))
 
 	## likelihood
-	debut.lik <- Sys.time()
-	message(" [>] computing sequence(s) likelihood ...", appendLF=FALSE)
-	lik <- suppressMessages(predict(res, res@data, res@cdata, group=res@group))
-	lik <- sum(log(lik))
-	fin.lik <- Sys.time()
-	message(" (", format(round(fin.lik-debut.lik, 3)), ")")
-	res@logLik <- lik
+	if (lik) { res@logLik <- likelihood(res, log=TRUE) }
 
 	fin <- Sys.time()
 	message(" [>] total time: ", format(round(fin-debut, 3)))
