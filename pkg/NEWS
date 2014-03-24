@@ -4,7 +4,7 @@
 - Added RColorBrewer to depends field in DESCRIPTION, otherwise the example using brewer.pal() avoids the package to be build
 - Added a likelihood internal function that computes the (log)-likelihood of a PST, i.e., predicts the data to which the PST was fitted 
   with the PST. This function is used in pstree(), prune()
-- Added a 'lik' option to prune(). If TRUE (default), the likelihood of the newly pruned PST is computed 
+- Added a 'lik' option to prune() and pstree(). If TRUE (default), the likelihood of the newly created or pruned PST is computed 
 
 [0.84]
 - changed NAMESPACE and DESCRIPTION to avoid NOTE in package check
