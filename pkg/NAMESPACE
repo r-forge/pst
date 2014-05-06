@@ -1,4 +1,5 @@
 import(TraMineR, methods)
+importFrom(RColorBrewer, brewer.pal)
 importFrom(stats4, logLik)
 importFrom(stats4, nobs)
 importFrom(stats4, plot)
