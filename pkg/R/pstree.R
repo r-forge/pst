@@ -22,6 +22,7 @@ setMethod("pstree", signature="stslist",
 	if (all(attr(object, "weights")==1)) { weighted <- FALSE }
 
 	A <- alphabet(object)
+	if (any(A=="[n]")) { stop(" [!] found the symbol '[n]' in the alphabet, which conflicts with internal names used in PST. Please rename this state.") } 
 	StCol <- cpal(object)
 	StLab <- stlab(object)
 	sl <- seqlength(object)
@@ -73,7 +74,7 @@ setMethod("pstree", signature="stslist",
 		## 
 		nodes.names <- names(tmp)
 		tmp.list <- lapply(seq_len(length(tmp)), function(n) 
-			new("PSTr", path=nodes.names[n], counts=tmp[[n]][,A, drop=FALSE], n=tmp[[n]][,"n", drop=FALSE], 
+			new("PSTr", path=nodes.names[n], counts=tmp[[n]][,A, drop=FALSE], n=tmp[[n]][,"[n]", drop=FALSE], 
 				order=i, ymin=ymin, index=tmp[[n]][,c("group","position"),drop=FALSE])
 		)
 

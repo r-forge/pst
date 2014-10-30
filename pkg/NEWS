@@ -1,3 +1,6 @@
+[0.86]
+- fixed bug when one of the states is named "n" (reported by Marios Iliofotou). Renamed the "n" column (number of occurences of a context) in the outcome of cprob to "[n]" and added warnings in cprob() and pstree(). 
+
 [0.85]
 - fixed bug in generate() when providing the first state in a sequence (s1 argument)
 - generate(): added cnames argument to provide names for the state sequence object containing the generated sequences
