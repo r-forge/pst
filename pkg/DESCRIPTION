@@ -1,11 +1,11 @@
 Package: PST
 Version: 0.86
-Date: 2015-02-18
+Date: 2015-02-17
 Title: Probabilistic Suffix Trees and Variable Length Markov Chains
 Authors@R: c(
   person("Alexis", "Gabadinho", role = c("aut", "cre", "cph"),
   email = "alexis.gabadinho@unige.ch"))
-Author: Alexis Gabadinho
+Author: Alexis Gabadinho [aut, cre, cph]
 Maintainer: Alexis Gabadinho <alexis.gabadinho@unige.ch>
 Depends: R (>= 2.10), TraMineR, RColorBrewer
 Imports: methods, stats4
