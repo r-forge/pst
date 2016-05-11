@@ -2,8 +2,7 @@
 \docType{methods}
 \alias{cmine}
 \alias{cmine,PSTf-method}
-\alias{[,cprobd.list-method}
-\alias{[,cprobd.list,ANY-method}
+\alias{[,cprobd.list,ANY,ANY,ANY-method}
 \alias{plot,cprobd.list,ANY-method}
 
 \title{ Mining contexts }
