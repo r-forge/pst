@@ -1,6 +1,6 @@
 Package: PST
-Version: 0.90
-Date: 2016-08-08
+Version: 0.92
+Date: 2016-11-01
 Title: Probabilistic Suffix Trees and Variable Length Markov Chains
 Authors@R: c(
   person("Alexis", "Gabadinho", role = c("aut", "cre", "cph"),
