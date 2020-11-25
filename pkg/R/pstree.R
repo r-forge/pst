@@ -5,9 +5,9 @@ setMethod("pstree", signature="stslist",
 
 	debut <- Sys.time()
 
-	if (!stationary & !flist("pstree", "stationary")) {
-			stop(" [!] 'stationary=FALSE' not implemented", call.=FALSE)
-	}
+	## if (!stationary & !flist("pstree", "stationary")) {
+	##		stop(" [!] 'stationary=FALSE' not implemented", call.=FALSE)
+	## }
 
 	if (!is.null(cdata) & !flist("pstree", "cdata")) {
 			stop(" [!] argument cdata not allowed", call.=FALSE)
